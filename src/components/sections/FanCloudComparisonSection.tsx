@@ -189,7 +189,7 @@ function FanCloudComparisonSection({
                 {metrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
-                    className={`min-w-[9.5rem] px-5 py-3 text-center md:min-w-0 md:flex-1 md:px-6 md:py-4 ${
+                    className={`flex min-w-[9.5rem] flex-col justify-center px-5 py-3 text-center md:min-w-0 md:flex-1 md:px-6 md:py-4 ${
                       index > 0 ? "border-l border-white/15" : ""
                     }`}
                   >

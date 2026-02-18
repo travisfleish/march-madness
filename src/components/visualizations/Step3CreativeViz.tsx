@@ -13,11 +13,11 @@ type MessageCardProps = {
 
 function MessageCard({ audienceLabel, cardTitle, lead, body }: MessageCardProps) {
   return (
-    <div>
+    <div className="flex h-full flex-col">
       <p className="mx-auto max-w-[22rem] text-center text-xs font-medium text-slate-600 md:max-w-none md:text-left">
         {audienceLabel}
       </p>
-      <article className="mt-3 rounded-xl border border-slate-300 bg-white p-5 shadow-sm">
+      <article className="mt-3 flex flex-1 flex-col rounded-xl border border-slate-300 bg-white p-5 shadow-sm">
         <h3 className="text-center text-sm font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
         <p className="mt-4 text-sm font-semibold text-slate-900">{lead}</p>
         <p className="mt-2 text-sm leading-relaxed text-slate-700">{body}</p>

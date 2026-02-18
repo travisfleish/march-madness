@@ -23,20 +23,22 @@ const DESKTOP_TILE_CLASSES: Record<"sm" | "md" | "lg", string> = {
 function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProps) {
   return (
     <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-white">
-      <div className="mx-auto w-full max-w-[1520px] px-5 py-10 md:px-10 md:py-12 lg:px-14 lg:py-16">
-        <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:gap-10">
-          <div className="flex min-h-[24rem] flex-col justify-center lg:min-h-[33rem]">
-            <p className="text-base font-medium text-slate-900 md:text-3xl">{kicker}</p>
-            <h1 className="mt-4 font-heading font-bold tracking-tight text-black leading-[0.95] text-[clamp(3.25rem,10vw,6.875rem)] md:mt-5">
-              {titleLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </h1>
+      <div className="mx-auto w-full max-w-[1520px] p-0">
+        <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-10">
+          <div className="flex min-h-[24rem] flex-col items-center justify-center lg:min-h-[33rem]">
+            <div className="text-left">
+              <p className="text-base font-medium text-slate-900 md:text-3xl">{kicker}</p>
+              <h1 className="-ml-[0.02em] mt-4 font-heading font-bold tracking-tight text-black leading-[0.95] text-[clamp(3.25rem,10vw,6.875rem)] md:mt-5">
+                {titleLines.map((line) => (
+                  <span key={line} className="block">
+                    {line}
+                  </span>
+                ))}
+              </h1>
+            </div>
           </div>
-          <div className="w-full lg:-ml-4 lg:aspect-square">
-            <div className="grid h-full gap-px bg-white p-px md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_7.5rem]">
+          <div className="w-full lg:-ml-4 lg:h-full">
+            <div className="grid h-full gap-px bg-white md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11rem]">
               <div className="grid auto-rows-auto grid-cols-8 gap-px bg-white lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
@@ -67,7 +69,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 );
               })}
               </div>
-              <aside className="bg-[#1D26FF] p-5 text-white md:min-h-[20rem] lg:h-full lg:min-h-0 lg:p-4">
+              <aside className="flex flex-col bg-[#1D26FF] p-5 text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0 lg:p-4">
                 <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
                   {sideBarStat.value}
                 </p>
