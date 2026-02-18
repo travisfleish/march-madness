@@ -1,0 +1,20 @@
+import Step3CreativeViz from "../visualizations/Step3CreativeViz";
+import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
+
+type CreativeChannelSectionProps = {
+  header: string;
+  paragraph: string;
+  creativeViz: MarchMadnessMomentsContent["creativeAndChannel"]["creativeViz"];
+};
+
+function CreativeChannelSection({ header, paragraph, creativeViz }: CreativeChannelSectionProps) {
+  return (
+    <section className="section-shell">
+      <h2 className="section-title">{header}</h2>
+      <p className="section-copy">{paragraph}</p>
+      <Step3CreativeViz data={creativeViz} />
+    </section>
+  );
+}
+
+export default CreativeChannelSection;

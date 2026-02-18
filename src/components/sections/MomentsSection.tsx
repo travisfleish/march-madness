@@ -1,0 +1,151 @@
+import { useMemo, useState } from "react";
+import Modal from "../ui/Modal";
+
+type MomentsSectionProps = {
+  header: string;
+  introParagraph1: string;
+  introParagraph2: string;
+  labels: string[];
+};
+
+const highlightedPhrases = ["Genius Moments", "Fan Graph"] as const;
+const momentDetailsByLabel: Record<string, { trigger: string; description: string }> = {
+  "BUZZER BEATER WIN": {
+    trigger: "Points scored to win in final 10 seconds",
+    description:
+      "Own the most iconic moment in sports. Activates instantly when a last-second shot wins the game, aligning brands with unforgettable, viral, highlight-worthy moments."
+  }
+};
+
+function renderHighlightedIntro(text: string) {
+  const segments = text.split(new RegExp(`(${highlightedPhrases.join("|")})`, "g"));
+
+  return segments.map((segment, index) =>
+    highlightedPhrases.includes(segment as (typeof highlightedPhrases)[number]) ? (
+      <strong key={`${segment}-${index}`} className="font-semibold text-slate-900">
+        {segment}
+      </strong>
+    ) : (
+      <span key={`${segment}-${index}`}>{segment}</span>
+    )
+  );
+}
+
+function MomentsSection({
+  header,
+  introParagraph1,
+  introParagraph2,
+  labels
+}: MomentsSectionProps) {
+  const [activeMoment, setActiveMoment] = useState<string | null>(null);
+  const panelBackgroundImage =
+    "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg?auto=compress&cs=tinysrgb&w=1200";
+  const activeDetails = activeMoment
+    ? (momentDetailsByLabel[activeMoment] ?? {
+        trigger: "Moment trigger details for this selection.",
+        description:
+          "Moment description placeholder explaining how this in-game event connects your message to fan emotion."
+      })
+    : null;
+
+  const stripeRailStyle = useMemo(
+    () => ({
+      background:
+        "linear-gradient(to left, rgba(255,255,255,0.58), rgba(255,255,255,0.2)), repeating-linear-gradient(to right, rgba(37,99,235,0.58) 0 6px, rgba(37,99,235,0.06) 6px 16px)"
+    }),
+    []
+  );
+
+  return (
+    <section className="section-shell bg-transparent p-0 shadow-none">
+      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-50 shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-white/70 via-slate-50/45 to-sky-100/45" />
+          <div
+            className="absolute inset-y-0 right-0 hidden w-[38%] md:block"
+            style={stripeRailStyle}
+            aria-hidden="true"
+          />
+        </div>
+
+        <div className="relative z-10 p-8 md:p-10">
+          <h2 className="section-title">{header}</h2>
+          <div className="mt-4 max-w-3xl space-y-3 text-sm text-slate-700 md:text-base">
+            <p>{introParagraph1}</p>
+            <p>{renderHighlightedIntro(introParagraph2)}</p>
+          </div>
+        </div>
+
+        <div className="relative z-10 px-8 pb-8 md:px-10 md:pb-10">
+          <div className="relative overflow-hidden rounded-xl border border-slate-900/25">
+            <div
+              className="absolute inset-0 bg-cover bg-center"
+              style={{ backgroundImage: `url("${panelBackgroundImage}")` }}
+              aria-hidden="true"
+            />
+            <div className="absolute inset-0 bg-slate-950/20" aria-hidden="true" />
+            <div
+              className="absolute inset-0 bg-gradient-to-br from-slate-900/8 via-slate-700/12 to-slate-900/20"
+              aria-hidden="true"
+            />
+
+            <div className="relative p-4 md:p-5">
+              <div className="grid grid-cols-1 gap-2.5 md:grid-cols-2">
+                {labels.map((label) => {
+                  const isActive = activeMoment === label;
+
+                  return (
+                    <button
+                      key={label}
+                      type="button"
+                      onClick={() => setActiveMoment(label)}
+                      className={`rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 md:text-[0.95rem] ${
+                        isActive
+                          ? "border-[#11b864] bg-[#18c971] text-slate-900 shadow-md"
+                          : "border-slate-200/80 bg-slate-100/95 text-slate-900 shadow-sm hover:-translate-y-px hover:border-[#11b864] hover:bg-[#18c971] hover:shadow-md"
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Modal
+        isOpen={Boolean(activeMoment)}
+        title={activeMoment ?? ""}
+        onClose={() => setActiveMoment(null)}
+        footer={
+          <button
+            type="button"
+            onClick={() => setActiveMoment(null)}
+            className="rounded-full border border-slate-300 bg-slate-100 px-6 py-2.5 text-base font-semibold text-slate-800 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+          >
+            Close
+          </button>
+        }
+      >
+        <div className="space-y-4 text-slate-700">
+          <div className="rounded-2xl border border-slate-300 bg-slate-100 p-4 shadow-sm md:p-5">
+            <p className="text-sm font-bold uppercase tracking-wide text-slate-500">Trigger</p>
+            <p className="mt-2 text-[1.12rem] leading-relaxed text-slate-800 md:text-[1.15rem]">
+              {activeDetails?.trigger}
+            </p>
+          </div>
+          <div className="rounded-2xl border border-slate-300 bg-slate-100 p-4 shadow-sm md:p-5">
+            <p className="text-sm font-bold uppercase tracking-wide text-slate-500">Description</p>
+            <p className="mt-2 text-[1.12rem] leading-relaxed text-slate-800 md:text-[1.15rem]">
+              {activeDetails?.description}
+            </p>
+          </div>
+        </div>
+      </Modal>
+    </section>
+  );
+}
+
+export default MomentsSection;

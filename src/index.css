@@ -1,0 +1,43 @@
+@import "./styles/theme.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: var(--gs-text);
+  background-color: var(--gs-surface);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--gs-surface);
+  color: var(--gs-text);
+  line-height: 1.5;
+}
+
+a {
+  color: inherit;
+}
+
+.section-shell {
+  @apply rounded-2xl p-6 shadow-soft md:p-10;
+  background-color: var(--gs-bg);
+}
+
+.section-title {
+  @apply font-heading text-2xl font-semibold tracking-tight md:text-3xl;
+  color: var(--gs-text);
+}
+
+.section-copy {
+  @apply mt-4 text-base md:text-lg;
+  color: var(--gs-text-muted);
+}
