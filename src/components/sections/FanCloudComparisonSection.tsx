@@ -6,6 +6,8 @@ import {
   useRef,
   useState
 } from "react";
+import { AnimatePresence, motion, useInView } from "framer-motion";
+import { Reveal, useReducedMotionSafe } from "../motion/MotionPrimitives";
 
 type FanCloudComparisonSectionProps = {
   headline: string;
@@ -25,6 +27,15 @@ function clampPercent(value: number) {
   return Math.max(0, Math.min(100, value));
 }
 
+function snapPercent(value: number) {
+  const snapTargets = [0, 50, 100];
+  const nearest = snapTargets.reduce((closest, current) =>
+    Math.abs(current - value) < Math.abs(closest - value) ? current : closest
+  );
+
+  return Math.abs(nearest - value) <= 8 ? nearest : value;
+}
+
 function FanCloudComparisonSection({
   headline,
   leftLabel,
@@ -35,13 +46,18 @@ function FanCloudComparisonSection({
   metricsEyebrow,
   metrics
 }: FanCloudComparisonSectionProps) {
+  const reducedMotion = useReducedMotionSafe();
   const [sliderPercent, setSliderPercent] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [isHandleFocused, setIsHandleFocused] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+  const [showHelperHint, setShowHelperHint] = useState(true);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
+  const nudgeRafRef = useRef<number | null>(null);
   const pendingPercentRef = useRef<number>(50);
   const activePointerIdRef = useRef<number | null>(null);
+  const isFrameInView = useInView(frameRef, { once: true, amount: 0.35 });
 
   const queueSliderUpdate = useCallback((nextPercent: number) => {
     pendingPercentRef.current = clampPercent(nextPercent);
@@ -73,11 +89,58 @@ function FanCloudComparisonSection({
       if (rafRef.current !== null) {
         window.cancelAnimationFrame(rafRef.current);
       }
+      if (nudgeRafRef.current !== null) {
+        window.cancelAnimationFrame(nudgeRafRef.current);
+      }
     };
   }, []);
 
+  useEffect(() => {
+    if (!showHelperHint) return;
+    const timeout = window.setTimeout(() => setShowHelperHint(false), 3000);
+    return () => window.clearTimeout(timeout);
+  }, [showHelperHint]);
+
+  useEffect(() => {
+    if (!isFrameInView || reducedMotion || hasInteracted) return;
+
+    const sessionKey = "fan-cloud-slider-nudged";
+    if (window.sessionStorage.getItem(sessionKey) === "true") return;
+    window.sessionStorage.setItem(sessionKey, "true");
+
+    let startTime = 0;
+    const totalDuration = 1200;
+
+    const animateNudge = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min(1, (timestamp - startTime) / totalDuration);
+      const nudgeValue =
+        progress <= 0.5
+          ? 50 + 12 * (progress / 0.5)
+          : 62 - 12 * ((progress - 0.5) / 0.5);
+
+      queueSliderUpdate(nudgeValue);
+
+      if (progress < 1) {
+        nudgeRafRef.current = window.requestAnimationFrame(animateNudge);
+      } else {
+        nudgeRafRef.current = null;
+      }
+    };
+
+    nudgeRafRef.current = window.requestAnimationFrame(animateNudge);
+
+    return () => {
+      if (nudgeRafRef.current !== null) {
+        window.cancelAnimationFrame(nudgeRafRef.current);
+      }
+    };
+  }, [isFrameInView, reducedMotion, hasInteracted, queueSliderUpdate]);
+
   const handlePointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
+    setHasInteracted(true);
+    setShowHelperHint(false);
     activePointerIdRef.current = event.pointerId;
     event.currentTarget.setPointerCapture(event.pointerId);
     setIsDragging(true);
@@ -93,18 +156,25 @@ function FanCloudComparisonSection({
     if (activePointerIdRef.current !== event.pointerId) return;
     activePointerIdRef.current = null;
     setIsDragging(false);
+    queueSliderUpdate(snapPercent(pendingPercentRef.current));
   };
 
   const handleSliderKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
     event.preventDefault();
+    setHasInteracted(true);
+    setShowHelperHint(false);
     const step = event.shiftKey ? 10 : 5;
     const direction = event.key === "ArrowLeft" ? -1 : 1;
     queueSliderUpdate(sliderPercent + direction * step);
   };
 
   return (
-    <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-[#0A1330]">
+    <Reveal
+      as="section"
+      id="fan-cloud"
+      className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-[#0A1330]"
+    >
       <div className="mx-auto w-full max-w-[1200px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
         <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
           {headline}
@@ -150,13 +220,16 @@ function FanCloudComparisonSection({
                 style={{ left: `${sliderPercent}%`, transform: "translateX(-0.5px)" }}
               />
 
-              <div
+              <motion.div
                 className={`absolute left-0 top-1/2 z-40 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white bg-[#1D26FF] text-white outline-none transition ${
                   isDragging || isHandleFocused
                     ? "scale-105 shadow-[0_0_0_4px_rgba(255,255,255,0.2)]"
                     : "shadow-[0_4px_16px_rgba(10,19,48,0.45)]"
                 }`}
                 style={{ left: `${sliderPercent}%` }}
+                whileHover={reducedMotion ? undefined : { scale: 1.04 }}
+                whileTap={reducedMotion ? undefined : { scale: 1.02 }}
+                transition={{ duration: reducedMotion ? 0.12 : 0.2, ease: "easeOut" }}
                 tabIndex={0}
                 role="slider"
                 aria-label="Fan cloud comparison"
@@ -170,12 +243,25 @@ function FanCloudComparisonSection({
                 <span className="pointer-events-none absolute inset-0 flex items-center justify-center text-xl font-semibold">
                   ↔
                 </span>
-              </div>
+              </motion.div>
             </div>
           </div>
 
-          {helperText ? (
-            <p className="mt-4 text-center text-sm font-medium text-blue-100 md:text-base">
+          <AnimatePresence>
+            {showHelperHint ? (
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
+                className="mt-4 text-center text-sm font-medium text-blue-100 md:text-base"
+              >
+                Drag to compare
+              </motion.p>
+            ) : null}
+          </AnimatePresence>
+          {!showHelperHint && helperText ? (
+            <p className="mt-4 text-center text-sm font-medium text-blue-100/80 md:text-base">
               {helperText}
             </p>
           ) : null}
@@ -206,7 +292,7 @@ function FanCloudComparisonSection({
           </div>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 

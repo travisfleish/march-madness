@@ -1,3 +1,7 @@
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { Reveal, useReducedMotionSafe } from "../motion/MotionPrimitives";
+
 type ProofBandProps = {
   body: string;
   chart: {
@@ -13,13 +17,20 @@ type ProofBandProps = {
 };
 
 function ProofBand({ body, chart }: ProofBandProps) {
+  const reducedMotion = useReducedMotionSafe();
+  const chartFrameRef = useRef<HTMLDivElement | null>(null);
+  const isChartInView = useInView(chartFrameRef, { once: true, amount: 0.35 });
   const maxBarValue = Math.max(...chart.bars.map((bar) => bar.value), 1);
   const chartMaxHeight = 160;
   const highlightPhrases = new Set(["Emotional engagement", "2x higher"]);
   const bodyParts = body.split(/(Emotional engagement|2x higher)/g);
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-soft md:px-8 md:py-10">
+    <Reveal
+      as="section"
+      id="proof"
+      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-soft md:px-8 md:py-10"
+    >
       <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-10">
         <div className="flex items-center">
           <p className="max-w-[800px] text-xl font-medium leading-tight text-slate-900 md:text-3xl md:leading-tight">
@@ -42,26 +53,62 @@ function ProofBand({ body, chart }: ProofBandProps) {
               "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.02) 100%)"
           }}
         >
-          <h3 className="text-xl font-semibold leading-tight text-white">{chart.title}</h3>
+          <div className="flex items-start justify-between gap-4">
+            <h3 className="text-xl font-semibold leading-tight text-white">{chart.title}</h3>
+            <p className="rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
+              2x higher
+            </p>
+          </div>
           <p className="mt-1 text-sm leading-tight text-slate-300">{chart.subtitle}</p>
 
-          <div className="mt-5">
-            <div className="flex items-end gap-5 border-b border-slate-500/70 pb-0" style={{ height: `${chartMaxHeight}px` }}>
-              {chart.bars.map((bar) => (
+          <div className="mt-5" ref={chartFrameRef}>
+            <div className="relative" style={{ height: `${chartMaxHeight}px` }}>
+              <motion.div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-slate-500/70"
+                initial={{ opacity: reducedMotion ? 1 : 0 }}
+                animate={{ opacity: isChartInView || reducedMotion ? 1 : 0 }}
+                transition={{ duration: reducedMotion ? 0 : 0.18, ease: "easeOut" }}
+              />
+              <div className="flex h-full items-end gap-5">
+              {chart.bars.map((bar, index) => (
                 <div key={bar.label} className="flex flex-1 items-end">
-                  <div
+                  <motion.div
                     className="flex w-full items-center justify-center rounded-t-sm"
+                    initial={{ height: reducedMotion ? `${(bar.value / maxBarValue) * chartMaxHeight}px` : 0 }}
+                    animate={{
+                      height:
+                        isChartInView || reducedMotion
+                          ? `${(bar.value / maxBarValue) * chartMaxHeight}px`
+                          : 0
+                    }}
+                    transition={{
+                      duration: reducedMotion ? 0 : 0.55,
+                      ease: "easeOut",
+                      delay: reducedMotion ? 0 : 0.12 + index * 0.08
+                    }}
                     style={{
-                      height: `${(bar.value / maxBarValue) * chartMaxHeight}px`,
                       backgroundColor: bar.color
                     }}
                   >
-                    <span className="text-4xl font-semibold leading-none text-white">
+                    <motion.span
+                      className="text-4xl font-semibold leading-none text-white"
+                      initial={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 5 }}
+                      animate={{
+                        opacity: isChartInView || reducedMotion ? 1 : 0,
+                        y: reducedMotion ? 0 : isChartInView ? 0 : 5
+                      }}
+                      transition={{
+                        duration: reducedMotion ? 0 : 0.2,
+                        ease: "easeOut",
+                        delay: reducedMotion ? 0 : 0.56 + index * 0.08
+                      }}
+                    >
                       {bar.value}%
-                    </span>
-                  </div>
+                    </motion.span>
+                  </motion.div>
                 </div>
               ))}
+              </div>
             </div>
             <div className="mt-2 grid grid-cols-2 gap-5">
               {chart.bars.map((bar) => (
@@ -78,7 +125,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
           <p className="mt-4 text-center text-xs font-medium text-slate-300">{chart.footnote}</p>
         </article>
       </div>
-    </section>
+    </Reveal>
   );
 }
 

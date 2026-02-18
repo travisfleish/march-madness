@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Modal from "../ui/Modal";
+import { Reveal } from "../motion/MotionPrimitives";
 
 type CTASectionProps = {
   primaryButtonText: string;
@@ -19,7 +20,7 @@ function CTASection({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section className="section-shell text-center">
+    <Reveal as="section" className="section-shell text-center">
       <button
         type="button"
         onClick={() => setIsModalOpen(true)}
@@ -53,7 +54,7 @@ function CTASection({
           </a>
         </p>
       </Modal>
-    </section>
+    </Reveal>
   );
 }
 

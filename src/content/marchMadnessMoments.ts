@@ -194,7 +194,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     ]
   },
   moments: {
-    header: "March Madness Moments",
+    header: "Step 1: Choose your moment",
     introParagraph1: "Step 1: Choose your moment",
     introParagraph2:
       "Select the key in-game or tournament moments you want to align your brand with.",

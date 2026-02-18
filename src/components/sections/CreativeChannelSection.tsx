@@ -1,5 +1,6 @@
 import Step3CreativeViz from "../visualizations/Step3CreativeViz";
 import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
+import { Reveal } from "../motion/MotionPrimitives";
 
 type CreativeChannelSectionProps = {
   header: string;
@@ -9,11 +10,11 @@ type CreativeChannelSectionProps = {
 
 function CreativeChannelSection({ header, paragraph, creativeViz }: CreativeChannelSectionProps) {
   return (
-    <section className="section-shell">
+    <Reveal id="creative" as="section" className="section-shell scroll-mt-24">
       <h2 className="section-title">{header}</h2>
       <p className="section-copy">{paragraph}</p>
       <Step3CreativeViz data={creativeViz} />
-    </section>
+    </Reveal>
   );
 }
 

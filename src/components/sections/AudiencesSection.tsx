@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { Reveal, Stagger, useReducedMotionSafe } from "../motion/MotionPrimitives";
+
 type AudiencesSectionProps = {
   header: string;
   subtitle?: string;
@@ -15,8 +18,10 @@ function AudiencesSection({
   rightHeader,
   rightList
 }: AudiencesSectionProps) {
+  const reducedMotion = useReducedMotionSafe();
+
   return (
-    <section className="section-shell">
+    <Reveal id="audiences" as="section" className="section-shell scroll-mt-24">
       <h2 className="section-title">{header}</h2>
       {subtitle ? <p className="mt-4 max-w-3xl text-lg text-slate-600">{subtitle}</p> : null}
       <div className="mt-8 grid gap-8 md:grid-cols-2">
@@ -24,28 +29,44 @@ function AudiencesSection({
           {leftHeader ? (
             <h3 className="mb-4 text-lg font-semibold text-slate-900">{leftHeader}</h3>
           ) : null}
-          <ul className="space-y-3">
+          <Stagger as="ul" className="space-y-3" staggerChildren={0.06}>
             {leftList.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-slate-700">
+              <motion.li
+                key={item}
+                className="flex items-start gap-3 text-slate-700"
+                variants={{
+                  hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                transition={{ duration: reducedMotion ? 0.18 : 0.3, ease: "easeOut" }}
+              >
                 <span className="mt-2 h-2 w-2 rounded-full bg-accent-500" aria-hidden="true" />
                 <span>{item}</span>
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </Stagger>
         </div>
         <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
           <h3 className="text-lg font-semibold text-slate-900">{rightHeader}</h3>
-          <ul className="mt-4 space-y-3">
+          <Stagger as="ul" className="mt-4 space-y-3" staggerChildren={0.06}>
             {rightList.map((item) => (
-              <li key={item} className="flex items-start gap-3 text-slate-700">
+              <motion.li
+                key={item}
+                className="flex items-start gap-3 text-slate-700"
+                variants={{
+                  hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
+                  show: { opacity: 1, y: 0 }
+                }}
+                transition={{ duration: reducedMotion ? 0.18 : 0.3, ease: "easeOut" }}
+              >
                 <span className="mt-2 h-2 w-2 rounded-full bg-slate-400" aria-hidden="true" />
                 <span>{item}</span>
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </Stagger>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
 

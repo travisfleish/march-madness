@@ -1,3 +1,7 @@
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useReducedMotionSafe } from "../motion/MotionPrimitives";
+
 type HeroSectionProps = {
   kicker: string;
   titleLines: string[];
@@ -21,11 +25,23 @@ const DESKTOP_TILE_CLASSES: Record<"sm" | "md" | "lg", string> = {
 };
 
 function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProps) {
+  const reducedMotion = useReducedMotionSafe();
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
   return (
     <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-white">
       <div className="mx-auto w-full max-w-[1520px] p-0">
         <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-10">
-          <div className="flex min-h-[24rem] flex-col items-center justify-center lg:min-h-[33rem]">
+          <motion.div
+            className="flex min-h-[24rem] flex-col items-center justify-center lg:min-h-[33rem]"
+            initial={{ opacity: reducedMotion ? 1 : 0 }}
+            animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
+            transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
+          >
             <div className="text-left">
               <p className="text-base font-medium text-slate-900 md:text-3xl">{kicker}</p>
               <h1 className="-ml-[0.02em] mt-4 font-heading font-bold tracking-tight text-black leading-[0.95] text-[clamp(3.25rem,10vw,6.875rem)] md:mt-5">
@@ -36,8 +52,17 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 ))}
               </h1>
             </div>
-          </div>
-          <div className="w-full lg:-ml-4 lg:h-full">
+          </motion.div>
+          <motion.div
+            className="w-full lg:-ml-4 lg:h-full"
+            initial={{ opacity: reducedMotion ? 1 : 0 }}
+            animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
+            transition={{
+              duration: reducedMotion ? 0 : 0.32,
+              ease: "easeOut",
+              delay: reducedMotion ? 0 : 0.32
+            }}
+          >
             <div className="grid h-full gap-px bg-white md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11rem]">
               <div className="grid auto-rows-auto grid-cols-8 gap-px bg-white lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
@@ -79,7 +104,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 </p>
               </aside>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
