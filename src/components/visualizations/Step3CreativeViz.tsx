@@ -54,11 +54,11 @@ function MessageCard({ audienceLabel, cardTitle, lead, body, enableTyping }: Mes
 
   return (
     <div className="flex h-full flex-col">
-      <p className="mx-auto max-w-[22rem] text-center text-xs font-medium text-slate-600 md:max-w-none md:text-left">
+      <p className="mx-auto max-w-[22rem] text-center text-sm font-medium text-slate-600 md:max-w-none md:text-left">
         {audienceLabel}
       </p>
       <article className="mt-3 flex flex-1 flex-col rounded-xl border border-slate-300 bg-gs-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
-        <h3 className="text-center text-sm font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
+        <h3 className="text-center text-base font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
         <p className="mt-4 min-h-[1.25rem] text-sm font-semibold text-slate-900">{visibleLead}</p>
         <p className="mt-2 min-h-[5.25rem] text-sm leading-relaxed text-slate-700">{visibleBody}</p>
       </article>
@@ -136,9 +136,9 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
     >
       <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-gs-surface px-4 py-6 md:px-8 md:py-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-xs font-semibold text-slate-800 md:text-sm">{data.triggerTitle}</p>
-          <p className="mt-3 text-xs font-semibold text-slate-800 md:text-sm">{data.exampleLabel}</p>
-          <p className="mt-2 text-sm text-slate-700 md:text-base">{data.exampleEvent}</p>
+          <p className="text-sm font-semibold text-slate-800 md:text-base">{data.triggerTitle}</p>
+          <p className="mt-3 text-sm font-semibold text-slate-800 md:text-base">{data.exampleLabel}</p>
+          <p className="mt-2 text-base text-slate-700 md:text-lg">{data.exampleEvent}</p>
         </div>
 
         <div className="mt-6 md:hidden">

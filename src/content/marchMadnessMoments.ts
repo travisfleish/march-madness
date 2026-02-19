@@ -19,6 +19,7 @@ export type DualListSection = {
 export type MarchMadnessMomentsContent = {
   hero: {
     kicker: string;
+    subhead: string;
     titleLines: string[];
     stats: {
       value: string;
@@ -103,7 +104,8 @@ export type MarchMadnessMomentsContent = {
 
 export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
   hero: {
-    kicker: "The Peak of U.S. Fan Attention",
+    kicker: "Genius Sports Partnership Opportunities",
+    subhead: "Genius Sports is Exclusive Supplier of Official NCAA Data",
     titleLines: ["March", "Madness", "2026"],
     stats: [
       {

@@ -5,6 +5,7 @@ import RollingNumber from "../motion/RollingNumber";
 
 type HeroSectionProps = {
   kicker: string;
+  subhead: string;
   titleLines: string[];
   stats: {
     value: string;
@@ -30,7 +31,7 @@ function parseNumericStat(value: string) {
   return Number.isNaN(parsed) ? null : parsed;
 }
 
-function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProps) {
+function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSectionProps) {
   const reducedMotion = useReducedMotionSafe();
   const [isLoaded, setIsLoaded] = useState(false);
   const [rollVersions, setRollVersions] = useState<Record<string, number>>({});
@@ -71,6 +72,11 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
           >
             <div className="mx-auto w-fit text-left">
+              <img
+                src="/genius-assets/genius_g_logo.svg"
+                alt="Genius Sports logo"
+                className="mb-4 h-auto w-[3.875rem] md:mb-5 md:w-[4.5rem] lg:w-[5.125rem]"
+              />
               <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-slate-700 md:text-sm">
                 {kicker}
               </p>
@@ -85,6 +91,9 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                   </span>
                 ))}
               </h1>
+              <p className="mt-4 max-w-[26ch] text-balance text-[1.1rem] font-semibold leading-tight text-[#0A1330] md:mt-5 md:text-[1.35rem] lg:text-[1.6rem]">
+                {subhead}
+              </p>
             </div>
           </motion.div>
           <motion.div
