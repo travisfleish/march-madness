@@ -221,15 +221,12 @@ function FanCloudComparisonSection({
               />
 
               <motion.div
-                className={`absolute left-0 top-1/2 z-40 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white bg-[#1D26FF] text-white outline-none transition ${
+                className={`absolute left-0 top-1/2 z-40 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white bg-[#1D26FF] text-white outline-none ${
                   isDragging || isHandleFocused
-                    ? "scale-105 shadow-[0_0_0_4px_rgba(255,255,255,0.2)]"
+                    ? "shadow-[0_0_0_4px_rgba(255,255,255,0.2)]"
                     : "shadow-[0_4px_16px_rgba(10,19,48,0.45)]"
                 }`}
                 style={{ left: `${sliderPercent}%` }}
-                whileHover={reducedMotion ? undefined : { scale: 1.04 }}
-                whileTap={reducedMotion ? undefined : { scale: 1.02 }}
-                transition={{ duration: reducedMotion ? 0.12 : 0.2, ease: "easeOut" }}
                 tabIndex={0}
                 role="slider"
                 aria-label="Fan cloud comparison"

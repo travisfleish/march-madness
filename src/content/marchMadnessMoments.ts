@@ -240,9 +240,9 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     ],
     rightHeader: "Customize by:",
     rightList: [
-      "demographic + psychographic attributes",
-      "category/brand purchase behavior across 5K+ brands",
-      "category/brand purchase frequency across 5K+ brands",
+      "Demographic + psychographic attributes",
+      "Category/brand purchase behavior across 5K+ brands",
+      "Category/brand purchase frequency across 5K+ brands",
       "100+ Fluid Fan communities such as Values-Driven Fans, Gen Z fans, Sober Curious Fans"
     ]
   },
