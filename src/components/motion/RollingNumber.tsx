@@ -5,6 +5,7 @@ import { useReducedMotionSafe } from "./MotionPrimitives";
 type RollingNumberProps = {
   value: number;
   duration?: number;
+  rerollDuration?: number;
   className?: string;
   staggerMs?: number;
   padTo?: number;
@@ -21,6 +22,7 @@ function buildReelDigits(repeats: number) {
 function RollingNumber({
   value,
   duration = 1.4,
+  rerollDuration = 0.5,
   className,
   staggerMs = 40,
   padTo,
@@ -35,6 +37,7 @@ function RollingNumber({
   }, [formatter, padTo, value]);
 
   const reelDigits = useMemo(() => buildReelDigits(60), []);
+  const effectiveDuration = rerollKey > 0 ? rerollDuration : duration;
 
   if (reducedMotion) {
     return <span className={`inline-flex tabular-nums ${className ?? ""}`}>{displayValue}</span>;
@@ -68,7 +71,7 @@ function RollingNumber({
               initial={{ y: "0em" }}
               animate={{ y: `${-targetSteps}em` }}
               transition={{
-                duration,
+                duration: effectiveDuration,
                 delay: animationDelay,
                 ease: [0.16, 1, 0.3, 1]
               }}

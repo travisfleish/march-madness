@@ -235,7 +235,6 @@ function FanCloudComparisonSection({
             <div className={rightLabelClasses}>
               {rightLabel}
             </div>
-
             <div ref={imageBoxRef} className="relative aspect-[16/9] min-h-[260px] w-full">
               <img
                 src={leftImageSrc}
