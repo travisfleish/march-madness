@@ -236,6 +236,10 @@ function FanCloudComparisonSection({
 
   const isGeniusViewDominant = sliderPercent < 50;
   const isOtherViewDominant = sliderPercent > 50;
+  const geniusSportsPhrase = "Genius Sports";
+  const headlineWithHalo = headline.includes(geniusSportsPhrase)
+    ? headline.split(geniusSportsPhrase)
+    : null;
   const leftLabelClasses = [
     "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:left-5 md:top-5 md:max-w-[42%] md:text-base transition-all duration-200",
     isOtherViewDominant
@@ -256,7 +260,17 @@ function FanCloudComparisonSection({
     >
       <div className="mx-auto w-full max-w-[1200px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
         <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
-          {headline}
+          {headlineWithHalo ? (
+            <>
+              {headlineWithHalo[0]}
+              <span className="text-white [text-shadow:0_0_4px_rgba(214,232,111,0.7),0_0_11px_rgba(214,232,111,0.48),0_0_18px_rgba(42,52,255,0.4)]">
+                {geniusSportsPhrase}
+              </span>
+              {headlineWithHalo[1]}
+            </>
+          ) : (
+            headline
+          )}
         </h2>
 
         <div className="mt-8 md:mt-10">
