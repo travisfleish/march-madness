@@ -1,10 +1,14 @@
 type GeniusStripeTheme = "green" | "softGreen" | "navy" | "red" | "blue";
+type GeniusStripeScale = "default" | "site";
+type GeniusStripeMask = "none" | "heroRight";
 
 type GeniusStripeRailProps = {
   theme: GeniusStripeTheme;
   className?: string;
   dimmed?: boolean;
   fadeTone?: "light" | "dark";
+  scale?: GeniusStripeScale;
+  mask?: GeniusStripeMask;
 };
 
 type StripeThemeConfig = {
@@ -33,20 +37,24 @@ function GeniusStripeRail({
   theme,
   className,
   dimmed = false,
-  fadeTone = "light"
+  fadeTone = "light",
+  scale = "default",
+  mask = "none"
 }: GeniusStripeRailProps) {
   const config = stripeThemeConfig[theme];
+  const scaleClass = scale === "site" ? "gs-stripe-surface-site" : "";
+  const maskClass = mask === "heroRight" ? "gs-stripe-mask-hero-right" : "";
 
   return (
     <div className={className} aria-hidden="true">
       <div
-        className="absolute inset-0"
+        className={`absolute inset-0 ${scaleClass} ${maskClass}`}
         style={{
           backgroundImage: `url("${config.assetUrl}")`,
           backgroundPosition: "center right",
           backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          opacity: dimmed ? 0.55 : 0.95
+          backgroundSize: scale === "site" ? undefined : "cover",
+          opacity: scale === "site" ? undefined : dimmed ? 0.55 : 0.95
         }}
       />
       <div

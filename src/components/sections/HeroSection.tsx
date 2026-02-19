@@ -20,9 +20,9 @@ type HeroSectionProps = {
 };
 
 const DESKTOP_TILE_CLASSES: Record<"sm" | "md" | "lg", string> = {
-  sm: "col-span-8 min-h-[9.5rem] p-4 md:col-span-1 lg:col-span-3 lg:row-span-1 lg:min-h-0 lg:p-5",
-  md: "col-span-8 min-h-[12rem] p-5 md:col-span-1 lg:col-span-4 lg:row-span-2 lg:min-h-0 lg:p-6",
-  lg: "col-span-8 min-h-[7.5rem] p-5 lg:col-span-8 lg:row-span-1 lg:min-h-0 lg:p-6"
+  sm: "col-span-8 min-h-[9.5rem] rounded-2xl p-5 md:col-span-1 lg:col-span-3 lg:row-span-1 lg:min-h-0 lg:p-7",
+  md: "col-span-8 min-h-[12rem] rounded-2xl p-5 md:col-span-1 lg:col-span-4 lg:row-span-2 lg:min-h-0 lg:p-7",
+  lg: "col-span-8 min-h-[8rem] rounded-2xl p-5 lg:col-span-8 lg:row-span-1 lg:min-h-0 lg:p-7"
 };
 
 function parseNumericStat(value: string) {
@@ -50,28 +50,37 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
 
   return (
     <section className="relative w-full overflow-hidden bg-white">
-      <div className="pointer-events-none absolute bottom-0 left-0 h-1/2 w-[20vw] min-w-[8rem] max-w-[18rem]" aria-hidden>
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] md:block" aria-hidden>
         <img
           src="/genius-assets/green-lines.png"
           alt=""
-          className="h-full w-full object-cover object-right"
-          style={{ transform: "scaleX(-1)" }}
+          className="absolute inset-0 h-full w-full object-cover object-right opacity-75 lg:opacity-85"
         />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white" />
       </div>
-
-      <div className="relative z-10 w-full p-0">
-        <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-0">
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 py-12 md:px-10 md:py-16 lg:px-14 lg:py-20">
+        <div className="relative grid items-center gap-10 lg:grid-cols-[45%_55%] lg:items-stretch lg:gap-0">
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-y-8 left-[45%] hidden w-px -translate-x-1/2 bg-[#0A1330]/12 lg:block"
+          />
           <motion.div
-            className="flex min-h-[24rem] flex-col items-center justify-center px-6 md:px-10 lg:min-h-[33rem] lg:px-0"
+            className="flex min-h-[24rem] flex-col items-center justify-center pr-2 md:pr-6 lg:min-h-[33rem] lg:pr-14"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
           >
             <div className="mx-auto w-fit text-left">
-              <p className="text-base font-medium text-slate-900 md:text-3xl">{kicker}</p>
-              <h1 className="-ml-[0.02em] mt-4 font-heading font-bold tracking-tight text-black leading-[0.95] text-[clamp(3.25rem,10vw,6.875rem)] md:mt-5">
-                {titleLines.map((line) => (
-                  <span key={line} className="block">
+              <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-slate-700 md:text-sm">
+                {kicker}
+              </p>
+              <div className="mt-3 h-px w-20 bg-slate-900/25 md:mt-4" />
+              <h1 className="-ml-[0.02em] mt-4 font-heading font-semibold tracking-[-0.01em] text-black leading-[0.9] text-[clamp(3rem,9vw,6.1rem)] md:mt-5">
+                {titleLines.map((line, index) => (
+                  <span
+                    key={line}
+                    className={`block ${line === "2026" || index === titleLines.length - 1 ? "mt-2 text-[0.78em] font-medium tracking-[0.02em] text-slate-800" : ""}`}
+                  >
                     {line}
                   </span>
                 ))}
@@ -79,7 +88,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
             </div>
           </motion.div>
           <motion.div
-            className="w-full lg:h-full"
+            className="relative w-full lg:h-full lg:pl-10"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{
@@ -88,95 +97,72 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
               delay: reducedMotion ? 0 : 0.32
             }}
           >
-            <div className="grid h-full gap-px bg-white md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11rem]">
-              <div className="grid auto-rows-auto grid-cols-8 gap-px bg-white lg:h-full lg:grid-rows-3">
+            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1]">
+              <div className="relative z-10 grid h-full gap-3 p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
+              <div className="grid auto-rows-auto grid-cols-8 gap-3 lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
                 const numericStatValue = parseNumericStat(stat.value);
                 const statRollId = `${stat.value}-${stat.label}-${index}`;
                 const isTwentyMillionTile = stat.value === "20" && stat.label === "Million";
                 const isHundredMillionTile = stat.value === "100" && stat.label === "Million";
+                const isSixtyEightTeamsTile = stat.value === "68" && stat.label === "Teams";
                 const spanClass =
-                  tileSize === "lg"
-                    ? DESKTOP_TILE_CLASSES.lg
-                    : tileSize === "sm"
-                      ? DESKTOP_TILE_CLASSES.sm
-                      : index === 1
-                        ? "col-span-8 min-h-[12rem] p-5 md:col-span-1 lg:col-span-4 lg:row-span-2 lg:min-h-0 lg:p-6"
-                        : DESKTOP_TILE_CLASSES.md;
+                  isHundredMillionTile
+                    ? "col-span-8 min-h-[12rem] rounded-2xl p-6 md:col-span-1 lg:col-span-5 lg:row-span-2 lg:min-h-0 lg:p-8"
+                    : tileSize === "lg"
+                      ? DESKTOP_TILE_CLASSES.lg
+                      : tileSize === "sm"
+                        ? DESKTOP_TILE_CLASSES.sm
+                        : index === 1
+                          ? "col-span-8 min-h-[11rem] rounded-2xl p-5 md:col-span-1 lg:col-span-3 lg:row-span-2 lg:min-h-0 lg:p-6"
+                          : DESKTOP_TILE_CLASSES.md;
 
                 return (
                   <article
                     key={`${stat.value}-${stat.label}`}
-                    className={`bg-[#1D26FF] text-white lg:h-full ${spanClass} ${isTwentyMillionTile ? "relative flex flex-col justify-end overflow-hidden" : ""} ${isHundredMillionTile ? "flex flex-col justify-center" : ""}`}
+                    className={`text-white lg:h-full ${spanClass} ${
+                      isHundredMillionTile
+                        ? "flex flex-col justify-center bg-[#0014ff] ring-1 ring-white/34"
+                        : isSixtyEightTeamsTile
+                          ? "flex flex-col justify-center bg-[#0014ff] ring-1 ring-white/30"
+                          : isTwentyMillionTile
+                            ? "flex flex-col justify-center bg-[#0014ff] ring-1 ring-white/28"
+                            : "bg-[#0014ff] ring-1 ring-white/28"
+                    }`}
                     onMouseEnter={() => triggerRoll(statRollId)}
                   >
-                    {isTwentyMillionTile ? (
-                      <>
-                        <span className="pointer-events-none absolute inset-x-0 top-1/2 z-[1] hidden border-t border-white/60 lg:block" />
-                        <div className="pointer-events-none absolute inset-x-0 top-0 bottom-1/2 z-[2] hidden lg:block">
-                          <motion.img
-                            src="/basketball.png"
-                            alt="NCAA basketball"
-                            className="absolute left-1/2 top-1/2 w-[75%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
-                            initial={{ opacity: reducedMotion ? 1 : 0 }}
-                            animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
-                            transition={{
-                              duration: reducedMotion ? 0 : 0.3,
-                              ease: "easeOut",
-                              delay: reducedMotion ? 0 : 0.42
-                            }}
-                          />
-                        </div>
-                        <div className="relative z-[3] lg:mt-auto lg:flex lg:h-1/2 lg:translate-y-2 lg:flex-col lg:justify-center">
-                          <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
-                            {numericStatValue !== null ? (
-                              <RollingNumber
-                                value={numericStatValue}
-                                rerollKey={rollVersions[statRollId] ?? 0}
-                              />
-                            ) : (
-                              stat.value
-                            )}
-                          </p>
-                          <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
-                            {stat.label}
-                          </p>
-                          <p className="mt-2 text-sm leading-tight text-blue-50 lg:mt-3">
-                            {stat.description}
-                          </p>
-                        </div>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
-                          {numericStatValue !== null ? (
-                            <RollingNumber
-                              value={numericStatValue}
-                              rerollKey={rollVersions[statRollId] ?? 0}
-                            />
-                          ) : (
-                            stat.value
-                          )}
-                        </p>
-                        <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
-                          {stat.label}
-                        </p>
-                        <p className="mt-2 text-sm leading-tight text-blue-50 lg:mt-3">
-                          {stat.description}
-                        </p>
-                      </>
-                    )}
+                    <p
+                      className={`font-bold leading-[0.88] ${
+                        isHundredMillionTile
+                          ? "text-[3.2rem] lg:text-[4.15rem]"
+                          : isSixtyEightTeamsTile
+                            ? "text-[2.9rem] lg:text-[3.4rem]"
+                            : "text-[2.75rem] lg:text-[3.1rem]"
+                      }`}
+                    >
+                      {numericStatValue !== null ? (
+                        <RollingNumber value={numericStatValue} rerollKey={rollVersions[statRollId] ?? 0} />
+                      ) : (
+                        stat.value
+                      )}
+                    </p>
+                    <p className="mt-1 text-[1.15rem] font-medium leading-none text-white/95 lg:text-[1.32rem]">
+                      {stat.label}
+                    </p>
+                    <p className="mt-3 max-w-[28ch] text-xs leading-snug text-blue-50/92 lg:text-sm">
+                      {stat.description}
+                    </p>
                   </article>
                 );
               })}
               </div>
               <aside
-                className="flex flex-col bg-[#1D26FF] text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0"
+                className="flex flex-col overflow-hidden rounded-2xl bg-[#0014ff] text-center text-white ring-1 ring-white/30 md:min-h-[20rem] lg:h-full lg:min-h-0"
                 onMouseEnter={() => triggerRoll(sideBarRollId)}
               >
-                <div className="shrink-0 border-b border-white/60 p-5 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-4">
-                  <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
+                <div className="shrink-0 border-b border-white/24 p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
+                  <p className="text-[3rem] font-bold leading-[0.88] lg:text-[3.5rem]">
                     {numericSideValue !== null ? (
                       <RollingNumber
                         value={numericSideValue}
@@ -186,8 +172,10 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                       sideBarStat.value
                     )}
                   </p>
-                  <p className="mt-1 text-[2.2rem] font-normal leading-none">{sideBarStat.label}</p>
-                  <p className="mt-3 text-base leading-tight text-blue-50 lg:text-[1.1rem]">
+                  <p className="mt-1 text-[1.2rem] font-medium leading-none text-white/95 lg:text-[1.35rem]">
+                    {sideBarStat.label}
+                  </p>
+                  <p className="mt-3 text-xs leading-snug text-blue-50/92 lg:text-sm">
                     {sideBarStat.description}
                   </p>
                 </div>
@@ -199,6 +187,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                   />
                 </div>
               </aside>
+            </div>
             </div>
           </motion.div>
         </div>

@@ -27,6 +27,23 @@ a {
   color: inherit;
 }
 
+.gs-stripe-surface-site {
+  background-size: 152% auto;
+  opacity: 0.16;
+}
+
+@media (min-width: 1024px) {
+  .gs-stripe-surface-site {
+    background-size: 126% auto;
+    opacity: 0.28;
+  }
+}
+
+.gs-stripe-mask-hero-right {
+  -webkit-mask-image: radial-gradient(132% 88% at 100% 50%, #000 58%, transparent 100%);
+  mask-image: radial-gradient(132% 88% at 100% 50%, #000 58%, transparent 100%);
+}
+
 .section-shell {
   @apply rounded-2xl p-6 shadow-soft md:p-10;
   background-color: var(--gs-bg);
