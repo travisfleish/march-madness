@@ -107,17 +107,17 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const isVizInView = useInView(vizRef, { once: true, amount: 0.25 });
   const isTypingInView = useInView(vizRef, { once: false, amount: 0.25 });
-  const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.2;
-  const connectorDrawDurationMobile = reducedMotion ? 0 : 1.0;
-  const connectorStartDelayDesktop = reducedMotion ? 0 : 0.25;
-  const connectorStartDelayMobile = reducedMotion ? 0 : 0.15;
+  const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.4;
+  const connectorDrawDurationMobile = reducedMotion ? 0 : 1.2;
+  const connectorStartDelayDesktop = reducedMotion ? 0 : 0.32;
+  const connectorStartDelayMobile = reducedMotion ? 0 : 0.22;
   const titleFadeDelayDesktop = reducedMotion ? 0 : connectorStartDelayDesktop + 0.35;
   const titleFadeDelayMobile = reducedMotion ? 0 : connectorStartDelayMobile + 0.3;
   const leftCardFadeDelayDesktop = reducedMotion ? 0 : connectorStartDelayDesktop + 0.55;
   const rightCardFadeDelayDesktop = reducedMotion ? 0 : leftCardFadeDelayDesktop + 0.12;
   const leftCardFadeDelayMobile = reducedMotion ? 0 : connectorStartDelayMobile + 0.5;
   const rightCardFadeDelayMobile = reducedMotion ? 0 : leftCardFadeDelayMobile + 0.12;
-  const typingStartDelayMs = reducedMotion ? 0 : 500;
+  const typingStartDelayMs = reducedMotion ? 0 : 650;
   const [isBracketComplete, setIsBracketComplete] = useState(false);
   const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
   const handleBracketComplete = useCallback(() => {
@@ -127,7 +127,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
     }
 
     const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
-    const breathMs = isMobileViewport ? 150 : 250;
+    const breathMs = isMobileViewport ? 220 : 320;
     window.setTimeout(() => setIsBracketComplete(true), breathMs);
   }, [reducedMotion]);
   const revealCreativeFlow = reducedMotion ? isVizInView : isBracketComplete;
@@ -251,6 +251,9 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           </div>
         </div>
 
+        {!revealCreativeFlow && (
+          <div className="mt-0 md:hidden -mt-px h-[34rem]" aria-hidden="true" />
+        )}
         {revealCreativeFlow && <div className="mt-0 md:hidden -mt-px">
           <div className="mx-auto h-12 w-6" aria-hidden="true">
             <svg viewBox="0 0 24 48" className="h-full w-full">
@@ -357,6 +360,9 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           </div>
         </div>}
 
+        {!revealCreativeFlow && (
+          <div className="mt-0 hidden md:block -mt-px h-[21rem]" aria-hidden="true" />
+        )}
         {revealCreativeFlow && <div className="mt-0 hidden md:block -mt-px">
           <div
             ref={desktopConnectorRef}

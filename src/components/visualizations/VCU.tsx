@@ -20,13 +20,31 @@ const georgetownLogo = "/team_logos/Georgetown_Hoyas_logo.svg.png";
 const purdueLogo = "/team_logos/Purdue-Boilermakers-Logo.png";
 const saintPetersLogo = "/team_logos/Saint-Peters-Peacocks-logo.png";
 const ANIMATION_TIMINGS_MS = {
-  state1: 900,
-  state2: 1800,
-  state3: 2600,
-  complete: 3400
+  state1: 1100,
+  state2: 2200,
+  state3: 3200,
+  complete: 4200
 } as const;
 
 const HEADER_OFFSET = 48; // tweak 46–52 if font rendering differs
+const CONFETTI_PARTICLES = [
+  { startX: -12, startY: -58, endX: -42, endY: -8, rotate: -34, color: "#1d4ed8", delay: 0.0, width: 3, height: 8 },
+  { startX: -10, startY: -54, endX: -36, endY: -3, rotate: 26, color: "#eab308", delay: 0.02, width: 2, height: 7 },
+  { startX: -7, startY: -56, endX: -30, endY: 2, rotate: -22, color: "#3b82f6", delay: 0.04, width: 2, height: 6 },
+  { startX: -4, startY: -60, endX: -24, endY: 5, rotate: 18, color: "#f59e0b", delay: 0.06, width: 2, height: 7 },
+  { startX: -1, startY: -54, endX: -18, endY: 1, rotate: -16, color: "#1e40af", delay: 0.08, width: 3, height: 8 },
+  { startX: 2, startY: -58, endX: -12, endY: 5, rotate: 20, color: "#fde68a", delay: 0.1, width: 2, height: 6 },
+  { startX: 5, startY: -52, endX: -6, endY: 0, rotate: -14, color: "#2563eb", delay: 0.12, width: 2, height: 7 },
+  { startX: 8, startY: -56, endX: 0, endY: 3, rotate: 24, color: "#fbbf24", delay: 0.14, width: 3, height: 8 },
+  { startX: -14, startY: -46, endX: 8, endY: 7, rotate: -18, color: "#3b82f6", delay: 0.16, width: 2, height: 7 },
+  { startX: -9, startY: -48, endX: 14, endY: 8, rotate: 22, color: "#f59e0b", delay: 0.18, width: 2, height: 6 },
+  { startX: -4, startY: -44, endX: 20, endY: 9, rotate: -20, color: "#1e40af", delay: 0.2, width: 3, height: 8 },
+  { startX: 1, startY: -48, endX: 26, endY: 9, rotate: 16, color: "#eab308", delay: 0.22, width: 2, height: 7 },
+  { startX: 6, startY: -44, endX: 32, endY: 8, rotate: -24, color: "#93c5fd", delay: 0.24, width: 2, height: 6 },
+  { startX: 11, startY: -47, endX: 38, endY: 7, rotate: 20, color: "#d97706", delay: 0.26, width: 3, height: 8 },
+  { startX: 16, startY: -42, endX: 44, endY: 6, rotate: -18, color: "#3b82f6", delay: 0.28, width: 2, height: 7 },
+  { startX: 20, startY: -46, endX: 50, endY: 5, rotate: 14, color: "#fcd34d", delay: 0.3, width: 2, height: 6 }
+] as const;
 
 type MarchMadnessBracketProps = {
   onAnimationComplete?: () => void;
@@ -147,7 +165,7 @@ export function MarchMadnessBracket({
               pathLength: animationState >= 1 ? 1 : 0,
               stroke: animationState >= 2 ? CONNECTOR_ACCENT_STROKE : CONNECTOR_BASE_STROKE,
             }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.52, ease: "easeOut" }}
           />
 
           {/* Connector from Purdue vs Saint Peter's divider to Round 2 */}
@@ -163,7 +181,7 @@ export function MarchMadnessBracket({
               pathLength: animationState >= 2 ? 1 : 0,
               stroke: CONNECTOR_BASE_STROKE,
             }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            transition={{ duration: 0.52, ease: "easeOut" }}
           />
         </svg>
 
@@ -187,7 +205,7 @@ export function MarchMadnessBracket({
                   }}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
                 >
                   <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm h-full flex flex-col">
                     <TeamRow
@@ -228,7 +246,7 @@ export function MarchMadnessBracket({
               pathLength: animationState >= 3 ? 1 : 0,
               stroke: animationState >= 3 ? CONNECTOR_ACCENT_STROKE : CONNECTOR_BASE_STROKE,
             }}
-            transition={{ duration: 0.45, ease: "easeOut" }}
+            transition={{ duration: 0.58, ease: "easeOut" }}
           />
         </svg>
 
@@ -252,14 +270,64 @@ export function MarchMadnessBracket({
                   }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.15 }}
+                  transition={{ duration: 0.55, ease: "easeOut", delay: 0.2 }}
                 >
                   <motion.div
-                    initial={{ opacity: 0, y: -8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.2, ease: "easeOut", delay: 0.32 }}
-                    className="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.14em] text-emerald-700"
+                    initial={{ opacity: 0, y: -42, scale: 0.84 }}
+                    animate={{
+                      opacity: [0, 1, 1, 1, 1, 1],
+                      y: [-42, 10, -9, 5, -2, 0],
+                      scale: [0.84, 1.12, 0.95, 1.05, 0.99, 1],
+                      boxShadow: [
+                        "0 0 0 rgba(16,185,129,0)",
+                        "0 12px 24px rgba(16,185,129,0.3)",
+                        "0 7px 16px rgba(16,185,129,0.2)",
+                        "0 8px 18px rgba(16,185,129,0.22)",
+                        "0 5px 12px rgba(16,185,129,0.16)",
+                        "0 4px 10px rgba(16,185,129,0.14)"
+                      ]
+                    }}
+                    transition={{
+                      duration: 1.35,
+                      ease: "easeOut",
+                      delay: 0.26,
+                      times: [0, 0.3, 0.5, 0.68, 0.84, 1]
+                    }}
+                    className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700"
                   >
+                    <span className="pointer-events-none absolute left-1/2 -top-1" aria-hidden="true">
+                      {CONFETTI_PARTICLES.map((particle, index) => (
+                        <motion.span
+                          key={`${particle.color}-${index}`}
+                          className="absolute rounded-sm"
+                          style={{
+                            backgroundColor: particle.color,
+                            width: `${particle.width}px`,
+                            height: `${particle.height}px`
+                          }}
+                          initial={{
+                            x: particle.startX,
+                            y: particle.startY,
+                            opacity: 0,
+                            rotate: 0,
+                            scale: 0.65
+                          }}
+                          animate={{
+                            x: [particle.startX, particle.endX],
+                            y: [particle.startY, particle.endY],
+                            opacity: [0, 1, 1, 0],
+                            rotate: [0, particle.rotate],
+                            scale: [0.65, 1, 0.9]
+                          }}
+                          transition={{
+                            duration: 1.05,
+                            ease: "easeInOut",
+                            delay: 0.44 + particle.delay,
+                            times: [0, 0.2, 0.78, 1]
+                          }}
+                        />
+                      ))}
+                    </span>
                     Cinderella Run
                   </motion.div>
                   <div className="bg-white border-2 border-green-500 rounded-lg overflow-hidden shadow-[0_10px_24px_rgba(16,185,129,0.22)] h-full">
@@ -328,7 +396,7 @@ function TeamRow({ team, isWinner, isLoser, isVCU, showPulse }: TeamRowProps) {
       animate={{
         opacity: isLoser ? 0.4 : 1,
       }}
-      transition={{ duration: 0.35, ease: "easeOut" }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
     >
       <div className="text-base text-gray-500 min-w-6 flex-shrink-0">
         {team.seed}
