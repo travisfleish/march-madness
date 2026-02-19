@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 import RollingNumber from "../motion/RollingNumber";
 
@@ -36,6 +36,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
   const [isLoaded, setIsLoaded] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [rollVersions, setRollVersions] = useState<Record<string, number>>({});
+  const [hideDesktopStatPanel, setHideDesktopStatPanel] = useState(false);
+  const twentyMillionDescriptionRef = useRef<HTMLParagraphElement | null>(null);
   const numericSideValue = parseNumericStat(sideBarStat.value);
   const sideBarRollId = `${sideBarStat.value}-${sideBarStat.label}-sidebar`;
 
@@ -53,6 +55,50 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
 
     return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
+
+  const updateDesktopPanelVisibility = useCallback(() => {
+    if (typeof window === "undefined") return;
+    if (!window.matchMedia("(min-width: 1024px)").matches) {
+      setHideDesktopStatPanel(false);
+      return;
+    }
+
+    const description = twentyMillionDescriptionRef.current;
+    if (!description) return;
+
+    const range = document.createRange();
+    range.selectNodeContents(description);
+    const lineRects = Array.from(range.getClientRects()).filter((rect) => rect.height > 0);
+    range.detach();
+
+    const uniqueLineTops = new Set(lineRects.map((rect) => Math.round(rect.top)));
+    const lineCount = uniqueLineTops.size;
+    setHideDesktopStatPanel(lineCount > 5);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let rafId: number | null = null;
+    const measureAfterLayout = () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      rafId = window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => {
+          updateDesktopPanelVisibility();
+        });
+      });
+    };
+
+    // Keep panel visible by default, then hide only if text wraps beyond 5 lines.
+    setHideDesktopStatPanel(false);
+    measureAfterLayout();
+    window.addEventListener("resize", measureAfterLayout);
+
+    return () => {
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+      window.removeEventListener("resize", measureAfterLayout);
+    };
+  }, [updateDesktopPanelVisibility]);
 
   const triggerRoll = (tileId: string) => {
     setRollVersions((previous) => ({
@@ -109,7 +155,9 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
             </div>
           </motion.div>
           <motion.div
-            className="relative w-full lg:h-full lg:pl-10"
+            className={`relative hidden w-full lg:block lg:h-full lg:pl-10 ${
+              hideDesktopStatPanel ? "lg:pointer-events-none lg:invisible" : ""
+            }`}
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{
@@ -171,7 +219,10 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                     <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[1.32rem]">
                       {stat.label}
                     </p>
-                    <p className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
+                    <p
+                      ref={isTwentyMillionTile ? twentyMillionDescriptionRef : undefined}
+                      className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm"
+                    >
                       {stat.description}
                     </p>
                   </article>
