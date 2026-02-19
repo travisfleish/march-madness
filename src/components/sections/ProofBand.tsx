@@ -19,7 +19,7 @@ type ProofBandProps = {
 function ProofBand({ body, chart }: ProofBandProps) {
   const reducedMotion = useReducedMotionSafe();
   const chartFrameRef = useRef<HTMLDivElement | null>(null);
-  const isChartInView = useInView(chartFrameRef, { once: true, amount: 0.35 });
+  const isChartInView = useInView(chartFrameRef, { once: false, amount: 0.35 });
   const maxBarValue = Math.max(...chart.bars.map((bar) => bar.value), 1);
   const chartMaxHeight = 160;
   const highlightPhrases = new Set(["Emotional engagement", "2x higher"]);

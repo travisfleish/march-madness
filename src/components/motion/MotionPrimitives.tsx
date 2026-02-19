@@ -7,6 +7,7 @@ type RevealProps = {
   as?: "div" | "section" | "article";
   delay?: number;
   id?: string;
+  once?: boolean;
 };
 
 type StaggerProps = {
@@ -16,6 +17,7 @@ type StaggerProps = {
   staggerChildren?: number;
   delayChildren?: number;
   id?: string;
+  once?: boolean;
 };
 
 export function useReducedMotionSafe() {
@@ -27,7 +29,14 @@ const revealBase = {
   viewport: { once: true, amount: 0.2 }
 } as const;
 
-export function Reveal({ children, className, as = "div", delay = 0, id }: RevealProps) {
+export function Reveal({
+  children,
+  className,
+  as = "div",
+  delay = 0,
+  id,
+  once = true
+}: RevealProps) {
   const reducedMotion = useReducedMotionSafe();
   const Comp = as === "section" ? motion.section : as === "article" ? motion.article : motion.div;
   const initialY = reducedMotion ? 0 : revealBase.initial.y;
@@ -38,7 +47,7 @@ export function Reveal({ children, className, as = "div", delay = 0, id }: Revea
       className={className}
       initial={{ opacity: revealBase.initial.opacity, y: initialY }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={revealBase.viewport}
+      viewport={{ ...revealBase.viewport, once }}
       transition={{
         duration: reducedMotion ? 0.25 : 0.5,
         ease: "easeOut",
@@ -56,7 +65,8 @@ export function Stagger({
   as = "div",
   staggerChildren = 0.08,
   delayChildren = 0,
-  id
+  id,
+  once = true
 }: StaggerProps) {
   const reducedMotion = useReducedMotionSafe();
   const Comp = as === "ul" ? motion.ul : motion.div;
@@ -67,7 +77,7 @@ export function Stagger({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once, amount: 0.2 }}
       variants={{
         hidden: { opacity: 0, y: reducedMotion ? 0 : 14 },
         show: {

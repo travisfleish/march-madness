@@ -87,7 +87,12 @@ function MomentsSection({
   }, [handleNext, handlePrevious, isModalOpen, selectedMomentIndex]);
 
   return (
-    <Reveal id="moments" as="section" className="section-shell scroll-mt-24 bg-transparent p-0 shadow-none">
+    <Reveal
+      id="moments"
+      as="section"
+      once={false}
+      className="section-shell scroll-mt-24 bg-transparent p-0 shadow-none"
+    >
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gs-surface shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-gs-surface via-gs-surface to-sky-100/45" />
@@ -120,7 +125,11 @@ function MomentsSection({
             />
 
             <div className="relative p-4 md:p-5">
-              <Stagger className="grid grid-cols-1 gap-2.5 md:grid-cols-2" staggerChildren={0.04}>
+              <Stagger
+                className="grid grid-cols-1 gap-2.5 md:grid-cols-2"
+                staggerChildren={0.04}
+                once={false}
+              >
                 {labels.map((label, index) => {
                   const isActive = selectedMomentIndex === index;
 
