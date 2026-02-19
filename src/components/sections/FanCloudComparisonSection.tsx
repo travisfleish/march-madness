@@ -10,7 +10,6 @@ import {
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 import RollingNumber from "../motion/RollingNumber";
-import GeniusStripeRail from "../ui/GeniusStripeRail";
 
 type FanCloudComparisonSectionProps = {
   headline: string;
@@ -255,13 +254,6 @@ function FanCloudComparisonSection({
       id="fan-cloud"
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-[#0A1330]"
     >
-      <div className="pointer-events-none absolute inset-0">
-        <GeniusStripeRail
-          theme="navy"
-          className="absolute inset-y-0 right-0 hidden w-[34%] md:block"
-          fadeTone="dark"
-        />
-      </div>
       <div className="mx-auto w-full max-w-[1200px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
         <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
           {headline}
