@@ -17,7 +17,10 @@ function MarchMadnessMomentsPage() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">
           <SectionNav />
           <FanCloudComparisonSection {...content.fanCloudComparison} />
-          <Reveal as="section" className="px-1 py-2 md:py-3">
+          <Reveal
+            as="section"
+            className="px-1 py-2 md:py-3"
+          >
             <div className="max-w-[700px]">
               <h2 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
                 {content.campaignIntro.title}

@@ -13,7 +13,12 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
   const stepAnchorIds = ["moments", "audiences", "creative"] as const;
 
   return (
-    <Reveal id="how-it-works" as="section" once={false} className="section-shell scroll-mt-24">
+    <Reveal
+      id="how-it-works"
+      as="section"
+      once={false}
+      className="scroll-mt-24 p-6 md:p-10"
+    >
       <h2 className="section-title">{header}</h2>
       <p className="section-copy">{paragraph}</p>
 
