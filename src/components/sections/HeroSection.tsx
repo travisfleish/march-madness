@@ -50,7 +50,16 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
 
   return (
     <section className="relative w-full overflow-hidden bg-white">
-      <div className="w-full p-0">
+      <div className="pointer-events-none absolute bottom-0 left-0 h-1/2 w-[20vw] min-w-[8rem] max-w-[18rem]" aria-hidden>
+        <img
+          src="/genius-assets/bright-green-lines.png"
+          alt=""
+          className="h-full w-full object-cover object-right"
+          style={{ transform: "scaleX(-1)" }}
+        />
+      </div>
+
+      <div className="relative z-10 w-full p-0">
         <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-0">
           <motion.div
             className="flex min-h-[24rem] flex-col items-center justify-center px-6 md:px-10 lg:min-h-[33rem] lg:px-0"

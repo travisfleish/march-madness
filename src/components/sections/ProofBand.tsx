@@ -33,7 +33,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
     >
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30%] md:block" aria-hidden>
         <img
-          src="/genius-assets/bright-green-lines.png"
+          src="/genius-assets/blue-lines.png"
           alt=""
           className="absolute inset-0 h-full w-full object-cover object-right opacity-90"
         />
