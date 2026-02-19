@@ -3,11 +3,13 @@ import {
   type PointerEventHandler,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
+import RollingNumber from "../motion/RollingNumber";
 
 type FanCloudComparisonSectionProps = {
   headline: string;
@@ -36,6 +38,22 @@ function snapPercent(value: number) {
   return Math.abs(nearest - value) <= 8 ? nearest : value;
 }
 
+function splitMetricValue(raw: string) {
+  const match = raw.match(/^([^\d-]*)(-?\d+)(.*)$/);
+  if (!match) {
+    return { prefix: "", number: null as number | null, suffix: raw };
+  }
+
+  const [, prefix, numericPart, suffix] = match;
+  const parsedNumber = Number.parseInt(numericPart, 10);
+
+  return {
+    prefix,
+    number: Number.isNaN(parsedNumber) ? null : parsedNumber,
+    suffix
+  };
+}
+
 function FanCloudComparisonSection({
   headline,
   leftLabel,
@@ -58,8 +76,20 @@ function FanCloudComparisonSection({
   const nudgeRafRef = useRef<number | null>(null);
   const pendingPercentRef = useRef<number>(50);
   const activePointerIdRef = useRef<number | null>(null);
+  const metricsRowRef = useRef<HTMLDivElement | null>(null);
+  const hasMetricsEnteredRef = useRef(false);
   const [imageBoxWidthPx, setImageBoxWidthPx] = useState<number>(1200);
+  const [metricsRollKey, setMetricsRollKey] = useState(0);
   const isFrameInView = useInView(frameRef, { once: true, amount: 0.35 });
+  const isMetricsInView = useInView(metricsRowRef, { once: false, amount: 0.35 });
+  const parsedMetrics = useMemo(
+    () =>
+      metrics.map((metric) => ({
+        ...metric,
+        parts: splitMetricValue(metric.value)
+      })),
+    [metrics]
+  );
 
   const queueSliderUpdate = useCallback((nextPercent: number) => {
     pendingPercentRef.current = clampPercent(nextPercent);
@@ -159,6 +189,18 @@ function FanCloudComparisonSection({
       }
     };
   }, [isFrameInView, reducedMotion, hasInteracted, queueSliderUpdate]);
+
+  useEffect(() => {
+    if (isMetricsInView && !hasMetricsEnteredRef.current) {
+      setMetricsRollKey((current) => current + 1);
+      hasMetricsEnteredRef.current = true;
+      return;
+    }
+
+    if (!isMetricsInView) {
+      hasMetricsEnteredRef.current = false;
+    }
+  }, [isMetricsInView]);
 
   const handlePointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -309,8 +351,11 @@ function FanCloudComparisonSection({
               {metricsEyebrow}
             </p>
             <div className="mt-3 overflow-x-auto pb-1">
-              <div className="mx-auto flex w-max min-w-full rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:w-full md:rounded-full">
-                {metrics.map((metric, index) => (
+              <div
+                ref={metricsRowRef}
+                className="mx-auto flex w-max min-w-full rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:w-full md:rounded-full"
+              >
+                {parsedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
                     className={`flex min-w-[9.5rem] flex-col justify-center px-5 py-3 text-center md:min-w-0 md:flex-1 md:px-6 md:py-4 ${
@@ -318,9 +363,22 @@ function FanCloudComparisonSection({
                     }`}
                   >
                     <p className="text-2xl font-bold leading-none text-white md:text-4xl">
-                      {metric.value}
+                      {metric.parts.number !== null ? (
+                        <>
+                          {metric.parts.prefix}
+                          <RollingNumber
+                            value={metric.parts.number}
+                            duration={0.5}
+                            rerollDuration={0.5}
+                            rerollKey={metricsRollKey}
+                          />
+                          {metric.parts.suffix}
+                        </>
+                      ) : (
+                        metric.value
+                      )}
                     </p>
-                    <p className="mt-1 text-xs font-medium leading-tight text-slate-300 md:text-lg">
+                    <p className="mt-1 whitespace-nowrap text-xs font-medium leading-tight text-slate-300 md:text-lg">
                       {metric.label}
                     </p>
                   </article>

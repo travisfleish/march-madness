@@ -145,7 +145,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       { value: "+250M", label: "Consumers" },
       { value: "+50B", label: "Interactions" },
       { value: "+10K", label: "Brands" },
-      { value: "5K", label: "Proprietary data signals" },
+      { value: "5K", label: "Genius Data Signals" },
       { value: "+2500", label: "Communities" }
     ]
   },
