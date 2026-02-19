@@ -77,9 +77,9 @@ function MessageCard({
           accentTop ? "border-emerald-200 border-t-[3px]" : "border-slate-300"
         }`}
       >
-        <h3 className="text-center text-base font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
-        <p className="mt-4 min-h-[1.25rem] text-sm font-semibold text-slate-900">{visibleLead}</p>
-        <p className="mt-2 min-h-[5.25rem] text-sm leading-relaxed text-slate-700">{visibleBody}</p>
+        <h3 className="text-center text-lg font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
+        <p className="mt-4 min-h-[1.25rem] text-base font-semibold text-slate-900">{visibleLead}</p>
+        <p className="mt-2 min-h-[5.25rem] text-base leading-relaxed text-slate-700">{visibleBody}</p>
       </article>
     </div>
   );
@@ -93,8 +93,8 @@ function AudienceLabel({ label, align = "left" }: { label: string; align?: "left
 
   return (
     <div className={`flex flex-col ${alignClass}`}>
-      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">{eyebrow}</p>
-      <p className="mt-1 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-slate-800">{value}</p>
+      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-500">{eyebrow}</p>
+      <p className="mt-1 rounded-full bg-emerald-50 px-3 py-1 text-base font-semibold text-slate-800">{value}</p>
     </div>
   );
 }
@@ -214,23 +214,37 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
     >
       <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white px-4 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] md:px-8 md:py-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold text-slate-800 md:text-base">{data.triggerTitle}</p>
-          <p className="mt-3 text-sm font-semibold text-slate-800 md:text-base">{data.exampleLabel}</p>
-          <p className="mt-2 text-base text-slate-700 md:text-lg">{data.exampleEvent}</p>
+          <p className="text-base font-semibold text-slate-800 md:text-lg">{data.triggerTitle}</p>
+          <p className="mt-3 text-base font-semibold text-slate-800 md:text-lg">{data.exampleLabel}</p>
+          <p className="mt-2 text-lg text-slate-700 md:text-xl">{data.exampleEvent}</p>
         </div>
-        <div className="relative mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80">
+        <div className="relative mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_24px_rgba(15,23,42,0.08)]">
           <div
-            className="pointer-events-none absolute inset-0 bg-[url('/genius-assets/green-lines.png')] bg-cover bg-center opacity-[0.05]"
+            className="pointer-events-none absolute inset-0"
             aria-hidden="true"
             style={{
-              filter: "blur(1.25px)",
-              WebkitMaskImage:
-                "radial-gradient(65% 78% at 52% 44%, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.28) 78%, transparent 100%)",
-              maskImage:
-                "radial-gradient(65% 78% at 52% 44%, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.28) 78%, transparent 100%)"
+              background:
+                "radial-gradient(58% 74% at 50% 40%, rgba(16,185,129,0.1) 0%, rgba(16,185,129,0.05) 42%, rgba(16,185,129,0.015) 68%, rgba(16,185,129,0) 100%)",
+              filter: "blur(18px)"
             }}
           />
-          <div className="relative h-[360px] min-w-[720px] md:min-w-0">
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-[52%]" aria-hidden="true">
+            <img
+              src="/genius-assets/green-lines.png"
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover object-right opacity-[0.75]"
+              style={{
+                filter: "saturate(0.82) blur(1.6px)",
+                WebkitMaskImage:
+                  "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 24%, rgba(0,0,0,0.46) 62%, rgba(0,0,0,0.74) 100%)",
+                maskImage:
+                  "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.12) 24%, rgba(0,0,0,0.46) 62%, rgba(0,0,0,0.74) 100%)"
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-transparent via-slate-50/12 to-slate-50/88" />
+          </div>
+          <div className="pointer-events-none absolute inset-2 rounded-xl border border-white/55" aria-hidden="true" />
+          <div className="relative z-10 h-[400px] min-w-[860px] md:min-w-0">
             <MarchMadnessBracket onAnimationComplete={handleBracketComplete} />
           </div>
         </div>
@@ -241,8 +255,8 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               <motion.path
                 d="M12 0 L12 48"
                 fill="none"
-                stroke="#86efac"
-                strokeWidth="1.5"
+                stroke="#eab308"
+                strokeWidth="2"
                 strokeLinecap="round"
                 initial={{ pathLength: reducedMotion ? 1 : 0 }}
                 animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
@@ -293,8 +307,8 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                 <motion.path
                   d="M12 0 L12 48"
                   fill="none"
-                  stroke="#86efac"
-                  strokeWidth="1.5"
+                  stroke="#eab308"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   initial={{ pathLength: reducedMotion ? 1 : 0 }}
                   animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
@@ -367,8 +381,8 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   ].join(" ");
                 })()}
                 fill="none"
-                stroke="#86efac"
-                strokeWidth="1.2"
+                stroke="#eab308"
+                strokeWidth="1.9"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 initial={{ pathLength: reducedMotion ? 1 : 0 }}

@@ -7,12 +7,14 @@ interface TeamSlot {
   logo: string;
 }
 
-const CARD_WIDTH = 192;
-const CARD_HEIGHT = 80; // Total card height
-const ROW_HEIGHT = 40; // Each team row height (CARD_HEIGHT / 2)
+const CARD_WIDTH = 236;
+const CARD_HEIGHT = 92; // Total card height
+const ROW_HEIGHT = 46; // Each team row height (CARD_HEIGHT / 2)
 const VERTICAL_GAP = 80; // Gap between first-round matchups
 const CONNECTOR_GAP = 32; // Horizontal gap for connector lines
-const STROKE_WIDTH = 2;
+const STROKE_WIDTH = 2.6;
+const CONNECTOR_BASE_STROKE = "#d4c089";
+const CONNECTOR_ACCENT_STROKE = "#eab308";
 const vcuLogo = "/team_logos/VCU_Rams_logo.svg.png";
 const georgetownLogo = "/team_logos/Georgetown_Hoyas_logo.svg.png";
 const purdueLogo = "/team_logos/Purdue-Boilermakers-Logo.png";
@@ -58,12 +60,12 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
   const round2CardTop = round2Divider - ROW_HEIGHT;
 
   return (
-    <div className="w-full h-full flex items-center justify-center bg-gray-50 p-8">
+    <div className="w-full h-full flex items-center justify-center bg-transparent p-8">
       <div className="relative flex items-start gap-0">
         {/* Round 1 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
               Round of 64
             </span>
           </div>
@@ -127,7 +129,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
           {/* Connector from Georgetown vs VCU divider to Round 2 */}
           <motion.path
             d={`M 0 ${round1Card1Divider} L ${CONNECTOR_GAP / 2} ${round1Card1Divider} L ${CONNECTOR_GAP / 2} ${round2Divider} L ${CONNECTOR_GAP} ${round2Divider}`}
-            stroke="#d1d5db"
+            stroke={CONNECTOR_BASE_STROKE}
             strokeWidth={STROKE_WIDTH}
             fill="none"
             strokeLinecap="square"
@@ -135,7 +137,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
             initial={{ pathLength: 0 }}
             animate={{
               pathLength: animationState >= 1 ? 1 : 0,
-              stroke: animationState >= 2 ? "#10b981" : "#d1d5db",
+              stroke: animationState >= 2 ? CONNECTOR_ACCENT_STROKE : CONNECTOR_BASE_STROKE,
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           />
@@ -143,7 +145,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
           {/* Connector from Purdue vs Saint Peter's divider to Round 2 */}
           <motion.path
             d={`M 0 ${round1Card2Divider} L ${CONNECTOR_GAP / 2} ${round1Card2Divider} L ${CONNECTOR_GAP / 2} ${round2Divider} L ${CONNECTOR_GAP} ${round2Divider}`}
-            stroke="#d1d5db"
+            stroke={CONNECTOR_BASE_STROKE}
             strokeWidth={STROKE_WIDTH}
             fill="none"
             strokeLinecap="square"
@@ -151,7 +153,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
             initial={{ pathLength: 0 }}
             animate={{
               pathLength: animationState >= 2 ? 1 : 0,
-              stroke: "#d1d5db",
+              stroke: CONNECTOR_BASE_STROKE,
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
           />
@@ -160,7 +162,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
         {/* Round 2 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
               Round of 32
             </span>
           </div>
@@ -210,13 +212,13 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
             y1={round2Divider}
             x2={CONNECTOR_GAP}
             y2={round2Divider}
-            stroke="#d1d5db"
+            stroke={CONNECTOR_BASE_STROKE}
             strokeWidth={STROKE_WIDTH}
             strokeLinecap="square"
             initial={{ pathLength: 0 }}
             animate={{
               pathLength: animationState >= 3 ? 1 : 0,
-              stroke: animationState >= 3 ? "#10b981" : "#d1d5db",
+              stroke: animationState >= 3 ? CONNECTOR_ACCENT_STROKE : CONNECTOR_BASE_STROKE,
             }}
             transition={{ duration: 0.45, ease: "easeOut" }}
           />
@@ -225,7 +227,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
         {/* Sweet 16 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
+            <span className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
               Sweet 16
             </span>
           </div>
@@ -254,25 +256,10 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
                   </motion.div>
                   <div className="bg-white border-2 border-green-500 rounded-lg overflow-hidden shadow-[0_10px_24px_rgba(16,185,129,0.22)] h-full">
                     <div className="flex items-center justify-center gap-3 px-4 h-full bg-green-50">
-                      <div className="text-sm text-gray-600 min-w-6 flex-shrink-0">11</div>
+                      <div className="text-base text-gray-600 min-w-6 flex-shrink-0">11</div>
 
                       <motion.div
                         className="relative w-8 h-8 rounded-full bg-white border-2 border-yellow-400 flex items-center justify-center overflow-hidden flex-shrink-0"
-                        animate={{
-                          scale: [1, 1.15, 1],
-                          boxShadow: [
-                            "0 0 0 0 rgba(234, 179, 8, 0)",
-                            "0 0 0 10px rgba(234, 179, 8, 0.3)",
-                            "0 0 0 0 rgba(234, 179, 8, 0)",
-                          ],
-                        }}
-                        transition={{
-                          duration: 1.2,
-                          ease: "easeInOut",
-                          repeat: Infinity,
-                          repeatType: "loop",
-                          times: [0, 0.55, 1],
-                        }}
                       >
                         <img
                           src={vcuLogo}
@@ -281,7 +268,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
                         />
                       </motion.div>
 
-                      <div className="text-sm text-gray-800 flex-shrink-0">VCU</div>
+                      <div className="text-base text-gray-800 flex-shrink-0">VCU</div>
 
                       <motion.div
                         initial={{ scale: 0, rotate: -180 }}
@@ -335,7 +322,7 @@ function TeamRow({ team, isWinner, isLoser, isVCU, showPulse }: TeamRowProps) {
       }}
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <div className="text-sm text-gray-500 min-w-6 flex-shrink-0">
+      <div className="text-base text-gray-500 min-w-6 flex-shrink-0">
         {team.seed}
       </div>
 
@@ -367,7 +354,7 @@ function TeamRow({ team, isWinner, isLoser, isVCU, showPulse }: TeamRowProps) {
         />
       </motion.div>
 
-      <div className="text-sm text-gray-800 truncate flex-1">{team.name}</div>
+      <div className="text-sm text-gray-800 leading-tight flex-1">{team.name}</div>
 
       {isWinner && (
         <motion.div
