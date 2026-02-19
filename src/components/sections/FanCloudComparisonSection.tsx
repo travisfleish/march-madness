@@ -253,13 +253,13 @@ function FanCloudComparisonSection({
     ? headline.split(geniusSportsPhrase)
     : null;
   const leftLabelClasses = [
-    "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] md:text-base transition-all duration-200",
+    "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isOtherViewDominant
       ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
       : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
   ].join(" ");
   const rightLabelClasses = [
-    "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:right-5 md:top-5 md:max-w-[48%] md:text-base transition-all duration-200",
+    "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:right-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isGeniusViewDominant
       ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
       : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
