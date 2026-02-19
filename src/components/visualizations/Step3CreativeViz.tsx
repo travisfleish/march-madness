@@ -214,9 +214,8 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
     >
       <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white px-4 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] md:px-8 md:py-8">
         <div className="mx-auto max-w-3xl text-center">
-          <p className="text-base font-semibold text-slate-800 md:text-lg">{data.triggerTitle}</p>
-          <p className="mt-3 text-base font-semibold text-slate-800 md:text-lg">{data.exampleLabel}</p>
-          <p className="mt-2 text-lg text-slate-700 md:text-xl">{data.exampleEvent}</p>
+          <p className="text-lg font-bold text-slate-900 md:text-2xl">{data.triggerTitle}</p>
+          <p className="mt-3 text-lg text-slate-700 md:text-xl">{data.exampleEvent}</p>
         </div>
         <div className="relative mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_24px_rgba(15,23,42,0.08)]">
           <div
@@ -245,7 +244,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           </div>
           <div className="pointer-events-none absolute inset-2 rounded-xl border border-white/55" aria-hidden="true" />
           <div className="relative z-10 h-[400px] min-w-[860px] md:min-w-0">
-            <MarchMadnessBracket onAnimationComplete={handleBracketComplete} />
+            <MarchMadnessBracket
+              onAnimationComplete={handleBracketComplete}
+              startAnimation={isVizInView}
+            />
           </div>
         </div>
 

@@ -30,13 +30,21 @@ const HEADER_OFFSET = 48; // tweak 46–52 if font rendering differs
 
 type MarchMadnessBracketProps = {
   onAnimationComplete?: () => void;
+  startAnimation?: boolean;
 };
 
-export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracketProps) {
+export function MarchMadnessBracket({
+  onAnimationComplete,
+  startAnimation = true
+}: MarchMadnessBracketProps) {
   const [animationState, setAnimationState] = useState(0);
 
   // Auto-advance animation states
   useEffect(() => {
+    if (!startAnimation) {
+      return;
+    }
+
     const timers = [
       window.setTimeout(() => setAnimationState(1), ANIMATION_TIMINGS_MS.state1),
       window.setTimeout(() => setAnimationState(2), ANIMATION_TIMINGS_MS.state2),
@@ -45,7 +53,7 @@ export function MarchMadnessBracket({ onAnimationComplete }: MarchMadnessBracket
     ];
 
     return () => timers.forEach((timer) => window.clearTimeout(timer));
-  }, [onAnimationComplete]);
+  }, [onAnimationComplete, startAnimation]);
 
   // Calculate vertical positions
   const round1Card1Top = 0;
