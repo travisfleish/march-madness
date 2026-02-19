@@ -168,7 +168,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
         {
           value: 7,
           label: "Following low-surprise moments",
-          color: "#D6E86F"
+          color: "#1EC971"
         }
       ],
       footnote: "*Genius Sports Media Science Research Study 2026"

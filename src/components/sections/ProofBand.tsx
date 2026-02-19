@@ -29,9 +29,18 @@ function ProofBand({ body, chart }: ProofBandProps) {
     <Reveal
       as="section"
       id="proof"
-      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-gs-surface px-6 py-8 shadow-soft md:px-8 md:py-10"
+      className="relative scroll-mt-24 overflow-hidden rounded-2xl border border-slate-200 bg-gs-surface px-6 py-8 shadow-soft md:px-8 md:py-10"
     >
-      <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-10">
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30%] md:block" aria-hidden>
+        <img
+          src="/genius-assets/bright-green-lines.png"
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover object-right opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-gs-surface" />
+      </div>
+
+      <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-10">
         <div className="flex items-center">
           <p className="max-w-[800px] text-xl font-medium leading-tight text-slate-900 md:text-3xl md:leading-tight">
             {bodyParts.map((part, index) =>
