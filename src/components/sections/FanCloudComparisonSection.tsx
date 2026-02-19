@@ -314,7 +314,7 @@ function FanCloudComparisonSection({
 
           <div
             ref={frameRef}
-            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block lg:w-[1320px] ${
+            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}
