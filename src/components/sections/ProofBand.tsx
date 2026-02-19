@@ -64,9 +64,11 @@ function ProofBand({ body, chart }: ProofBandProps) {
         >
           <div className="flex items-start justify-between gap-4">
             <h3 className="text-xl font-semibold leading-tight text-white">{chart.title}</h3>
-            <p className="rounded-full border border-white/20 bg-white/5 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-slate-300">
-              2x higher
-            </p>
+            <img
+              src="/genius-assets/genius_g_logo.svg"
+              alt="Genius Sports logo"
+              className="mr-1 h-11 w-11 shrink-0 md:mr-2"
+            />
           </div>
           <p className="mt-1 text-sm leading-tight text-slate-300">{chart.subtitle}</p>
 

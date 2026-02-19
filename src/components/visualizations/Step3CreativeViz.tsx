@@ -1,30 +1,41 @@
 import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
 import { motion, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { Stagger, useReducedMotionSafe } from "../motion/MotionPrimitives";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useReducedMotionSafe } from "../motion/MotionPrimitives";
+import { MarchMadnessBracket } from "./VCU";
 
 type Step3CreativeVizProps = {
   data: MarchMadnessMomentsContent["creativeAndChannel"]["creativeViz"];
 };
 
 type MessageCardProps = {
-  audienceLabel: string;
   cardTitle: string;
   lead: string;
   body: string;
   enableTyping: boolean;
+  instantText: boolean;
+  accentTop?: boolean;
 };
 
-function useTypedCopy(lead: string, body: string, enableTyping: boolean) {
+function useTypedCopy(lead: string, body: string, enableTyping: boolean, instantText: boolean) {
   const fullText = `${lead} ${body}`;
-  const [visibleChars, setVisibleChars] = useState(enableTyping ? 0 : fullText.length);
+  const hasStartedTypingRef = useRef(instantText);
+  const [visibleChars, setVisibleChars] = useState(instantText ? fullText.length : 0);
 
   useEffect(() => {
-    if (!enableTyping) {
+    if (instantText) {
       setVisibleChars(fullText.length);
       return;
     }
 
+    if (!enableTyping) {
+      if (!hasStartedTypingRef.current) {
+        setVisibleChars(0);
+      }
+      return;
+    }
+
+    hasStartedTypingRef.current = true;
     setVisibleChars(0);
     const intervalId = window.setInterval(() => {
       setVisibleChars((current) => {
@@ -35,10 +46,10 @@ function useTypedCopy(lead: string, body: string, enableTyping: boolean) {
 
         return current + 1;
       });
-    }, 32);
+    }, 30);
 
     return () => window.clearInterval(intervalId);
-  }, [enableTyping, fullText]);
+  }, [enableTyping, fullText, instantText]);
 
   const leadChars = Math.min(visibleChars, lead.length);
   const bodyChars = Math.max(visibleChars - lead.length - 1, 0);
@@ -49,19 +60,41 @@ function useTypedCopy(lead: string, body: string, enableTyping: boolean) {
   };
 }
 
-function MessageCard({ audienceLabel, cardTitle, lead, body, enableTyping }: MessageCardProps) {
-  const { visibleLead, visibleBody } = useTypedCopy(lead, body, enableTyping);
+function MessageCard({
+  cardTitle,
+  lead,
+  body,
+  enableTyping,
+  instantText,
+  accentTop = false
+}: MessageCardProps) {
+  const { visibleLead, visibleBody } = useTypedCopy(lead, body, enableTyping, instantText);
 
   return (
     <div className="flex h-full flex-col">
-      <p className="mx-auto max-w-[22rem] text-center text-sm font-medium text-slate-600 md:max-w-none md:text-left">
-        {audienceLabel}
-      </p>
-      <article className="mt-3 flex flex-1 flex-col rounded-xl border border-slate-300 bg-gs-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      <article
+        className={`flex flex-1 flex-col rounded-2xl border bg-gradient-to-b from-white to-slate-50 p-5 shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,23,42,0.10)] ${
+          accentTop ? "border-emerald-200 border-t-[3px]" : "border-slate-300"
+        }`}
+      >
         <h3 className="text-center text-base font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
         <p className="mt-4 min-h-[1.25rem] text-sm font-semibold text-slate-900">{visibleLead}</p>
         <p className="mt-2 min-h-[5.25rem] text-sm leading-relaxed text-slate-700">{visibleBody}</p>
       </article>
+    </div>
+  );
+}
+
+function AudienceLabel({ label, align = "left" }: { label: string; align?: "left" | "center" }) {
+  const [prefix, ...rest] = label.split(":");
+  const value = rest.join(":").trim();
+  const eyebrow = prefix.trim().toUpperCase();
+  const alignClass = align === "center" ? "text-center items-center" : "text-left items-start";
+
+  return (
+    <div className={`flex flex-col ${alignClass}`}>
+      <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">{eyebrow}</p>
+      <p className="mt-1 rounded-full bg-emerald-50 px-3 py-1 text-sm font-semibold text-slate-800">{value}</p>
     </div>
   );
 }
@@ -74,8 +107,31 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const isVizInView = useInView(vizRef, { once: true, amount: 0.25 });
   const isTypingInView = useInView(vizRef, { once: false, amount: 0.25 });
-  const drawDelay = reducedMotion ? 0 : 0.52;
-  const enableTyping = isTypingInView && !reducedMotion;
+  const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.2;
+  const connectorDrawDurationMobile = reducedMotion ? 0 : 1.0;
+  const connectorStartDelayDesktop = reducedMotion ? 0 : 0.25;
+  const connectorStartDelayMobile = reducedMotion ? 0 : 0.15;
+  const titleFadeDelayDesktop = reducedMotion ? 0 : connectorStartDelayDesktop + 0.35;
+  const titleFadeDelayMobile = reducedMotion ? 0 : connectorStartDelayMobile + 0.3;
+  const leftCardFadeDelayDesktop = reducedMotion ? 0 : connectorStartDelayDesktop + 0.55;
+  const rightCardFadeDelayDesktop = reducedMotion ? 0 : leftCardFadeDelayDesktop + 0.12;
+  const leftCardFadeDelayMobile = reducedMotion ? 0 : connectorStartDelayMobile + 0.5;
+  const rightCardFadeDelayMobile = reducedMotion ? 0 : leftCardFadeDelayMobile + 0.12;
+  const typingStartDelayMs = reducedMotion ? 0 : 500;
+  const [isBracketComplete, setIsBracketComplete] = useState(false);
+  const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
+  const handleBracketComplete = useCallback(() => {
+    if (typeof window === "undefined" || reducedMotion) {
+      setIsBracketComplete(true);
+      return;
+    }
+
+    const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
+    const breathMs = isMobileViewport ? 150 : 250;
+    window.setTimeout(() => setIsBracketComplete(true), breathMs);
+  }, [reducedMotion]);
+  const revealCreativeFlow = reducedMotion ? isVizInView : isBracketComplete;
+  const enableTyping = isTypingInView && areCardsReady && !reducedMotion;
   const [connectorMetrics, setConnectorMetrics] = useState({
     width: 1,
     leftCenter: 0,
@@ -113,6 +169,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
 
     updateConnectorMetrics();
 
+    if (revealCreativeFlow) {
+      return;
+    }
+
     const resizeObserver = new ResizeObserver(updateConnectorMetrics);
     resizeObserver.observe(connectorNode);
     resizeObserver.observe(leftNode);
@@ -123,7 +183,25 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
       resizeObserver.disconnect();
       window.removeEventListener("resize", updateConnectorMetrics);
     };
-  }, []);
+  }, [revealCreativeFlow]);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setAreCardsReady(true);
+      return;
+    }
+
+    if (!revealCreativeFlow) {
+      setAreCardsReady(false);
+      return;
+    }
+
+    const readyTimer = window.setTimeout(() => {
+      setAreCardsReady(true);
+    }, rightCardFadeDelayDesktop * 1000 + typingStartDelayMs);
+
+    return () => window.clearTimeout(readyTimer);
+  }, [reducedMotion, revealCreativeFlow, rightCardFadeDelayDesktop, typingStartDelayMs]);
 
   return (
     <motion.div
@@ -134,89 +212,136 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reducedMotion ? 0.2 : 0.45, ease: "easeOut" }}
     >
-      <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-gs-surface px-4 py-6 md:px-8 md:py-8">
+      <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white px-4 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] md:px-8 md:py-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-sm font-semibold text-slate-800 md:text-base">{data.triggerTitle}</p>
           <p className="mt-3 text-sm font-semibold text-slate-800 md:text-base">{data.exampleLabel}</p>
           <p className="mt-2 text-base text-slate-700 md:text-lg">{data.exampleEvent}</p>
         </div>
+        <div className="relative mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80">
+          <div
+            className="pointer-events-none absolute inset-0 bg-[url('/genius-assets/green-lines.png')] bg-cover bg-center opacity-[0.05]"
+            aria-hidden="true"
+            style={{
+              filter: "blur(1.25px)",
+              WebkitMaskImage:
+                "radial-gradient(65% 78% at 52% 44%, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.28) 78%, transparent 100%)",
+              maskImage:
+                "radial-gradient(65% 78% at 52% 44%, rgba(0,0,0,0.98) 0%, rgba(0,0,0,0.72) 52%, rgba(0,0,0,0.28) 78%, transparent 100%)"
+            }}
+          />
+          <div className="relative h-[360px] min-w-[720px] md:min-w-0">
+            <MarchMadnessBracket onAnimationComplete={handleBracketComplete} />
+          </div>
+        </div>
 
-        <div className="mt-6 md:hidden">
+        {revealCreativeFlow && <div className="mt-0 md:hidden -mt-px">
           <div className="mx-auto h-12 w-6" aria-hidden="true">
             <svg viewBox="0 0 24 48" className="h-full w-full">
               <motion.path
-                d="M12 2 L12 46"
+                d="M12 0 L12 48"
                 fill="none"
-                stroke="#cbd5e1"
+                stroke="#86efac"
                 strokeWidth="1.5"
                 strokeLinecap="round"
-                initial={{
-                  pathLength: reducedMotion ? 1 : 0,
-                  opacity: reducedMotion ? 1 : 0
+                initial={{ pathLength: reducedMotion ? 1 : 0 }}
+                animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
+                transition={{
+                  duration: connectorDrawDurationMobile,
+                  delay: connectorStartDelayMobile,
+                  ease: "easeInOut"
                 }}
-                animate={{
-                  pathLength: isVizInView || reducedMotion ? 1 : 0,
-                  opacity: isVizInView || reducedMotion ? 1 : 0
-                }}
-                transition={{ duration: reducedMotion ? 0 : 0.5, ease: "easeOut" }}
               />
             </svg>
           </div>
-          <Stagger className="space-y-6" staggerChildren={0.12} delayChildren={drawDelay}>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
-                show: { opacity: 1, y: 0 }
-              }}
-              transition={{ duration: reducedMotion ? 0.1 : 0.26, ease: "easeOut" }}
-            >
+          <div className="space-y-6 pt-2">
+            <div>
+              <motion.p
+                className="mx-auto max-w-[22rem]"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.25,
+                  ease: "easeOut",
+                  delay: titleFadeDelayMobile
+                }}
+              >
+                <AudienceLabel label={data.leftAudienceLabel} align="center" />
+              </motion.p>
+              <motion.div
+                className="mt-3"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.3,
+                  ease: "easeOut",
+                  delay: leftCardFadeDelayMobile
+                }}
+              >
               <MessageCard
-                audienceLabel={data.leftAudienceLabel}
                 cardTitle={data.leftCardTitle}
                 lead={data.leftLead}
                 body={data.leftBody}
                 enableTyping={enableTyping}
+                instantText={reducedMotion}
+                accentTop={true}
               />
-            </motion.div>
+              </motion.div>
+            </div>
             <div className="mx-auto h-12 w-6" aria-hidden="true">
               <svg viewBox="0 0 24 48" className="h-full w-full">
                 <motion.path
-                  d="M12 2 L12 46"
+                  d="M12 0 L12 48"
                   fill="none"
-                  stroke="#cbd5e1"
+                  stroke="#86efac"
                   strokeWidth="1.5"
                   strokeLinecap="round"
-                  initial={{
-                    pathLength: reducedMotion ? 1 : 0,
-                    opacity: reducedMotion ? 1 : 0
+                  initial={{ pathLength: reducedMotion ? 1 : 0 }}
+                  animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
+                  transition={{
+                    duration: connectorDrawDurationMobile,
+                    delay: connectorStartDelayMobile + 0.25,
+                    ease: "easeInOut"
                   }}
-                  animate={{
-                    pathLength: isVizInView || reducedMotion ? 1 : 0,
-                    opacity: isVizInView || reducedMotion ? 1 : 0
-                  }}
-                  transition={{ duration: reducedMotion ? 0 : 0.5, ease: "easeOut", delay: 0.1 }}
                 />
               </svg>
             </div>
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
-                show: { opacity: 1, y: 0 }
-              }}
-              transition={{ duration: reducedMotion ? 0.1 : 0.26, ease: "easeOut" }}
-            >
+            <div>
+              <motion.p
+                className="mx-auto max-w-[22rem]"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.25,
+                  ease: "easeOut",
+                  delay: titleFadeDelayMobile + 0.12
+                }}
+              >
+                <AudienceLabel label={data.rightAudienceLabel} align="center" />
+              </motion.p>
+              <motion.div
+                className="mt-3"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.3,
+                  ease: "easeOut",
+                  delay: rightCardFadeDelayMobile
+                }}
+              >
               <MessageCard
-                audienceLabel={data.rightAudienceLabel}
                 cardTitle={data.rightCardTitle}
                 lead={data.rightLead}
                 body={data.rightBody}
                 enableTyping={enableTyping}
+                instantText={reducedMotion}
               />
-            </motion.div>
-          </Stagger>
-        </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>}
 
-        <div className="mt-8 hidden md:block">
+        {revealCreativeFlow && <div className="mt-0 hidden md:block -mt-px">
           <div
             ref={desktopConnectorRef}
             className="relative mx-auto h-16 w-full max-w-5xl"
@@ -232,7 +357,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   const endY = 63;
 
                   return [
-                    `M ${trunkX} 1 V ${branchY}`,
+                    `M ${trunkX} 0 V ${branchY}`,
                     `M ${trunkX} ${branchY} H ${connectorMetrics.leftCenter + bendRadius}`,
                     `Q ${connectorMetrics.leftCenter} ${branchY} ${connectorMetrics.leftCenter} ${branchY + bendRadius}`,
                     `V ${endY}`,
@@ -242,61 +367,86 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   ].join(" ");
                 })()}
                 fill="none"
-                stroke="#cbd5e1"
+                stroke="#86efac"
                 strokeWidth="1.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{
-                  pathLength: reducedMotion ? 1 : 0,
-                  opacity: reducedMotion ? 1 : 0
+                initial={{ pathLength: reducedMotion ? 1 : 0 }}
+                animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
+                transition={{
+                  duration: connectorDrawDurationDesktop,
+                  delay: connectorStartDelayDesktop,
+                  ease: "easeInOut"
                 }}
-                animate={{
-                  pathLength: isVizInView || reducedMotion ? 1 : 0,
-                  opacity: isVizInView || reducedMotion ? 1 : 0
-                }}
-                transition={{ duration: reducedMotion ? 0 : 0.5, ease: "easeOut" }}
               />
             </svg>
           </div>
-          <Stagger
-            className="mt-3 grid gap-6 md:grid-cols-2"
-            staggerChildren={0.12}
-            delayChildren={drawDelay}
-          >
+          <div className="mt-2 grid gap-6 md:grid-cols-2">
             <motion.div
               ref={leftDesktopCardRef}
-              variants={{
-                hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
-                show: { opacity: 1, y: 0 }
+              className="flex h-full flex-col"
+              initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: reducedMotion ? 0.1 : 0.25,
+                ease: "easeOut",
+                delay: titleFadeDelayDesktop
               }}
-              transition={{ duration: reducedMotion ? 0.1 : 0.26, ease: "easeOut" }}
             >
+              <AudienceLabel label={data.leftAudienceLabel} align="left" />
+              <motion.div
+                className="mt-3"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.3,
+                  ease: "easeOut",
+                  delay: leftCardFadeDelayDesktop
+                }}
+              >
               <MessageCard
-                audienceLabel={data.leftAudienceLabel}
                 cardTitle={data.leftCardTitle}
                 lead={data.leftLead}
                 body={data.leftBody}
                 enableTyping={enableTyping}
+                instantText={reducedMotion}
+                accentTop={true}
               />
+              </motion.div>
             </motion.div>
             <motion.div
               ref={rightDesktopCardRef}
-              variants={{
-                hidden: { opacity: 0, y: reducedMotion ? 0 : 8 },
-                show: { opacity: 1, y: 0 }
+              className="flex h-full flex-col"
+              initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: reducedMotion ? 0.1 : 0.25,
+                ease: "easeOut",
+                delay: titleFadeDelayDesktop + 0.12
               }}
-              transition={{ duration: reducedMotion ? 0.1 : 0.26, ease: "easeOut" }}
             >
+              <AudienceLabel label={data.rightAudienceLabel} align="left" />
+              <motion.div
+                className="mt-3"
+                initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: reducedMotion ? 0.1 : 0.3,
+                  ease: "easeOut",
+                  delay: rightCardFadeDelayDesktop
+                }}
+              >
               <MessageCard
-                audienceLabel={data.rightAudienceLabel}
                 cardTitle={data.rightCardTitle}
                 lead={data.rightLead}
                 body={data.rightBody}
                 enableTyping={enableTyping}
+                instantText={reducedMotion}
               />
+              </motion.div>
             </motion.div>
-          </Stagger>
-        </div>
+          </div>
+        </div>}
       </div>
     </motion.div>
   );
