@@ -253,13 +253,13 @@ function FanCloudComparisonSection({
     ? headline.split(geniusSportsPhrase)
     : null;
   const leftLabelClasses = [
-    "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:left-5 md:top-5 md:max-w-[42%] md:text-base transition-all duration-200",
+    "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] md:text-base transition-all duration-200",
     isOtherViewDominant
       ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
       : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
   ].join(" ");
   const rightLabelClasses = [
-    "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:right-5 md:top-5 md:max-w-[42%] md:text-base transition-all duration-200",
+    "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:right-5 md:top-5 md:max-w-[48%] md:text-base transition-all duration-200",
     isGeniusViewDominant
       ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
       : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
@@ -270,7 +270,7 @@ function FanCloudComparisonSection({
       id="fan-cloud"
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-[#0A1330]"
     >
-      <div className="mx-auto w-full max-w-[1200px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
+      <div className="mx-auto w-full max-w-[1320px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
         <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
           {headlineWithHalo ? (
             <>
@@ -314,7 +314,7 @@ function FanCloudComparisonSection({
 
           <div
             ref={frameRef}
-            className={`relative mx-auto hidden w-full max-w-[1200px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block lg:w-[1200px] ${
+            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block lg:w-[1320px] ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}

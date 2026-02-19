@@ -140,7 +140,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     leftLabel: "How other data and media partners see March Madness fans.",
     rightLabel: "How Genius Sports sees March Madness fans.",
     leftImageSrc: "/fancloud-slider-new.png",
-    rightImageSrc: "/fancloud-left-3x.png",
+    rightImageSrc: "/fancloud-left-two-attributes.png",
     helperText: "Drag the slider to compare.",
     metricsEyebrow: "The only consumer data cloud built for sports covering:",
     metrics: [
