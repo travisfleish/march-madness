@@ -27,7 +27,7 @@ function AudiencesSection({
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-gs-surface via-gs-surface to-transparent" />
           <GeniusStripeRail
-            theme="softGreen"
+            theme="green"
             className="absolute bottom-0 right-0 top-28 hidden w-[33%] md:block"
             dimmed
           />

@@ -52,7 +52,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
     <section className="relative w-full overflow-hidden bg-white">
       <div className="pointer-events-none absolute bottom-0 left-0 h-1/2 w-[20vw] min-w-[8rem] max-w-[18rem]" aria-hidden>
         <img
-          src="/genius-assets/bright-green-lines.png"
+          src="/genius-assets/green-lines.png"
           alt=""
           className="h-full w-full object-cover object-right"
           style={{ transform: "scaleX(-1)" }}
