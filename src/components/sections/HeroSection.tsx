@@ -161,7 +161,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 className="flex flex-col overflow-hidden rounded-2xl bg-[#0014ff] text-center text-white ring-1 ring-white/30 md:min-h-[20rem] lg:h-full lg:min-h-0"
                 onMouseEnter={() => triggerRoll(sideBarRollId)}
               >
-                <div className="shrink-0 border-b border-white/24 p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
+                <div className="shrink-0 border-b border-white/30 p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
                   <p className="text-[3rem] font-bold leading-[0.88] lg:text-[3.5rem]">
                     {numericSideValue !== null ? (
                       <RollingNumber

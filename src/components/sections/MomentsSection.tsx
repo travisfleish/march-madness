@@ -178,7 +178,7 @@ function MomentsSection({
                 disabled={
                   selectedMomentIndex === null || selectedMomentIndex === labels.length - 1
                 }
-                className="rounded-full border border-slate-300 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-800 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-45 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+                className="rounded-full border border-[#2458df] bg-[#2563eb] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:border-[#2458df]/50 disabled:bg-[#2563eb]/50 disabled:text-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
               >
                 Next
               </button>
@@ -205,13 +205,13 @@ function MomentsSection({
               ease: "easeOut"
             }}
           >
-            <div className="rounded-2xl border border-slate-300 bg-slate-100 p-4 shadow-sm md:p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-100/85 p-4 shadow-sm md:p-5">
               <p className="text-sm font-bold uppercase tracking-wide text-slate-500">Trigger</p>
               <p className="mt-2 text-[1.12rem] leading-relaxed text-slate-800 md:text-[1.15rem]">
                 {activeDetails?.trigger}
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-100 p-4 shadow-sm md:p-5">
+            <div className="rounded-2xl border border-slate-200 bg-slate-100/85 p-4 shadow-sm md:p-5">
               <p className="text-sm font-bold uppercase tracking-wide text-slate-500">Description</p>
               <p className="mt-2 text-[1.12rem] leading-relaxed text-slate-800 md:text-[1.15rem]">
                 {activeDetails?.description}

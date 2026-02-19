@@ -85,12 +85,13 @@ function Modal({ isOpen, title, onClose, children, footer }: ModalProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby={headingId}
-            className="w-full max-w-[680px] rounded-2xl border border-slate-200 bg-slate-100 p-6 shadow-2xl outline-none md:p-8"
+            className="relative w-full max-w-[680px] overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl outline-none md:p-8"
             initial={{ opacity: 0, scale: reducedMotion ? 1 : 0.98 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: reducedMotion ? 1 : 0.98 }}
             transition={{ duration: reducedMotion ? 0.12 : 0.24, ease: "easeOut" }}
           >
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-[#66d29f]/80" aria-hidden />
             <div className="flex items-start justify-between gap-4">
               <h3 id={headingId} className="text-3xl font-bold tracking-tight text-slate-900">
                 <AnimatePresence mode="wait" initial={false}>
@@ -110,7 +111,7 @@ function Modal({ isOpen, title, onClose, children, footer }: ModalProps) {
                 type="button"
                 onClick={onClose}
                 aria-label="Close modal"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#66d29f] bg-slate-100 text-2xl leading-none text-slate-500 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-[#66d29f] bg-white text-2xl leading-none text-slate-500 transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
               >
                 <span aria-hidden="true">&times;</span>
               </button>
