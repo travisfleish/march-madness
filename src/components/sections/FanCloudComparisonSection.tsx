@@ -286,9 +286,35 @@ function FanCloudComparisonSection({
         </h2>
 
         <div className="mt-8 md:mt-10">
+          <div className="mx-auto grid w-full max-w-[1200px] gap-4 md:hidden">
+            <article className="overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)]">
+              <p className="px-4 py-3 text-center text-sm font-semibold text-white">{leftLabel}</p>
+              <div className="relative aspect-[16/9] w-full">
+                <img
+                  src={rightImageSrc}
+                  alt={leftLabel}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </div>
+            </article>
+
+            <article className="overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)]">
+              <p className="px-4 py-3 text-center text-sm font-semibold text-white">{rightLabel}</p>
+              <div className="relative aspect-[16/9] w-full">
+                <img
+                  src={leftImageSrc}
+                  alt={rightLabel}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  draggable={false}
+                />
+              </div>
+            </article>
+          </div>
+
           <div
             ref={frameRef}
-            className={`relative mx-auto w-full max-w-[1200px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] lg:w-[1200px] ${
+            className={`relative mx-auto hidden w-full max-w-[1200px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block lg:w-[1200px] ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}
@@ -360,14 +386,14 @@ function FanCloudComparisonSection({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
-                className="mt-4 text-center text-sm font-medium text-blue-100 md:text-base"
+                className="mt-4 hidden text-center text-sm font-medium text-blue-100 md:block md:text-base"
               >
                 Drag to compare
               </motion.p>
             ) : null}
           </AnimatePresence>
           {!showHelperHint && helperText ? (
-            <p className="mt-4 text-center text-sm font-medium text-blue-100/80 md:text-base">
+            <p className="mt-4 hidden text-center text-sm font-medium text-blue-100/80 md:block md:text-base">
               {helperText}
             </p>
           ) : null}
