@@ -7,7 +7,7 @@ import {
   useState
 } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
-import { Reveal, useReducedMotionSafe } from "../motion/MotionPrimitives";
+import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 
 type FanCloudComparisonSectionProps = {
   headline: string;
@@ -53,10 +53,12 @@ function FanCloudComparisonSection({
   const [hasInteracted, setHasInteracted] = useState(false);
   const [showHelperHint, setShowHelperHint] = useState(true);
   const frameRef = useRef<HTMLDivElement | null>(null);
+  const imageBoxRef = useRef<HTMLDivElement | null>(null);
   const rafRef = useRef<number | null>(null);
   const nudgeRafRef = useRef<number | null>(null);
   const pendingPercentRef = useRef<number>(50);
   const activePointerIdRef = useRef<number | null>(null);
+  const [imageBoxWidthPx, setImageBoxWidthPx] = useState<number>(1200);
   const isFrameInView = useInView(frameRef, { once: true, amount: 0.35 });
 
   const queueSliderUpdate = useCallback((nextPercent: number) => {
@@ -93,6 +95,27 @@ function FanCloudComparisonSection({
         window.cancelAnimationFrame(nudgeRafRef.current);
       }
     };
+  }, []);
+
+  useEffect(() => {
+    const imageBox = imageBoxRef.current;
+    if (!imageBox) return;
+
+    const updateWidth = (width: number) => {
+      const roundedWidth = Math.max(1, Math.round(width));
+      setImageBoxWidthPx(roundedWidth);
+    };
+
+    updateWidth(imageBox.getBoundingClientRect().width);
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0];
+      if (!entry) return;
+      updateWidth(entry.contentRect.width);
+    });
+
+    observer.observe(imageBox);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -169,9 +192,23 @@ function FanCloudComparisonSection({
     queueSliderUpdate(sliderPercent + direction * step);
   };
 
+  const isGeniusViewDominant = sliderPercent < 50;
+  const isOtherViewDominant = sliderPercent > 50;
+  const leftLabelClasses = [
+    "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:left-5 md:top-5 md:max-w-[42%] md:text-base transition-all duration-200",
+    isOtherViewDominant
+      ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
+      : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
+  ].join(" ");
+  const rightLabelClasses = [
+    "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-xs font-semibold leading-tight md:right-5 md:top-5 md:max-w-[42%] md:text-base transition-all duration-200",
+    isGeniusViewDominant
+      ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
+      : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
+  ].join(" ");
+
   return (
-    <Reveal
-      as="section"
+    <section
       id="fan-cloud"
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-[#0A1330]"
     >
@@ -183,7 +220,7 @@ function FanCloudComparisonSection({
         <div className="mt-8 md:mt-10">
           <div
             ref={frameRef}
-            className={`relative mx-auto w-full max-w-[1120px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] ${
+            className={`relative mx-auto w-full max-w-[1200px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] lg:w-[1200px] ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}
@@ -192,14 +229,14 @@ function FanCloudComparisonSection({
             onPointerUp={endPointerDrag}
             onPointerCancel={endPointerDrag}
           >
-            <div className="absolute left-3 top-3 z-20 max-w-[48%] rounded-full bg-[#1D26FF] px-4 py-2 text-center text-xs font-semibold leading-tight text-white md:left-5 md:top-5 md:max-w-[42%] md:text-base">
+            <div className={leftLabelClasses}>
               {leftLabel}
             </div>
-            <div className="absolute right-3 top-3 z-20 max-w-[48%] rounded-full bg-[#1D26FF] px-4 py-2 text-center text-xs font-semibold leading-tight text-white md:right-5 md:top-5 md:max-w-[42%] md:text-base">
+            <div className={rightLabelClasses}>
               {rightLabel}
             </div>
 
-            <div className="relative aspect-[16/9] min-h-[260px] w-full">
+            <div ref={imageBoxRef} className="relative aspect-[16/9] min-h-[260px] w-full">
               <img
                 src={leftImageSrc}
                 alt={leftLabel}
@@ -207,17 +244,22 @@ function FanCloudComparisonSection({
                 draggable={false}
               />
 
-              <img
-                src={rightImageSrc}
-                alt={rightLabel}
-                className="absolute inset-0 h-full w-full object-contain"
-                style={{ clipPath: `inset(0 ${100 - sliderPercent}% 0 0)` }}
-                draggable={false}
-              />
+              <div
+                className="absolute inset-y-0 left-0 overflow-hidden"
+                style={{ width: `${sliderPercent}%` }}
+              >
+                <img
+                  src={rightImageSrc}
+                  alt={rightLabel}
+                  className="absolute left-0 top-0 h-full max-w-none object-contain"
+                  style={{ width: `${imageBoxWidthPx}px` }}
+                  draggable={false}
+                />
+              </div>
 
               <div
                 className="pointer-events-none absolute inset-y-0 z-30 w-px bg-white/90"
-                style={{ left: `${sliderPercent}%`, transform: "translateX(-0.5px)" }}
+                style={{ left: `calc(${sliderPercent}% - 0.5px)` }}
               />
 
               <motion.div
@@ -289,7 +331,7 @@ function FanCloudComparisonSection({
           </div>
         </div>
       </div>
-    </Reveal>
+    </section>
   );
 }
 

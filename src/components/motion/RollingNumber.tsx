@@ -9,6 +9,7 @@ type RollingNumberProps = {
   staggerMs?: number;
   padTo?: number;
   formatter?: (n: number) => string;
+  rerollKey?: number;
 };
 
 const DIGITS = Array.from({ length: 10 }, (_, index) => index.toString());
@@ -23,7 +24,8 @@ function RollingNumber({
   className,
   staggerMs = 40,
   padTo,
-  formatter
+  formatter,
+  rerollKey = 0
 }: RollingNumberProps) {
   const reducedMotion = useReducedMotionSafe();
 
@@ -61,6 +63,7 @@ function RollingNumber({
         return (
           <span key={`digit-${index}`} className="relative inline-flex h-[1em] w-[0.64em] overflow-hidden">
             <motion.span
+              key={`roll-${index}-${rerollKey}`}
               className="flex flex-col"
               initial={{ y: "0em" }}
               animate={{ y: `${-targetSteps}em` }}

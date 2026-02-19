@@ -33,11 +33,20 @@ function parseNumericStat(value: string) {
 function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProps) {
   const reducedMotion = useReducedMotionSafe();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [rollVersions, setRollVersions] = useState<Record<string, number>>({});
   const numericSideValue = parseNumericStat(sideBarStat.value);
+  const sideBarRollId = `${sideBarStat.value}-${sideBarStat.label}-sidebar`;
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
+
+  const triggerRoll = (tileId: string) => {
+    setRollVersions((previous) => ({
+      ...previous,
+      [tileId]: (previous[tileId] ?? 0) + 1
+    }));
+  };
 
   return (
     <section className="relative w-full overflow-hidden bg-white">
@@ -75,6 +84,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
                 const numericStatValue = parseNumericStat(stat.value);
+                const statRollId = `${stat.value}-${stat.label}-${index}`;
                 const isTwentyMillionTile = stat.value === "20" && stat.label === "Million";
                 const isHundredMillionTile = stat.value === "100" && stat.label === "Million";
                 const spanClass =
@@ -90,6 +100,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                   <article
                     key={`${stat.value}-${stat.label}`}
                     className={`bg-[#1D26FF] text-white lg:h-full ${spanClass} ${isTwentyMillionTile ? "relative flex flex-col justify-end overflow-hidden" : ""} ${isHundredMillionTile ? "flex flex-col justify-center" : ""}`}
+                    onMouseEnter={() => triggerRoll(statRollId)}
                   >
                     {isTwentyMillionTile ? (
                       <>
@@ -111,7 +122,10 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                         <div className="relative z-[3] lg:mt-auto lg:flex lg:h-1/2 lg:translate-y-2 lg:flex-col lg:justify-center">
                           <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
                             {numericStatValue !== null ? (
-                              <RollingNumber value={numericStatValue} />
+                              <RollingNumber
+                                value={numericStatValue}
+                                rerollKey={rollVersions[statRollId] ?? 0}
+                              />
                             ) : (
                               stat.value
                             )}
@@ -128,7 +142,10 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                       <>
                         <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
                           {numericStatValue !== null ? (
-                            <RollingNumber value={numericStatValue} />
+                            <RollingNumber
+                              value={numericStatValue}
+                              rerollKey={rollVersions[statRollId] ?? 0}
+                            />
                           ) : (
                             stat.value
                           )}
@@ -145,11 +162,17 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 );
               })}
               </div>
-              <aside className="flex flex-col bg-[#1D26FF] text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0">
+              <aside
+                className="flex flex-col bg-[#1D26FF] text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0"
+                onMouseEnter={() => triggerRoll(sideBarRollId)}
+              >
                 <div className="shrink-0 border-b border-white/60 p-5 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-4">
                   <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
                     {numericSideValue !== null ? (
-                      <RollingNumber value={numericSideValue} />
+                      <RollingNumber
+                        value={numericSideValue}
+                        rerollKey={rollVersions[sideBarRollId] ?? 0}
+                      />
                     ) : (
                       sideBarStat.value
                     )}

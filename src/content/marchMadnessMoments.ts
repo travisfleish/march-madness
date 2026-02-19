@@ -135,10 +135,10 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
   },
   fanCloudComparison: {
     headline: "No one knows March Madness fans better than Genius Sports",
-    leftLabel: "How other data & media partners see March Madness fans",
-    rightLabel: "How Genius Sports sees World Cup fans",
-    leftImageSrc: "/fancloud-genius.png",
-    rightImageSrc: "/fancloud-other.png",
+    leftLabel: "How other data and media partners see March Madness fans.",
+    rightLabel: "How Genius Sports sees March Madness fans.",
+    leftImageSrc: "/fancloud-slider-new.png",
+    rightImageSrc: "/fancloud-slider-new.png",
     helperText: "Drag the slider to compare.",
     metricsEyebrow: "The only consumer data cloud built for sports covering:",
     metrics: [
