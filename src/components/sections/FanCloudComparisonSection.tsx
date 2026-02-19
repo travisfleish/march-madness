@@ -263,7 +263,7 @@ function FanCloudComparisonSection({
           {headlineWithHalo ? (
             <>
               {headlineWithHalo[0]}
-              <span className="text-white [text-shadow:0_0_4px_rgba(214,232,111,0.7),0_0_11px_rgba(214,232,111,0.48),0_0_18px_rgba(42,52,255,0.4)]">
+              <span className="text-white [text-shadow:0_0_3px_rgba(214,232,111,0.5),0_0_8px_rgba(214,232,111,0.34),0_0_13px_rgba(42,52,255,0.24)]">
                 {geniusSportsPhrase}
               </span>
               {headlineWithHalo[1]}
