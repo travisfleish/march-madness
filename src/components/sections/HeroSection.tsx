@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
+import RollingNumber from "../motion/RollingNumber";
 
 type HeroSectionProps = {
   kicker: string;
@@ -24,9 +25,15 @@ const DESKTOP_TILE_CLASSES: Record<"sm" | "md" | "lg", string> = {
   lg: "col-span-8 min-h-[7.5rem] p-5 lg:col-span-8 lg:row-span-1 lg:min-h-0 lg:p-6"
 };
 
+function parseNumericStat(value: string) {
+  const parsed = Number.parseInt(value.replace(/[^\d-]/g, ""), 10);
+  return Number.isNaN(parsed) ? null : parsed;
+}
+
 function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProps) {
   const reducedMotion = useReducedMotionSafe();
   const [isLoaded, setIsLoaded] = useState(false);
+  const numericSideValue = parseNumericStat(sideBarStat.value);
 
   useEffect(() => {
     setIsLoaded(true);
@@ -67,6 +74,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
               <div className="grid auto-rows-auto grid-cols-8 gap-px bg-white lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
+                const numericStatValue = parseNumericStat(stat.value);
                 const spanClass =
                   tileSize === "lg"
                     ? DESKTOP_TILE_CLASSES.lg
@@ -82,7 +90,11 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                     className={`bg-[#1D26FF] text-white lg:h-full ${spanClass}`}
                   >
                     <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
-                      {stat.value}
+                      {numericStatValue !== null ? (
+                        <RollingNumber value={numericStatValue} />
+                      ) : (
+                        stat.value
+                      )}
                     </p>
                     <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
                       {stat.label}
@@ -96,7 +108,11 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
               </div>
               <aside className="flex flex-col bg-[#1D26FF] p-5 text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0 lg:p-4">
                 <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
-                  {sideBarStat.value}
+                  {numericSideValue !== null ? (
+                    <RollingNumber value={numericSideValue} />
+                  ) : (
+                    sideBarStat.value
+                  )}
                 </p>
                 <p className="mt-1 text-[2.2rem] font-normal leading-none">{sideBarStat.label}</p>
                 <p className="mt-3 text-base leading-tight text-blue-50 lg:text-[1.1rem]">
