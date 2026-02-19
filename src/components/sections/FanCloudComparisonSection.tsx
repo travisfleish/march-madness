@@ -65,6 +65,7 @@ function FanCloudComparisonSection({
   metrics
 }: FanCloudComparisonSectionProps) {
   const reducedMotion = useReducedMotionSafe();
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [sliderPercent, setSliderPercent] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [isHandleFocused, setIsHandleFocused] = useState(false);
@@ -90,6 +91,17 @@ function FanCloudComparisonSection({
       })),
     [metrics]
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
 
   const queueSliderUpdate = useCallback((nextPercent: number) => {
     pendingPercentRef.current = clampPercent(nextPercent);
@@ -364,20 +376,22 @@ function FanCloudComparisonSection({
             <p className="text-center text-sm font-medium text-[#d6e86f] md:text-lg">
               {metricsEyebrow}
             </p>
-            <div className="mt-3 overflow-x-auto pb-1">
+            <div className="mt-3 pb-1">
               <div
                 ref={metricsRowRef}
-                className="mx-auto flex w-max min-w-full rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:w-full md:rounded-full"
+                className="mx-auto grid w-full grid-cols-3 rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:rounded-full"
               >
                 {parsedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
-                    className={`flex min-w-[9.5rem] flex-col justify-center px-5 py-3 text-center md:min-w-0 md:flex-1 md:px-6 md:py-4 ${
+                    className={`flex min-w-0 flex-col justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
                       index > 0 ? "border-l border-white/15" : ""
                     }`}
                   >
-                    <p className="text-2xl font-bold leading-none text-white md:text-4xl">
-                      {metric.parts.number !== null ? (
+                    <p className="text-xl font-bold leading-none text-white md:text-4xl">
+                      {isMobileViewport || metric.value.includes(",") ? (
+                        metric.value
+                      ) : metric.parts.number !== null ? (
                         <>
                           {metric.parts.prefix}
                           <RollingNumber
@@ -392,7 +406,7 @@ function FanCloudComparisonSection({
                         metric.value
                       )}
                     </p>
-                    <p className="mt-1 whitespace-nowrap text-xs font-medium leading-tight text-slate-300 md:text-lg">
+                    <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-300 md:text-lg">
                       {metric.label}
                     </p>
                   </article>

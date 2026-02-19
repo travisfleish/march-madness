@@ -21,9 +21,9 @@ type HeroSectionProps = {
 };
 
 const DESKTOP_TILE_CLASSES: Record<"sm" | "md" | "lg", string> = {
-  sm: "col-span-8 min-h-[7.25rem] rounded-2xl p-4 md:col-span-1 md:min-h-[8.5rem] md:p-5 lg:col-span-3 lg:row-span-1 lg:min-h-0 lg:p-7",
-  md: "col-span-8 min-h-[8.75rem] rounded-2xl p-4 md:col-span-1 md:min-h-[10.75rem] md:p-5 lg:col-span-4 lg:row-span-2 lg:min-h-0 lg:p-7",
-  lg: "col-span-8 min-h-[7rem] rounded-2xl p-4 md:min-h-[7.75rem] md:p-5 lg:col-span-8 lg:row-span-1 lg:min-h-0 lg:p-7"
+  sm: "col-span-8 min-h-[5.9rem] rounded-2xl p-3 md:col-span-1 md:min-h-[8.5rem] md:p-5 lg:col-span-3 lg:row-span-1 lg:min-h-0 lg:p-7",
+  md: "col-span-8 min-h-[6.7rem] rounded-2xl p-3 md:col-span-1 md:min-h-[10.75rem] md:p-5 lg:col-span-4 lg:row-span-2 lg:min-h-0 lg:p-7",
+  lg: "col-span-8 min-h-[5.7rem] rounded-2xl p-3 md:min-h-[7.75rem] md:p-5 lg:col-span-8 lg:row-span-1 lg:min-h-0 lg:p-7"
 };
 
 function parseNumericStat(value: string) {
@@ -34,12 +34,24 @@ function parseNumericStat(value: string) {
 function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSectionProps) {
   const reducedMotion = useReducedMotionSafe();
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [rollVersions, setRollVersions] = useState<Record<string, number>>({});
   const numericSideValue = parseNumericStat(sideBarStat.value);
   const sideBarRollId = `${sideBarStat.value}-${sideBarStat.label}-sidebar`;
 
   useEffect(() => {
     setIsLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
 
   const triggerRoll = (tileId: string) => {
@@ -107,8 +119,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
             }}
           >
             <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1]">
-              <div className="relative z-10 grid h-full gap-2.5 p-2.5 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
-              <div className="grid auto-rows-auto grid-cols-8 gap-2.5 md:gap-3 lg:h-full lg:grid-rows-3">
+              <div className="relative z-10 grid h-full gap-2 p-2 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
+              <div className="grid auto-rows-auto grid-cols-8 gap-2 md:gap-3 lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
                 const numericStatValue = parseNumericStat(stat.value);
@@ -118,13 +130,13 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 const isSixtyEightTeamsTile = stat.value === "68" && stat.label === "Teams";
                 const spanClass =
                   isHundredMillionTile
-                    ? "col-span-8 min-h-[8.75rem] rounded-2xl p-4 md:col-span-1 md:min-h-[10.75rem] md:p-6 lg:col-span-5 lg:row-span-2 lg:min-h-0 lg:p-8"
+                    ? "col-span-8 min-h-[6.7rem] rounded-2xl p-3 md:col-span-1 md:min-h-[10.75rem] md:p-6 lg:col-span-5 lg:row-span-2 lg:min-h-0 lg:p-8"
                     : tileSize === "lg"
                       ? DESKTOP_TILE_CLASSES.lg
                       : tileSize === "sm"
                         ? DESKTOP_TILE_CLASSES.sm
                         : index === 1
-                          ? "col-span-8 min-h-[8.25rem] rounded-2xl p-4 md:col-span-1 md:min-h-[9.75rem] md:p-5 lg:col-span-3 lg:row-span-2 lg:min-h-0 lg:p-6"
+                          ? "col-span-8 min-h-[6.5rem] rounded-2xl p-3 md:col-span-1 md:min-h-[9.75rem] md:p-5 lg:col-span-3 lg:row-span-2 lg:min-h-0 lg:p-6"
                           : DESKTOP_TILE_CLASSES.md;
 
                 return (
@@ -144,22 +156,22 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                     <p
                       className={`font-bold leading-[0.88] ${
                         isHundredMillionTile
-                          ? "text-[2.6rem] md:text-[3rem] lg:text-[4.15rem]"
+                          ? "text-[1.95rem] md:text-[3rem] lg:text-[4.15rem]"
                           : isSixtyEightTeamsTile
-                            ? "text-[2.35rem] md:text-[2.7rem] lg:text-[3.4rem]"
-                            : "text-[2.2rem] md:text-[2.6rem] lg:text-[3.1rem]"
+                            ? "text-[1.8rem] md:text-[2.7rem] lg:text-[3.4rem]"
+                            : "text-[1.75rem] md:text-[2.6rem] lg:text-[3.1rem]"
                       }`}
                     >
-                      {numericStatValue !== null ? (
+                      {numericStatValue !== null && !isMobileViewport ? (
                         <RollingNumber value={numericStatValue} rerollKey={rollVersions[statRollId] ?? 0} />
                       ) : (
                         stat.value
                       )}
                     </p>
-                    <p className="mt-1 text-[1rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[1.32rem]">
+                    <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[1.32rem]">
                       {stat.label}
                     </p>
-                    <p className="mt-2 max-w-[28ch] text-[0.7rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
+                    <p className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
                       {stat.description}
                     </p>
                   </article>
@@ -167,12 +179,12 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
               })}
               </div>
               <aside
-                className="flex flex-col overflow-hidden rounded-2xl bg-[#0014ff] text-center text-white ring-1 ring-white/30 md:min-h-[20rem] lg:h-full lg:min-h-0"
+                className="flex flex-col overflow-hidden rounded-2xl bg-[#0014ff] text-left text-white ring-1 ring-white/30 md:min-h-[20rem] lg:h-full lg:min-h-0"
                 onMouseEnter={() => triggerRoll(sideBarRollId)}
               >
-                <div className="shrink-0 border-b border-white/30 p-4 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
-                  <p className="text-[2.4rem] font-bold leading-[0.88] md:text-[2.9rem] lg:text-[3.5rem]">
-                    {numericSideValue !== null ? (
+                <div className="shrink-0 border-b border-white/30 p-3 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
+                  <p className="text-[1.9rem] font-bold leading-[0.88] md:text-[2.9rem] lg:text-[3.5rem]">
+                    {numericSideValue !== null && !isMobileViewport ? (
                       <RollingNumber
                         value={numericSideValue}
                         rerollKey={rollVersions[sideBarRollId] ?? 0}
@@ -181,10 +193,10 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                       sideBarStat.value
                     )}
                   </p>
-                  <p className="mt-1 text-[1.02rem] font-medium leading-none text-white/95 md:text-[1.15rem] lg:text-[1.35rem]">
+                  <p className="mt-1 text-[0.95rem] font-medium leading-none text-white/95 md:text-[1.15rem] lg:text-[1.35rem]">
                     {sideBarStat.label}
                   </p>
-                  <p className="mt-2 text-[0.7rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
+                  <p className="mt-1.5 text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
                     {sideBarStat.description}
                   </p>
                 </div>

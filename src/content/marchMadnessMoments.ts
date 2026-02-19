@@ -144,11 +144,9 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     helperText: "Drag the slider to compare.",
     metricsEyebrow: "The only consumer data cloud built for sports covering:",
     metrics: [
-      { value: "+250M", label: "Consumers" },
-      { value: "+50B", label: "Interactions" },
-      { value: "+10K", label: "Brands" },
+      { value: "250 Million", label: "Consumers" },
       { value: "5K", label: "Genius Data Signals" },
-      { value: "+2500", label: "Communities" }
+      { value: "2,500", label: "Communities" }
     ]
   },
   campaignIntro: {
@@ -204,7 +202,6 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       "GAMEDAY LEAD UP",
       "LATE GAME RALLY",
       "DOWN TO THE WIRE",
-      "BLOWOUT IN THE MAKING",
       "BUZZER BEATER WIN",
       "ADVANCEMENT",
       "ELIMINATION",

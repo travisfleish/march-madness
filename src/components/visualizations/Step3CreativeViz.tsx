@@ -119,6 +119,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const rightCardFadeDelayMobile = reducedMotion ? 0 : leftCardFadeDelayMobile + 0.12;
   const typingStartDelayMs = reducedMotion ? 0 : 650;
   const [isBracketComplete, setIsBracketComplete] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
   const handleBracketComplete = useCallback(() => {
     if (typeof window === "undefined" || reducedMotion) {
@@ -130,13 +131,28 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
     const breathMs = isMobileViewport ? 220 : 320;
     window.setTimeout(() => setIsBracketComplete(true), breathMs);
   }, [reducedMotion]);
-  const revealCreativeFlow = reducedMotion ? isVizInView : isBracketComplete;
-  const enableTyping = isTypingInView && areCardsReady && !reducedMotion;
+  const revealCreativeFlow = isMobileViewport
+    ? true
+    : reducedMotion
+      ? isVizInView
+      : isBracketComplete;
+  const enableTyping = isTypingInView && areCardsReady && !reducedMotion && !isMobileViewport;
   const [connectorMetrics, setConnectorMetrics] = useState({
     width: 1,
     leftCenter: 0,
     rightCenter: 1
   });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const syncViewport = () => setIsMobileViewport(mediaQuery.matches);
+    syncViewport();
+    mediaQuery.addEventListener("change", syncViewport);
+
+    return () => mediaQuery.removeEventListener("change", syncViewport);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -243,10 +259,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-slate-50/12 to-slate-50/88" />
           </div>
           <div className="pointer-events-none absolute inset-2 rounded-xl border border-white/55" aria-hidden="true" />
-          <div className="relative z-10 h-[400px] min-w-[860px] md:min-w-0">
+          <div className="relative z-10 hidden h-[400px] min-w-[860px] md:block md:min-w-0">
             <MarchMadnessBracket
               onAnimationComplete={handleBracketComplete}
-              startAnimation={isVizInView}
+              startAnimation={!isMobileViewport && isVizInView}
             />
           </div>
         </div>
@@ -302,7 +318,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                 lead={data.leftLead}
                 body={data.leftBody}
                 enableTyping={enableTyping}
-                instantText={reducedMotion}
+                instantText={true}
                 accentTop={true}
               />
               </motion.div>
@@ -353,7 +369,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                 lead={data.rightLead}
                 body={data.rightBody}
                 enableTyping={enableTyping}
-                instantText={reducedMotion}
+                instantText={true}
               />
               </motion.div>
             </div>

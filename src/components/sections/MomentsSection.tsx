@@ -43,9 +43,12 @@ function MomentsSection({
   const reducedMotion = useReducedMotionSafe();
   const [selectedMomentIndex, setSelectedMomentIndex] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mobileMoreSelection, setMobileMoreSelection] = useState("");
   const panelBackgroundImage =
     "https://images.pexels.com/photos/1752757/pexels-photo-1752757.jpeg?auto=compress&cs=tinysrgb&w=1200";
   const activeMoment = selectedMomentIndex === null ? null : labels[selectedMomentIndex];
+  const primaryMobileLabels = labels.slice(0, 4);
+  const additionalMobileLabels = labels.slice(4);
   const activeDetails = activeMoment
     ? (momentDetailsByLabel[activeMoment] ?? {
         trigger: "Moment trigger details for this selection.",
@@ -86,6 +89,11 @@ function MomentsSection({
     return () => document.removeEventListener("keydown", onArrowNavigate);
   }, [handleNext, handlePrevious, isModalOpen, selectedMomentIndex]);
 
+  const openMomentModal = (index: number) => {
+    setSelectedMomentIndex(index);
+    setIsModalOpen(true);
+  };
+
   return (
     <Reveal id="moments" as="section" once={false} className="scroll-mt-24 bg-white">
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-[#f3f4f6] shadow-[0_10px_30px_rgba(15,23,42,0.08)]">
@@ -120,8 +128,65 @@ function MomentsSection({
             />
 
             <div className="relative p-4 md:p-5">
+              <div className="md:hidden">
+                <Stagger className="grid grid-cols-1 gap-2.5" staggerChildren={0.04} once={false}>
+                  {primaryMobileLabels.map((label, index) => {
+                    const isActive = selectedMomentIndex === index;
+
+                    return (
+                      <motion.button
+                        key={label}
+                        type="button"
+                        onClick={() => openMomentModal(index)}
+                        className={`rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
+                          isActive
+                            ? "border-[#11b864] bg-[#18c971] text-slate-900 shadow-md"
+                            : "border-slate-200/80 bg-slate-100/95 text-slate-900 shadow-sm hover:-translate-y-px hover:border-[#11b864] hover:bg-[#18c971] hover:shadow-md"
+                        }`}
+                        variants={{
+                          hidden: { opacity: 0, y: reducedMotion ? 0 : 6 },
+                          show: { opacity: 1, y: 0 }
+                        }}
+                        transition={{
+                          duration: reducedMotion ? 0.18 : 0.26,
+                          ease: "easeOut"
+                        }}
+                        whileHover={reducedMotion ? undefined : { y: -1 }}
+                      >
+                        {label}
+                      </motion.button>
+                    );
+                  })}
+                </Stagger>
+                {additionalMobileLabels.length > 0 ? (
+                  <div className="mt-3">
+                    <label htmlFor="moments-more" className="sr-only">
+                      More moments
+                    </label>
+                    <select
+                      id="moments-more"
+                      value={mobileMoreSelection}
+                      onChange={(event) => {
+                        const value = event.target.value;
+                        setMobileMoreSelection(value);
+                        if (value === "") return;
+                        openMomentModal(Number(value));
+                      }}
+                      className="w-full rounded-full border border-slate-200/80 bg-slate-100/95 px-4 py-2.5 text-left text-sm font-semibold text-slate-900 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900"
+                    >
+                      <option value="">More moments</option>
+                      {additionalMobileLabels.map((label, index) => (
+                        <option key={label} value={index + 4}>
+                          {label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                ) : null}
+              </div>
+
               <Stagger
-                className="grid grid-cols-1 gap-2.5 md:grid-cols-2"
+                className="hidden grid-cols-1 gap-2.5 md:grid md:grid-cols-2"
                 staggerChildren={0.04}
                 once={false}
               >
@@ -132,10 +197,7 @@ function MomentsSection({
                     <motion.button
                       key={label}
                       type="button"
-                      onClick={() => {
-                        setSelectedMomentIndex(index);
-                        setIsModalOpen(true);
-                      }}
+                      onClick={() => openMomentModal(index)}
                       className={`rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 md:text-[0.95rem] ${
                         isActive
                           ? "border-[#11b864] bg-[#18c971] text-slate-900 shadow-md"
