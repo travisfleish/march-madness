@@ -22,7 +22,7 @@ function AudiencesSection({
   const reducedMotion = useReducedMotionSafe();
 
   return (
-    <Reveal id="audiences" as="section" className="section-shell scroll-mt-24">
+    <Reveal id="audiences" as="section" className="scroll-mt-24">
       <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gs-surface p-6 shadow-[0_8px_28px_rgba(15,23,42,0.08)] md:p-8">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-gs-surface via-gs-surface to-transparent" />

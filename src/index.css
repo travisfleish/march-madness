@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 :root {
   color: var(--gs-text);
   background-color: var(--gs-bg);
@@ -21,6 +22,11 @@ body {
   background: var(--gs-bg);
   color: var(--gs-text);
   line-height: 1.5;
+}
+
+#root {
+  min-height: 100vh;
+  background-color: var(--gs-bg);
 }
 
 a {
@@ -46,7 +52,7 @@ a {
 
 .section-shell {
   @apply rounded-2xl p-6 shadow-soft md:p-10;
-  background-color: var(--gs-bg);
+  background-color: var(--gs-surface);
 }
 
 .section-title {

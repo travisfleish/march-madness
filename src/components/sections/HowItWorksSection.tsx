@@ -32,7 +32,7 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
                 block: "start"
               });
             }}
-            className="block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+            className="block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#0014ff]/30 hover:shadow-[0_0_0_1px_rgba(0,20,255,0.18),0_10px_22px_rgba(15,23,42,0.08),0_0_28px_rgba(0,20,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
             variants={{
               hidden: { opacity: 0, y: reducedMotion ? 0 : 10 },
               show: { opacity: 1, y: 0 }
