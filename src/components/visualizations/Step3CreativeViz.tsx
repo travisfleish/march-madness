@@ -20,7 +20,7 @@ function MessageCard({ audienceLabel, cardTitle, lead, body }: MessageCardProps)
       <p className="mx-auto max-w-[22rem] text-center text-xs font-medium text-slate-600 md:max-w-none md:text-left">
         {audienceLabel}
       </p>
-      <article className="mt-3 flex flex-1 flex-col rounded-xl border border-slate-300 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      <article className="mt-3 flex flex-1 flex-col rounded-xl border border-slate-300 bg-gs-surface p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
         <h3 className="text-center text-sm font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
         <p className="mt-4 text-sm font-semibold text-slate-900">{lead}</p>
         <p className="mt-2 text-sm leading-relaxed text-slate-700">{body}</p>
@@ -44,7 +44,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reducedMotion ? 0.2 : 0.45, ease: "easeOut" }}
     >
-      <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-slate-50 px-4 py-6 md:px-8 md:py-8">
+      <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-gs-surface px-4 py-6 md:px-8 md:py-8">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-semibold text-slate-800 md:text-sm">{data.triggerTitle}</p>
           <p className="mt-3 text-xs font-semibold text-slate-800 md:text-sm">{data.exampleLabel}</p>

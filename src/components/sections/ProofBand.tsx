@@ -29,7 +29,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
     <Reveal
       as="section"
       id="proof"
-      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white px-6 py-8 shadow-soft md:px-8 md:py-10"
+      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-gs-surface px-6 py-8 shadow-soft md:px-8 md:py-10"
     >
       <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-10">
         <div className="flex items-center">

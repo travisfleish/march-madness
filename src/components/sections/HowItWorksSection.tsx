@@ -32,7 +32,7 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
                 block: "start"
               });
             }}
-            className="block rounded-xl border border-slate-200 bg-slate-50 p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+            className="block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
             variants={{
               hidden: { opacity: 0, y: reducedMotion ? 0 : 10 },
               show: { opacity: 1, y: 0 }

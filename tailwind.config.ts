@@ -26,6 +26,10 @@ export default {
           success: "var(--gs-success)",
           warning: "var(--gs-warning)",
           error: "var(--gs-error)"
+        },
+        pmg: {
+          bg: "var(--pmg-bg)",
+          surface: "var(--pmg-surface)"
         }
       },
       boxShadow: {

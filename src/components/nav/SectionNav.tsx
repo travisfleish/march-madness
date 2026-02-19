@@ -62,7 +62,7 @@ function SectionNav() {
 
   return (
     <nav className="sticky top-0 z-40 -mx-2 px-2 py-3 md:py-4">
-      <div className="overflow-x-auto rounded-full bg-white/80 p-1 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
+      <div className="overflow-x-auto rounded-full bg-gs-surface p-1 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
         <ul className="flex w-max min-w-full items-center gap-1">
           {navItems.map((item) => {
             const isActive = item.id === activeId;

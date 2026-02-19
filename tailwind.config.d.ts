@@ -25,6 +25,10 @@ declare const _default: {
                     warning: string;
                     error: string;
                 };
+                pmg: {
+                    bg: string;
+                    surface: string;
+                };
             };
             boxShadow: {
                 soft: string;
