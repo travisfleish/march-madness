@@ -40,16 +40,16 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
   }, []);
 
   return (
-    <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen overflow-hidden bg-white">
-      <div className="mx-auto w-full max-w-[1520px] p-0">
-        <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-10">
+    <section className="relative w-full overflow-hidden bg-white">
+      <div className="w-full p-0">
+        <div className="grid items-center gap-8 lg:grid-cols-[57%_43%] lg:items-stretch lg:gap-0">
           <motion.div
-            className="flex min-h-[24rem] flex-col items-center justify-center lg:min-h-[33rem]"
+            className="flex min-h-[24rem] flex-col items-center justify-center px-6 md:px-10 lg:min-h-[33rem] lg:px-0"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
           >
-            <div className="text-left">
+            <div className="mx-auto w-fit text-left">
               <p className="text-base font-medium text-slate-900 md:text-3xl">{kicker}</p>
               <h1 className="-ml-[0.02em] mt-4 font-heading font-bold tracking-tight text-black leading-[0.95] text-[clamp(3.25rem,10vw,6.875rem)] md:mt-5">
                 {titleLines.map((line) => (
@@ -61,7 +61,7 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
             </div>
           </motion.div>
           <motion.div
-            className="w-full lg:-ml-4 lg:h-full"
+            className="w-full lg:h-full"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{
