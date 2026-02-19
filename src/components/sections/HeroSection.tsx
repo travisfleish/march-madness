@@ -75,6 +75,8 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
                 const numericStatValue = parseNumericStat(stat.value);
+                const isTwentyMillionTile = stat.value === "20" && stat.label === "Million";
+                const isHundredMillionTile = stat.value === "100" && stat.label === "Million";
                 const spanClass =
                   tileSize === "lg"
                     ? DESKTOP_TILE_CLASSES.lg
@@ -87,37 +89,83 @@ function HeroSection({ kicker, titleLines, stats, sideBarStat }: HeroSectionProp
                 return (
                   <article
                     key={`${stat.value}-${stat.label}`}
-                    className={`bg-[#1D26FF] text-white lg:h-full ${spanClass}`}
+                    className={`bg-[#1D26FF] text-white lg:h-full ${spanClass} ${isTwentyMillionTile ? "relative flex flex-col justify-end overflow-hidden" : ""} ${isHundredMillionTile ? "flex flex-col justify-center" : ""}`}
                   >
-                    <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
-                      {numericStatValue !== null ? (
-                        <RollingNumber value={numericStatValue} />
-                      ) : (
-                        stat.value
-                      )}
-                    </p>
-                    <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
-                      {stat.label}
-                    </p>
-                    <p className="mt-2 text-sm leading-tight text-blue-50 lg:mt-3">
-                      {stat.description}
-                    </p>
+                    {isTwentyMillionTile ? (
+                      <>
+                        <span className="pointer-events-none absolute inset-x-0 top-1/2 z-[1] hidden border-t border-white/60 lg:block" />
+                        <div className="pointer-events-none absolute inset-x-0 top-0 bottom-1/2 z-[2] hidden lg:block">
+                          <motion.img
+                            src="/basketball.png"
+                            alt="NCAA basketball"
+                            className="absolute left-1/2 top-1/2 w-[75%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain"
+                            initial={{ opacity: reducedMotion ? 1 : 0 }}
+                            animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
+                            transition={{
+                              duration: reducedMotion ? 0 : 0.3,
+                              ease: "easeOut",
+                              delay: reducedMotion ? 0 : 0.42
+                            }}
+                          />
+                        </div>
+                        <div className="relative z-[3] lg:mt-auto lg:flex lg:h-1/2 lg:translate-y-2 lg:flex-col lg:justify-center">
+                          <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
+                            {numericStatValue !== null ? (
+                              <RollingNumber value={numericStatValue} />
+                            ) : (
+                              stat.value
+                            )}
+                          </p>
+                          <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
+                            {stat.label}
+                          </p>
+                          <p className="mt-2 text-sm leading-tight text-blue-50 lg:mt-3">
+                            {stat.description}
+                          </p>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-[3rem] font-bold leading-[0.9] lg:text-[3.25rem]">
+                          {numericStatValue !== null ? (
+                            <RollingNumber value={numericStatValue} />
+                          ) : (
+                            stat.value
+                          )}
+                        </p>
+                        <p className="mt-1 text-[2.1rem] font-normal leading-none lg:text-[2.35rem]">
+                          {stat.label}
+                        </p>
+                        <p className="mt-2 text-sm leading-tight text-blue-50 lg:mt-3">
+                          {stat.description}
+                        </p>
+                      </>
+                    )}
                   </article>
                 );
               })}
               </div>
-              <aside className="flex flex-col bg-[#1D26FF] p-5 text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0 lg:p-4">
-                <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
-                  {numericSideValue !== null ? (
-                    <RollingNumber value={numericSideValue} />
-                  ) : (
-                    sideBarStat.value
-                  )}
-                </p>
-                <p className="mt-1 text-[2.2rem] font-normal leading-none">{sideBarStat.label}</p>
-                <p className="mt-3 text-base leading-tight text-blue-50 lg:text-[1.1rem]">
-                  {sideBarStat.description}
-                </p>
+              <aside className="flex flex-col bg-[#1D26FF] text-center text-white md:min-h-[20rem] lg:h-full lg:min-h-0">
+                <div className="shrink-0 border-b border-white/60 p-5 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-4">
+                  <p className="text-[3.1rem] font-bold leading-[0.9] lg:text-[3.3rem]">
+                    {numericSideValue !== null ? (
+                      <RollingNumber value={numericSideValue} />
+                    ) : (
+                      sideBarStat.value
+                    )}
+                  </p>
+                  <p className="mt-1 text-[2.2rem] font-normal leading-none">{sideBarStat.label}</p>
+                  <p className="mt-3 text-base leading-tight text-blue-50 lg:text-[1.1rem]">
+                    {sideBarStat.description}
+                  </p>
+                </div>
+                <div className="relative w-full overflow-hidden aspect-[3/4] md:aspect-[2/3] lg:aspect-auto lg:flex-1">
+                  <img
+                    src="/fans-vertical.png"
+                    alt="Cheering basketball fans"
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </div>
               </aside>
             </div>
           </motion.div>

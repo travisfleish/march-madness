@@ -114,16 +114,16 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
         size: "lg"
       },
       {
-        value: "100",
-        label: "Million",
-        description: "Tournament-wide reach approaches 100 million viewers",
-        size: "md"
-      },
-      {
         value: "20",
         label: "Million",
         description:
           "Brackets filled out. The most participatory U.S. sports event",
+        size: "md"
+      },
+      {
+        value: "100",
+        label: "Million",
+        description: "Tournament-wide reach approaches 100 million viewers",
         size: "md"
       }
     ],
