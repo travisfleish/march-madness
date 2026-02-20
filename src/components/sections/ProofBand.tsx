@@ -21,7 +21,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
   const chartFrameRef = useRef<HTMLDivElement | null>(null);
   const isChartInView = useInView(chartFrameRef, { once: false, amount: 0.35 });
   const maxBarValue = Math.max(...chart.bars.map((bar) => bar.value), 1);
-  const chartMaxHeight = 160;
+  const chartMaxHeight = 120;
   const highlightPhrases = new Set(["Emotional engagement", "2x higher"]);
   const bodyParts = body.split(/(Emotional engagement|2x higher)/g);
 
@@ -62,13 +62,8 @@ function ProofBand({ body, chart }: ProofBandProps) {
               "linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.02) 50%, rgba(255,255,255,0.06) 75%, rgba(255,255,255,0.02) 100%)"
           }}
         >
-          <div className="flex items-start justify-between gap-4">
-            <h3 className="text-xl font-semibold leading-tight text-white">{chart.title}</h3>
-            <img
-              src="/genius-assets/genius_g_logo.svg"
-              alt="Genius Sports logo"
-              className="mr-1 h-11 w-11 shrink-0 md:mr-2"
-            />
+          <div>
+            <h3 className="w-full text-xl font-semibold leading-tight text-white">{chart.title}</h3>
           </div>
           <p className="mt-1 text-sm leading-tight text-slate-300">{chart.subtitle}</p>
 
@@ -102,7 +97,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
                     }}
                   >
                     <motion.span
-                      className="text-4xl font-semibold leading-none text-white"
+                      className="text-3xl font-semibold leading-none text-white md:text-4xl"
                       initial={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 5 }}
                       animate={{
                         opacity: isChartInView || reducedMotion ? 1 : 0,

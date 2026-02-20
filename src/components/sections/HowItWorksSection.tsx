@@ -22,7 +22,7 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
       <h2 className="section-title">{header}</h2>
       <p className="section-copy">{paragraph}</p>
 
-      <Stagger className="mt-8 grid gap-4 md:grid-cols-3" staggerChildren={0.24} once={false}>
+      <Stagger className="mt-8 hidden gap-4 md:grid md:grid-cols-3" staggerChildren={0.24} once={false}>
         {steps.map((step, index) => (
           <motion.a
             key={step.title}

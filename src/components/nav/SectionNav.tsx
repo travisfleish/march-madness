@@ -61,7 +61,7 @@ function SectionNav() {
   }, [sectionIds]);
 
   return (
-    <nav className="sticky top-0 z-40 -mx-2 px-2 pt-5 pb-2 md:pt-6 md:pb-3">
+    <nav className="sticky top-0 z-40 -mx-2 hidden px-2 pt-5 pb-2 md:block md:pt-6 md:pb-3">
       <div className="overflow-x-auto rounded-full bg-gs-surface p-1 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
         <ul className="flex w-max min-w-full items-center gap-1">
           {navItems.map((item) => {

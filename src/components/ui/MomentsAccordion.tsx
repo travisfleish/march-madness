@@ -38,6 +38,8 @@ function PlusMinusIcon({ isOpen }: { isOpen: boolean }) {
 
 function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
   const reducedMotion = useReducedMotionSafe();
+  const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
+  const mobileButtonLabels = labels.slice(0, 4);
   const [openIdsByColumn, setOpenIdsByColumn] = useState<Record<number, string | null>>({
     0: null,
     1: null
@@ -46,7 +48,71 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
   const labelColumns = [labels.slice(0, midpoint), labels.slice(midpoint)];
 
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-8">
+    <>
+      <div className="flex flex-col gap-4 md:hidden">
+        <div className="grid grid-cols-1 gap-2">
+          {mobileButtonLabels.map((label, index) => {
+            const isOpen = mobileOpenId === label;
+            const panelId = `mobile-moment-panel-${index}`;
+            const details = detailsByLabel[label] ?? {
+              trigger: "Moment trigger details for this selection.",
+              description:
+                "Moment description placeholder explaining how this in-game event connects your message to fan emotion."
+            };
+
+            return (
+              <div key={label} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  onClick={() => setMobileOpenId((current) => (current === label ? null : label))}
+                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-base font-medium text-slate-900"
+                >
+                  <PlusMinusIcon isOpen={isOpen} />
+                  <span>{toTitleCase(label)}</span>
+                </button>
+
+                <AnimatePresence initial={false}>
+                  {isOpen ? (
+                    <motion.div
+                      id={panelId}
+                      key={panelId}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{
+                        duration: reducedMotion ? 0.12 : 0.22,
+                        ease: "easeOut"
+                      }}
+                      className="overflow-hidden border-t border-slate-200 bg-white"
+                    >
+                      <div className="space-y-2 px-4 pb-4 pt-3 text-left">
+                        <p className="text-sm text-slate-900">
+                          <span className="font-semibold text-slate-700">Trigger: </span>
+                          {details.trigger}
+                        </p>
+                        <p className="text-sm text-slate-900">
+                          <span className="font-semibold text-slate-700">Description: </span>
+                          {details.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+          <button
+            type="button"
+            className="w-full rounded-lg border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-left text-base font-medium text-slate-600"
+          >
+            And more
+          </button>
+        </div>
+      </div>
+
+      <div className="hidden flex-col gap-4 md:flex md:flex-row md:items-start md:gap-8">
         {labelColumns.map((columnLabels, columnIndex) => (
           <div
             key={`column-${columnIndex}`}
@@ -118,7 +184,8 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
             })}
           </div>
         ))}
-    </div>
+      </div>
+    </>
   );
 }
 
