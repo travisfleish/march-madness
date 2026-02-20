@@ -134,6 +134,8 @@ const NAV_CONFIG = {
       title: "SAOT – Semi-Automated Offside Technology",
       body: "SAOT brings back the joy of the beautiful game to fans with instant, accurate decision making.",
       href: "https://www.geniussports.com/perform/saot/",
+      imageSrc: "/saot-learn-blue.png",
+      hoverImageSrc: "/saot-learn-hover.png",
     },
   },
 } as const;
@@ -582,37 +584,59 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
 
             {openMenu === "learn" && (
               <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-7 space-y-4 pr-2">
-                  {NAV_CONFIG.learn.links.map((link) => (
-                    <a
-                      key={link.title}
-                      href={link.href}
-                      role="menuitem"
-                      className="block rounded-2xl border border-gray-200 p-5 transition-colors hover:bg-slate-50 focus:bg-slate-50 focus:outline-none"
-                    >
-                      <h3 className="font-heading text-[18px] font-semibold text-slate-900">{link.title}</h3>
-                      <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{link.description}</p>
-                    </a>
-                  ))}
+                <div className="col-span-7 pr-2">
+                  <div className="grid grid-cols-2 gap-x-9">
+                    {NAV_CONFIG.learn.links.map((link) => (
+                      <a
+                        key={link.title}
+                        href={link.href}
+                        role="menuitem"
+                        className="block rounded-lg p-2 transition-colors hover:bg-slate-50 focus:bg-slate-50 focus:outline-none"
+                      >
+                        <h3 className="font-heading text-[24px] font-normal leading-[1.15] tracking-[-0.01em] text-slate-900">
+                          {link.title}
+                        </h3>
+                        <p className="mt-2 max-w-[29ch] text-[14px] leading-[1.45] text-slate-600">{link.description}</p>
+                      </a>
+                    ))}
+                  </div>
+
+                  <a
+                    href="https://www.geniussports.com/perform/saot/"
+                    role="menuitem"
+                    className="mt-6 flex items-center gap-4 rounded-[10px] bg-[#f0f2f6] px-3 py-2.5 transition-colors hover:bg-[#e9edf4] focus:bg-[#e9edf4] focus:outline-none"
+                  >
+                    <img
+                      src="/learn-ai-data-thumb.png"
+                      alt="AI and Data feature"
+                      className="h-[68px] w-[118px] flex-none rounded-[7px] object-cover"
+                    />
+                    <div>
+                      <p className="font-heading text-[15px] font-normal leading-tight text-slate-900">AI & Data</p>
+                      <p className="mt-1 text-[20px] font-normal leading-[1.2] tracking-[-0.01em] text-slate-900">
+                        Calculating shot probability: From raw data to broadcast insights
+                      </p>
+                    </div>
+                  </a>
                 </div>
+
                 <aside className="col-span-5">
                   <a
                     href={NAV_CONFIG.learn.promo.href}
-                    className="block h-full overflow-hidden rounded-3xl bg-gradient-to-br from-violet-700 via-violet-800 to-purple-950 p-7 text-white"
+                    className="group block rounded-[8px]"
                   >
-                    <h3 className="font-heading text-[26px] font-semibold leading-tight">
-                      {NAV_CONFIG.learn.promo.title}
-                    </h3>
-                    <p className="mt-3 max-w-[35ch] text-[15px] leading-relaxed text-violet-100">
-                      {NAV_CONFIG.learn.promo.body}
-                    </p>
-                    <div
-                      className="mt-8 h-16 rounded-xl"
-                      style={{
-                        backgroundImage:
-                          "repeating-linear-gradient(135deg, rgba(255,255,255,0.22) 0 10px, rgba(255,255,255,0.06) 10px 20px)",
-                      }}
-                    />
+                    <span className="grid">
+                      <img
+                        src={NAV_CONFIG.learn.promo.imageSrc}
+                        alt={NAV_CONFIG.learn.promo.title}
+                        className="col-start-1 row-start-1 h-auto w-full rounded-[8px] transition-opacity duration-200 ease-out group-hover:opacity-0 group-focus-visible:opacity-0"
+                      />
+                      <img
+                        src={NAV_CONFIG.learn.promo.hoverImageSrc}
+                        alt={NAV_CONFIG.learn.promo.title}
+                        className="col-start-1 row-start-1 h-auto w-full rounded-[8px] opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 group-focus-visible:opacity-100"
+                      />
+                    </span>
                   </a>
                 </aside>
               </div>
