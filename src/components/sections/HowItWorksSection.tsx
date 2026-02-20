@@ -37,7 +37,7 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
                 block: "start"
               });
             }}
-            className="block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#0014ff]/30 hover:shadow-[0_0_0_1px_rgba(0,20,255,0.18),0_10px_22px_rgba(15,23,42,0.08),0_0_28px_rgba(0,20,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+            className="relative block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#0014ff]/30 hover:shadow-[0_0_0_1px_rgba(0,20,255,0.18),0_10px_22px_rgba(15,23,42,0.08),0_0_28px_rgba(0,20,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
             variants={{
               hidden: { opacity: 0 },
               show: { opacity: 1 }
@@ -47,7 +47,12 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
               ease: "easeOut"
             }}
           >
-            <h3 className="text-lg font-semibold text-slate-900">{step.title}</h3>
+            {step.badge ? (
+              <span className="absolute left-4 top-0 z-10 -translate-y-1/2 rounded-full border border-slate-300 bg-white px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-slate-700">
+                {step.badge}
+              </span>
+            ) : null}
+            <h3 className="text-base font-semibold text-slate-900">{step.title}</h3>
             <p className="mt-3 text-sm text-slate-600">{step.body}</p>
           </motion.a>
         ))}

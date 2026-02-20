@@ -5,6 +5,7 @@ export type MomentModalTemplate = {
 export type StepCard = {
   title: string;
   body: string;
+  badge?: string;
 };
 
 export type DualListSection = {
@@ -190,7 +191,8 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
         body: "Choose high-intent fan segments based on fandom, behaviors, and purchase signals."
       },
       {
-        title: "Step 3: Customize Your Creative & Channel",
+        title: "Customize Your Creative & Channel",
+        badge: "Optional",
         body: "Tailor messaging dynamically to the moment and deliver across CTV, OTT, and digital."
       }
     ]

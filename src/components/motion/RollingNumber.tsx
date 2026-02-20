@@ -40,19 +40,23 @@ function RollingNumber({
   const effectiveDuration = rerollKey > 0 ? rerollDuration : duration;
 
   if (reducedMotion) {
-    return <span className={`inline-flex tabular-nums ${className ?? ""}`}>{displayValue}</span>;
+    return (
+      <span className={`inline-flex h-[1em] items-center tabular-nums leading-none ${className ?? ""}`}>
+        {displayValue}
+      </span>
+    );
   }
 
   return (
     <span
-      className={`inline-flex tabular-nums align-baseline ${className ?? ""}`}
+      className={`inline-flex h-[1em] items-center tabular-nums leading-none align-middle ${className ?? ""}`}
       style={{ fontVariantNumeric: "tabular-nums" }}
       aria-label={displayValue}
     >
       {Array.from(displayValue).map((char, index) => {
         if (!/\d/.test(char)) {
           return (
-            <span key={`char-${index}`} className="inline-block">
+            <span key={`char-${index}`} className="inline-flex h-[1em] items-center leading-none">
               {char}
             </span>
           );

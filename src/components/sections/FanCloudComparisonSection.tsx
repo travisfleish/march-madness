@@ -419,26 +419,31 @@ function FanCloudComparisonSection({
                 {displayedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
-                    className={`flex min-w-0 flex-col justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
+                    className={`flex min-w-0 flex-col items-center justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
                       index > 0 ? "border-l border-white/35" : ""
                     }`}
                   >
-                    <p className="whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
+                    <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
                       {isMobileViewport ? (
                         metric.value
                       ) : metric.parts.number !== null ? (
                         <>
-                          {metric.parts.prefix}
+                          {metric.parts.prefix ? (
+                            <span className="inline-flex h-[1em] items-center leading-none">{metric.parts.prefix.trim()}</span>
+                          ) : null}
                           <RollingNumber
                             value={metric.parts.number}
                             duration={0.5}
                             rerollDuration={0.5}
                             rerollKey={metricsRollKey}
+                            className="inline-flex h-[1em] items-center leading-none"
                           />
-                          {metric.parts.suffix}
+                          {metric.parts.suffix ? (
+                            <span className="inline-flex h-[1em] items-center leading-none">{metric.parts.suffix.trim()}</span>
+                          ) : null}
                         </>
                       ) : (
-                        metric.value
+                        <span className="inline-flex h-[1em] items-center leading-none">{metric.value}</span>
                       )}
                     </p>
                     <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-200/80 md:text-lg">
