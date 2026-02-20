@@ -38,9 +38,9 @@ function AudiencesSection({
           <div className="mt-8 grid gap-8 md:grid-cols-2">
             <div>
               {leftHeader ? (
-                <h3 className="mb-4 text-lg font-semibold text-slate-900">{leftHeader}</h3>
+                <h3 className="mb-3 text-lg font-semibold text-slate-900">{leftHeader}</h3>
               ) : null}
-              <Stagger as="ul" className="space-y-3" staggerChildren={0.06}>
+              <Stagger as="ul" className="space-y-2" staggerChildren={0.06}>
                 {leftList.map((item) => (
                   <motion.li
                     key={item}

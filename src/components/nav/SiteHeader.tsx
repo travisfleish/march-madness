@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 
-type MenuKey = "products" | "solutions" | "learn" | "company";
+type MenuKey = "products" | "solutions" | "learn";
 type ExternalLinkKey = "geniusiq" | "customers";
 
 type ProductItem = {
@@ -32,14 +32,13 @@ const NAV_CONFIG = {
     src: "/genius-assets/genius_logo.svg",
     alt: "Genius Sports",
   },
-  topOrder: ["products", "solutions", "geniusiq", "customers", "learn", "company"] as const,
+  topOrder: ["products", "solutions", "geniusiq", "customers", "learn"] as const,
   topLabels: {
     products: "Products",
     solutions: "Solutions",
     geniusiq: "GeniusIQ",
     customers: "Customers",
     learn: "Learn",
-    company: "Company",
   },
   topExternal: {
     geniusiq: "https://www.geniussports.com/geniusiq/",
@@ -51,14 +50,29 @@ const NAV_CONFIG = {
   },
   solutions: {
     leftColumn: [
-      { label: "Teams & Leagues", href: "https://www.geniussports.com/leagues/" },
-      { label: "Brands", href: "https://www.geniussports.com/brands/" },
-      { label: "Customers", href: "https://www.geniussports.com/built-on-genius/" },
-    ] as BasicLink[],
+      {
+        title: "For Sports Leagues",
+        href: "https://www.geniussports.com/leagues/",
+        description: "Transform the way you capture and use data. For every stakeholder.",
+      },
+      {
+        title: "For Brands",
+        href: "https://www.geniussports.com/brands/",
+        description: "Reach and engage sports fans efficiently. Beyond generic adtech.",
+      },
+    ] as DescriptiveLink[],
     rightColumn: [
-      { label: "Sportsbooks", href: "https://www.geniussports.com/sportsbooks/" },
-      { label: "Content Owners", href: "https://www.geniussports.com/content-owners/" },
-    ] as BasicLink[],
+      {
+        title: "For Sportsbooks",
+        href: "https://www.geniussports.com/sportsbooks/",
+        description: "Be more profitable. Outsource trading, risk and more to the experts.",
+      },
+      {
+        title: "For Content Owners",
+        href: "https://www.geniussports.com/content-owners/",
+        description: "Transform your broadcast, stream or highlight reel, and reimagine viewing experiences.",
+      },
+    ] as DescriptiveLink[],
     promo: {
       title: "FIBA U19 World Cup showcases AI innovation with GeniusIQ",
       href: "https://www.geniussports.com/geniusiq/",
@@ -122,42 +136,13 @@ const NAV_CONFIG = {
       href: "https://www.geniussports.com/perform/saot/",
     },
   },
-  company: {
-    links: [
-      {
-        title: "About",
-        href: "https://www.geniussports.com/about-us/",
-        description: "See how we help organise, optimise and enrich experiences for sports fans globally.",
-      },
-      {
-        title: "Careers",
-        href: "https://www.geniussports.com/careers/",
-        description: "Empower your career and discover your Genius.",
-      },
-      {
-        title: "Contact",
-        href: "https://www.geniussports.com/contact/",
-        description: "Reach out to our sales or support team today.",
-      },
-    ] as DescriptiveLink[],
-    promo: {
-      title: "For Investors",
-      body: "Learn more about investing in Genius – the official data, technology and broadcast partner that powers the sports ecosystem.",
-      href: "https://investors.geniussports.com/",
-      stock: {
-        symbol: "GENI",
-        price: "$7.42",
-        change: "+2.18%",
-      },
-    },
-  },
 } as const;
 
 type SiteHeaderProps = {
   activeExternalLink?: ExternalLinkKey | null;
 };
 
-const HEADER_HEIGHT = 84;
+const HEADER_HEIGHT = 96;
 const DROPDOWN_OFFSET = 12;
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -205,7 +190,6 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
     products: null,
     solutions: null,
     learn: null,
-    company: null,
   });
 
   const clearTimers = () => {
@@ -345,13 +329,13 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   return (
     <header
       ref={headerRef}
-      className="absolute left-0 top-0 z-50 h-[84px] w-full border-b border-gray-200 bg-transparent font-sans"
+      className="absolute left-0 top-0 z-50 h-[96px] w-full bg-transparent font-sans"
       style={{ fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" }}
     >
       <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-between px-6 lg:px-10">
         <div className="flex items-center gap-8 lg:gap-12">
           <a href={NAV_CONFIG.logo.href} aria-label="Genius Sports home" className="inline-flex items-center">
-            <img src={NAV_CONFIG.logo.src} alt={NAV_CONFIG.logo.alt} className="h-14 w-auto" />
+            <img src={NAV_CONFIG.logo.src} alt={NAV_CONFIG.logo.alt} className="h-[66px] w-auto" />
           </a>
 
           <nav
@@ -446,22 +430,18 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
             {openMenu === "solutions" && (
               <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-7">
-                  <div className="grid grid-cols-2 gap-8">
+                  <div className="grid grid-cols-2 gap-x-10 gap-y-9">
                     {[NAV_CONFIG.solutions.leftColumn, NAV_CONFIG.solutions.rightColumn].map((column, index) => (
-                      <div key={index} className="space-y-1">
+                      <div key={index} className="space-y-7">
                         {column.map((link) => (
                           <a
-                            key={link.label}
+                            key={link.title}
                             href={link.href}
                             role="menuitem"
-                            className="group flex items-center rounded-lg px-2 py-2 text-[16px] font-medium text-slate-900 transition-colors focus:outline-none"
+                            className="block rounded-lg py-1.5 focus:outline-none"
                           >
-                            <span className="inline-flex items-center gap-1.5">
-                              <span>{link.label}</span>
-                              <span className="-translate-x-1.5 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100">
-                                <InlineArrowIcon />
-                              </span>
-                            </span>
+                            <h3 className="text-[16px] font-semibold leading-tight text-slate-900">{link.title}</h3>
+                            <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-slate-600">{link.description}</p>
                           </a>
                         ))}
                       </div>
@@ -471,8 +451,11 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                 <aside className="col-span-5">
                   <a
                     href={NAV_CONFIG.solutions.promo.href}
-                    className="relative block overflow-hidden rounded-[12px] shadow-[0_18px_45px_rgba(0,0,0,0.22)]"
+                    className="group relative block overflow-hidden rounded-[12px] shadow-[0_18px_45px_rgba(0,0,0,0.22)]"
                   >
+                    <span className="pointer-events-none absolute right-4 top-4 z-10 inline-flex h-8 w-8 rotate-45 scale-90 items-center justify-center rounded-full bg-white text-slate-900 opacity-0 transition-all duration-200 ease-out group-hover:rotate-0 group-hover:scale-100 group-hover:opacity-100 group-focus-visible:rotate-0 group-focus-visible:scale-100 group-focus-visible:opacity-100">
+                      <CornerLaunchIcon />
+                    </span>
                     <img
                       src={NAV_CONFIG.solutions.promo.imageSrc}
                       alt={NAV_CONFIG.solutions.promo.title}
@@ -484,11 +467,6 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                           "radial-gradient(126% 126% at 50% 50%, #000 72%, rgba(0,0,0,0.55) 90%, transparent 100%)",
                       }}
                     />
-                    <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/55 to-transparent px-5 pb-4 pt-12">
-                      <p className="max-w-[30ch] text-[17px] font-medium leading-snug text-white">
-                        {NAV_CONFIG.solutions.promo.title}
-                      </p>
-                    </div>
                   </a>
                 </aside>
               </div>
@@ -518,7 +496,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                             key={item.label}
                             href={item.href}
                             role="menuitem"
-                            className="group flex items-center rounded-lg py-2 text-[15px] font-normal text-slate-700 transition-colors hover:text-slate-900 focus:outline-none"
+                            className="group flex items-center rounded-lg py-0.5 text-[15px] font-normal text-slate-700 transition-colors hover:text-slate-900 focus:outline-none"
                           >
                             <span className="inline-flex items-center gap-2">
                               <span className="whitespace-nowrap">{item.label}</span>
@@ -615,41 +593,6 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
               </div>
             )}
 
-            {openMenu === "company" && (
-              <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-7 space-y-4 pr-2">
-                  {NAV_CONFIG.company.links.map((link) => (
-                    <a
-                      key={link.title}
-                      href={link.href}
-                      role="menuitem"
-                      className="block rounded-2xl border border-gray-200 p-5 transition-colors hover:bg-slate-50 focus:bg-slate-50 focus:outline-none"
-                    >
-                      <h3 className="text-[18px] font-semibold text-slate-900">{link.title}</h3>
-                      <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{link.description}</p>
-                    </a>
-                  ))}
-                </div>
-                <aside className="col-span-5">
-                  <a
-                    href={NAV_CONFIG.company.promo.href}
-                    className="block h-full rounded-3xl bg-cyan-100 p-7 text-slate-900"
-                  >
-                    <h3 className="text-[28px] font-semibold leading-tight">{NAV_CONFIG.company.promo.title}</h3>
-                    <p className="mt-3 max-w-[36ch] text-[15px] leading-relaxed text-slate-700">
-                      {NAV_CONFIG.company.promo.body}
-                    </p>
-                    <div className="mt-8 max-w-[230px] rounded-2xl bg-white p-4 shadow-sm">
-                      <div className="text-xs font-medium text-slate-500">{NAV_CONFIG.company.promo.stock.symbol}</div>
-                      <div className="mt-1 text-2xl font-semibold text-slate-900">{NAV_CONFIG.company.promo.stock.price}</div>
-                      <div className="mt-1 text-sm font-semibold text-emerald-600">
-                        {NAV_CONFIG.company.promo.stock.change}
-                      </div>
-                    </div>
-                  </a>
-                </aside>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -657,10 +600,10 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
       {isMobileOpen && (
         <div
           id="site-header-mobile-menu"
-          className="absolute left-0 top-[84px] w-full border-t border-gray-200 bg-white px-6 py-5 shadow-xl lg:hidden"
+          className="absolute left-0 top-[96px] w-full border-t border-gray-200 bg-white px-6 py-5 shadow-xl lg:hidden"
         >
           <nav className="space-y-1" aria-label="Mobile navigation">
-            {(["products", "solutions", "learn", "company"] as MenuKey[]).map((section) => (
+            {(["products", "solutions", "learn"] as MenuKey[]).map((section) => (
               <div key={section} className="border-b border-gray-100 py-1">
                 <button
                   type="button"
@@ -710,11 +653,11 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                       <div className="space-y-1">
                         {[...NAV_CONFIG.solutions.leftColumn, ...NAV_CONFIG.solutions.rightColumn].map((link) => (
                           <a
-                            key={link.label}
+                            key={link.title}
                             href={link.href}
                             className="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
                           >
-                            {link.label}
+                            {link.title}
                           </a>
                         ))}
                       </div>
@@ -740,25 +683,6 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                       </div>
                     )}
 
-                    {section === "company" && (
-                      <div className="space-y-1">
-                        {NAV_CONFIG.company.links.map((link) => (
-                          <a
-                            key={link.title}
-                            href={link.href}
-                            className="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                          >
-                            {link.title}
-                          </a>
-                        ))}
-                        <a
-                          href={NAV_CONFIG.company.promo.href}
-                          className="block rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                        >
-                          For Investors
-                        </a>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>

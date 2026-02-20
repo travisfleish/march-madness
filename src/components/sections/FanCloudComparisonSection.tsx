@@ -278,7 +278,7 @@ function FanCloudComparisonSection({
       id="fan-cloud"
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-white"
     >
-      <div className="mx-auto w-full max-w-[1320px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
+      <div className="mx-auto w-full max-w-[1320px] px-5 pt-6 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
         <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
           {headlineWithHalo ? (
             <>
