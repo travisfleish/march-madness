@@ -42,7 +42,7 @@ const NAV_CONFIG = {
   },
   topExternal: {
     geniusiq: "https://www.geniussports.com/geniusiq/",
-    customers: "https://www.geniussports.com/built-on-genius/",
+    customers: "https://www.geniussports.com/customer-stories/",
   },
   cta: {
     label: "Contact Sales",
@@ -56,16 +56,16 @@ const NAV_CONFIG = {
         description: "Transform the way you capture and use data. For every stakeholder.",
       },
       {
-        title: "For Brands",
-        href: "https://www.geniussports.com/brands/",
-        description: "Reach and engage sports fans efficiently. Beyond generic adtech.",
+        title: "For Sportsbooks",
+        href: "https://www.geniussports.com/sportsbooks/",
+        description: "Be more profitable. Outsource trading, risk and more to the experts.",
       },
     ] as DescriptiveLink[],
     rightColumn: [
       {
-        title: "For Sportsbooks",
-        href: "https://www.geniussports.com/sportsbooks/",
-        description: "Be more profitable. Outsource trading, risk and more to the experts.",
+        title: "For Brands",
+        href: "https://www.geniussports.com/brands/",
+        description: "Reach and engage sports fans efficiently. Beyond generic adtech.",
       },
       {
         title: "For Content Owners",
@@ -88,7 +88,7 @@ const NAV_CONFIG = {
           { label: "Performance Analysis", href: "https://www.geniussports.com/perform/" },
           { label: "AI Officiating", href: "https://www.geniussports.com/perform/saot/", isNew: true },
           { label: "League Software", href: "https://www.geniussports.com/technology-for-sports-leagues/" },
-          { label: "Integrity Services", href: "https://www.geniussports.com/bet/" },
+          { label: "Integrity Services", href: "https://www.geniussports.com/perform/#integrity-services" },
         ],
       },
       {
@@ -96,8 +96,8 @@ const NAV_CONFIG = {
         href: "https://www.geniussports.com/engage/",
         items: [
           { label: "FANHub", href: "https://www.geniussports.com/engage/" },
-          { label: "Augmentation", href: "https://www.geniussports.com/content-owners/" },
-          { label: "Gamification", href: "https://www.geniussports.com/engage/" },
+          { label: "Augmentation", href: "https://www.geniussports.com/engage/augmentation/" },
+          { label: "Gamification", href: "https://www.geniussports.com/engage/gamification/" },
           { label: "Sports Data API", href: "https://www.geniussports.com/engage/official-sports-data-api/" },
         ],
       },
@@ -105,7 +105,7 @@ const NAV_CONFIG = {
         title: "Bet",
         href: "https://www.geniussports.com/bet/",
         items: [
-          { label: "Data & Odds APIs", href: "https://www.geniussports.com/sportsbooks/" },
+          { label: "Data & Odds APIs", href: "https://www.geniussports.com/bet/odds-feeds-api/" },
           { label: "Genius Trading Services", href: "https://www.geniussports.com/bet/genius-trading-services/" },
           { label: "BetVision", href: "https://www.geniussports.com/bet/bet-vision/" },
         ],
