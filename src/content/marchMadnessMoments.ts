@@ -246,7 +246,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     ]
   },
   creativeAndChannel: {
-    header: "Step 3: Customize Your Creative & Channel",
+    header: "Optional: Customize Your Creative & Channel",
     paragraph:
       "With Genius Sports AI-driven dynamic creative optimization engine, advertisers can tailor their message to each moment, whether it’s a comeback, a buzzer beater, or a Cinderella run. Select content can be pushed across channels, including CTV, OTT, and digital.",
     creativeViz: {
