@@ -24,6 +24,29 @@ function ProofBand({ body, chart }: ProofBandProps) {
   const chartMaxHeight = 120;
   const highlightPhrases = new Set(["Emotional engagement", "2x higher"]);
   const bodyParts = body.split(/(Emotional engagement|2x higher)/g);
+  const renderBarLabel = (label: string) => {
+    if (label === "Following high-surprise moments") {
+      return (
+        <>
+          <span className="block">Following</span>
+          <span className="block">high-surprise</span>
+          <span className="block">moments</span>
+        </>
+      );
+    }
+
+    if (label === "Following low-surprise moments") {
+      return (
+        <>
+          <span className="block">Following</span>
+          <span className="block">low-surprise</span>
+          <span className="block">moments</span>
+        </>
+      );
+    }
+
+    return label;
+  };
 
   return (
     <Reveal
@@ -65,7 +88,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
           <div>
             <h3 className="w-full text-xl font-semibold leading-tight text-white">{chart.title}</h3>
           </div>
-          <p className="mt-1 text-sm leading-tight text-slate-300">{chart.subtitle}</p>
+          <p className="mt-1 hidden text-sm leading-tight text-slate-300 md:block">{chart.subtitle}</p>
 
           <div className="mt-5" ref={chartFrameRef}>
             <div className="relative" style={{ height: `${chartMaxHeight}px` }}>
@@ -120,9 +143,9 @@ function ProofBand({ body, chart }: ProofBandProps) {
               {chart.bars.map((bar) => (
                 <p
                   key={`${bar.label}-label`}
-                  className="text-center text-sm font-medium leading-tight text-slate-100"
+                  className="text-center text-[0.7rem] font-medium leading-tight text-slate-100 md:text-sm"
                 >
-                  {bar.label}
+                  {renderBarLabel(bar.label)}
                 </p>
               ))}
             </div>

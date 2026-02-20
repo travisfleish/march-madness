@@ -51,13 +51,13 @@ function AudiencesSection({
                     }}
                     transition={{ duration: reducedMotion ? 0.18 : 0.3, ease: "easeOut" }}
                   >
-                    <span className="mt-2 h-2 w-2 rounded-full bg-accent-500" aria-hidden="true" />
+                    <span className="mt-1.5 block h-2.5 w-2.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true" />
                     <span>{item}</span>
                   </motion.li>
                 ))}
               </Stagger>
             </div>
-            <div className="rounded-xl border border-slate-200 bg-gs-surface p-6">
+            <div className="p-0 md:rounded-xl md:border md:border-slate-200 md:bg-gs-surface md:p-6">
               <h3 className="text-lg font-semibold text-slate-900">{rightHeader}</h3>
               <Stagger as="ul" className="mt-4 space-y-3" staggerChildren={0.06}>
                 {rightList.map((item) => (
@@ -70,7 +70,7 @@ function AudiencesSection({
                     }}
                     transition={{ duration: reducedMotion ? 0.18 : 0.3, ease: "easeOut" }}
                   >
-                    <span className="mt-2 h-2 w-2 rounded-full bg-slate-400" aria-hidden="true" />
+                    <span className="mt-1.5 block h-2.5 w-2.5 shrink-0 rounded-full bg-accent-500" aria-hidden="true" />
                     <span>{item}</span>
                   </motion.li>
                 ))}

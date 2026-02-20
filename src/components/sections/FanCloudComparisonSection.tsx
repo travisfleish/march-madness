@@ -247,6 +247,14 @@ function FanCloudComparisonSection({
   const headlineWithHalo = headline.includes(geniusSportsPhrase)
     ? headline.split(geniusSportsPhrase)
     : null;
+  const mobileHeadline = (
+    <>
+      <span className="block">No one knows</span>
+      <span className="block">March Madness</span>
+      <span className="block">fans better than</span>
+      <span className="block text-[#1D26FF]">Genius Sports</span>
+    </>
+  );
   const leftLabelClasses = [
     "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isOtherViewDominant
@@ -265,19 +273,22 @@ function FanCloudComparisonSection({
       id="fan-cloud"
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-white"
     >
-      <div className="mx-auto w-full max-w-[1320px] px-5 pt-6 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
-        <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
-          {headlineWithHalo ? (
-            <>
-              {headlineWithHalo[0]}
-              <span className="text-[#1D26FF]">
-                {geniusSportsPhrase}
-              </span>
-              {headlineWithHalo[1]}
-            </>
-          ) : (
-            headline
-          )}
+      <div className="mx-auto w-full max-w-[1320px] px-5 pt-2 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
+        <h2 className="mx-auto max-w-4xl text-center font-heading font-semibold tracking-tight text-slate-900">
+          <span className="text-[2rem] leading-[1.04] md:hidden">{mobileHeadline}</span>
+          <span className="hidden text-5xl md:inline lg:text-6xl">
+            {headlineWithHalo ? (
+              <>
+                {headlineWithHalo[0]}
+                <span className="text-[#1D26FF]">
+                  {geniusSportsPhrase}
+                </span>
+                {headlineWithHalo[1]}
+              </>
+            ) : (
+              headline
+            )}
+          </span>
         </h2>
 
         <div className="mt-8 md:mt-10">
@@ -297,7 +308,16 @@ function FanCloudComparisonSection({
             </article>
 
             <article>
-              <p className="mb-2 px-1 text-center text-sm font-semibold leading-snug text-slate-900">{rightLabel}</p>
+              <p className="mb-2 px-1 text-center text-sm font-semibold leading-snug text-slate-900">
+                {rightLabel === "How Genius Sports sees March Madness fans." ? (
+                  <>
+                    <span className="block">How Genius Sports sees</span>
+                    <span className="block">March Madness fans.</span>
+                  </>
+                ) : (
+                  rightLabel
+                )}
+              </p>
               <div className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
               <div className="relative aspect-[16/9] w-full">
                 <img
@@ -415,9 +435,11 @@ function FanCloudComparisonSection({
                     }`}
                   >
                     <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
-                      <span className="inline-flex h-[1em] items-center leading-none">{metric.value}</span>
+                      <span className="inline-flex h-[1em] items-center leading-none">
+                        {isMobileViewport && metric.value === "250 Million" ? "250 M" : metric.value}
+                      </span>
                     </p>
-                    <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-200/80 md:text-lg">
+                    <p className="mt-1 whitespace-nowrap text-[0.62rem] font-medium leading-tight text-slate-200/80 md:text-lg">
                       {metric.label}
                     </p>
                   </article>
