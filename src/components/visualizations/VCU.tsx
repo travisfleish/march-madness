@@ -86,6 +86,9 @@ export function MarchMadnessBracket({
   // Round 2 divider is centered between the two Round 1 dividers
   const round2Divider = (round1Card1Divider + round1Card2Divider) / 2;
   const round2CardTop = round2Divider - ROW_HEIGHT;
+  // Optical adjustment: heavier border + drop shadow can make true center look slightly low.
+  const SWEET16_OPTICAL_OFFSET_Y = -1;
+  const sweet16CardTop = round2Divider - ROW_HEIGHT / 2 + SWEET16_OPTICAL_OFFSET_Y;
 
   return (
     <div className="w-full h-full flex items-center justify-center bg-transparent p-8">
@@ -279,9 +282,9 @@ export function MarchMadnessBracket({
                 <motion.div
                   className="absolute left-0"
                   style={{
-                    top: `${round2CardTop}px`,
+                    top: `${sweet16CardTop}px`,
                     width: `${CARD_WIDTH}px`,
-                    height: `${CARD_HEIGHT}px`,
+                    height: `${ROW_HEIGHT}px`,
                   }}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}

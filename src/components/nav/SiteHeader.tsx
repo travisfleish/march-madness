@@ -142,8 +142,9 @@ type SiteHeaderProps = {
   activeExternalLink?: ExternalLinkKey | null;
 };
 
-const HEADER_HEIGHT = 96;
-const DROPDOWN_OFFSET = 12;
+const HEADER_HEIGHT = 104;
+const SCROLLED_HEADER_HEIGHT = 90;
+const DROPDOWN_OFFSET = 0;
 
 function cx(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -182,6 +183,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [mobileOpenSection, setMobileOpenSection] = useState<MenuKey | null>(null);
   const [detectedActiveExternal, setDetectedActiveExternal] = useState<ExternalLinkKey | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const headerRef = useRef<HTMLElement | null>(null);
   const hoverOpenTimerRef = useRef<number | null>(null);
@@ -269,6 +271,19 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   }, []);
 
   useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 12);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  useEffect(() => {
     const onPointerDown = (event: MouseEvent | TouchEvent) => {
       if (!headerRef.current) return;
       if (!headerRef.current.contains(event.target as Node)) {
@@ -313,33 +328,39 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
     [],
   );
 
-  const topButtonClass = "relative inline-flex h-full items-center font-heading text-[16px] font-medium text-slate-900";
-  const menuTop = HEADER_HEIGHT + DROPDOWN_OFFSET;
-
-  const renderUnderline = (isActive: boolean) => (
-    <span
-      aria-hidden="true"
-      className={cx(
-        "pointer-events-none absolute bottom-0 left-0 h-[3px] w-full rounded-full bg-blue-600 transition-all duration-200",
-        isActive ? "opacity-100 scale-x-100" : "opacity-0 scale-x-75 group-hover:opacity-100 group-hover:scale-x-100",
-      )}
-    />
-  );
+  const topButtonClass =
+    "inline-flex h-10 items-center rounded-full px-3.5 font-heading text-[16px] font-medium tracking-[0.01em] text-slate-800 transition-colors duration-150";
+  const menuTop = (isScrolled ? SCROLLED_HEADER_HEIGHT : HEADER_HEIGHT) + DROPDOWN_OFFSET;
+  const getTopLinkClass = (isActive: boolean) =>
+    cx(
+      topButtonClass,
+      isActive
+        ? "bg-slate-100/80 text-slate-900"
+        : "hover:bg-slate-50/80 hover:text-slate-900 focus-visible:bg-slate-50/80 focus-visible:text-slate-900",
+    );
 
   return (
     <header
       ref={headerRef}
-      className="absolute left-0 top-0 z-50 h-[96px] w-full bg-transparent font-sans"
+      className={cx(
+        "sticky left-0 top-0 z-50 w-full border-b border-transparent bg-white/95 font-sans backdrop-blur-[2px] transition-all duration-150",
+        isScrolled ? "shadow-[0_2px_8px_rgba(15,23,42,0.05)]" : "shadow-none",
+      )}
       style={{ fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" }}
     >
-      <div className="mx-auto flex h-full w-full max-w-[1280px] items-center justify-between px-6 lg:px-10">
-        <div className="flex items-center gap-8 lg:gap-12">
+      <div
+        className={cx(
+          "mx-auto flex w-full max-w-[1280px] items-center justify-between px-6 transition-[padding] duration-150 lg:px-10",
+          isScrolled ? "py-4" : "py-5",
+        )}
+      >
+        <div className="flex items-center gap-10 lg:gap-[46px]">
           <a href={NAV_CONFIG.logo.href} aria-label="Genius Sports home" className="inline-flex items-center">
-            <img src={NAV_CONFIG.logo.src} alt={NAV_CONFIG.logo.alt} className="h-[66px] w-auto" />
+            <img src={NAV_CONFIG.logo.src} alt={NAV_CONFIG.logo.alt} className="h-[60px] w-auto" />
           </a>
 
           <nav
-            className="relative hidden h-full items-center gap-7 lg:flex"
+            className="relative hidden items-center gap-8 lg:flex xl:gap-9"
             aria-label="Primary"
             onMouseLeave={closeMenuWithIntent}
           >
@@ -348,9 +369,8 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                 const href = NAV_CONFIG.topExternal[itemKey];
                 const isActive = activeExternal === itemKey;
                 return (
-                  <a key={itemKey} href={href} className={cx(topButtonClass, "group")}>
+                  <a key={itemKey} href={href} className={getTopLinkClass(isActive)}>
                     {NAV_CONFIG.topLabels[itemKey]}
-                    {renderUnderline(isActive)}
                   </a>
                 );
               }
@@ -372,10 +392,9 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                     setOpenMenu(menuKey);
                   }}
                   onClick={() => handleTriggerClick(menuKey)}
-                  className={cx(topButtonClass, "group")}
+                  className={getTopLinkClass(isOpen)}
                 >
                   {NAV_CONFIG.topLabels[menuKey]}
-                  {renderUnderline(isOpen)}
                 </button>
               );
             })}
@@ -385,7 +404,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
         <div className="hidden lg:flex">
           <a
             href={NAV_CONFIG.cta.href}
-            className="inline-flex items-center rounded-full border border-gray-200 bg-gray-100 px-6 py-2.5 text-[16px] font-medium text-slate-900 transition-colors hover:bg-gray-200"
+            className="inline-flex h-10 items-center rounded-full border border-[#e6e9ef] bg-[#f7f8fb] px-5 font-heading text-[15px] font-medium tracking-[0.01em] text-slate-800 shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition-all duration-150 hover:border-[#dbe1ea] hover:bg-[#f1f4f8]"
           >
             {NAV_CONFIG.cta.label}
           </a>
@@ -416,7 +435,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
         <div
           id={`site-header-menu-${openMenu}`}
           role="menu"
-          className="absolute left-0 z-50 hidden w-full border-b border-gray-200 bg-white/95 font-heading backdrop-blur-sm motion-safe:animate-[dropdownFadeSlideIn_220ms_ease-out] lg:block"
+          className="absolute left-0 z-50 hidden w-full border-y border-gray-200 bg-white font-heading motion-safe:animate-[dropdownFadeSlideIn_220ms_ease-out] lg:block"
           style={{ top: menuTop }}
           onMouseEnter={() => {
             if (hoverCloseTimerRef.current !== null) {
@@ -440,7 +459,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                             role="menuitem"
                             className="block rounded-lg py-1.5 focus:outline-none"
                           >
-                            <h3 className="font-heading text-[20px] font-semibold leading-tight text-slate-900">
+                            <h3 className="font-heading text-[20px] font-normal leading-tight tracking-[0.005em] text-slate-900">
                               {link.title}
                             </h3>
                             <p className="mt-2 max-w-[34ch] text-[14px] leading-relaxed text-slate-600">{link.description}</p>
@@ -606,7 +625,8 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
       {isMobileOpen && (
         <div
           id="site-header-mobile-menu"
-          className="absolute left-0 top-[96px] w-full border-t border-gray-200 bg-white px-6 py-5 shadow-xl lg:hidden"
+          className="absolute left-0 w-full border-t border-gray-200 bg-white px-6 py-5 shadow-xl lg:hidden"
+          style={{ top: menuTop }}
         >
           <nav className="space-y-1" aria-label="Mobile navigation">
             {(["products", "solutions", "learn"] as MenuKey[]).map((section) => (
@@ -709,7 +729,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
 
             <a
               href={NAV_CONFIG.cta.href}
-              className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-gray-100 px-6 py-2.5 text-[16px] font-medium text-slate-900 transition-colors hover:bg-gray-200"
+              className="mt-5 inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-gray-100 px-6 py-2.5 font-heading text-[16px] font-medium text-slate-900 transition-colors hover:bg-gray-200"
             >
               {NAV_CONFIG.cta.label}
             </a>
