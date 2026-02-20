@@ -52,7 +52,7 @@ const NAV_CONFIG = {
     leftColumn: [
       {
         title: "For Sports Leagues",
-        href: "https://www.geniussports.com/leagues/",
+        href: "https://www.geniussports.com/technology-for-sports-leagues/",
         description: "Transform the way you capture and use data. For every stakeholder.",
       },
       {
@@ -87,7 +87,7 @@ const NAV_CONFIG = {
         items: [
           { label: "Performance Analysis", href: "https://www.geniussports.com/perform/" },
           { label: "AI Officiating", href: "https://www.geniussports.com/perform/saot/", isNew: true },
-          { label: "League Software", href: "https://www.geniussports.com/leagues/" },
+          { label: "League Software", href: "https://www.geniussports.com/technology-for-sports-leagues/" },
           { label: "Integrity Services", href: "https://www.geniussports.com/bet/" },
         ],
       },

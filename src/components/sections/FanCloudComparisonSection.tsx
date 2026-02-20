@@ -420,10 +420,10 @@ function FanCloudComparisonSection({
                   <article
                     key={`${metric.value}-${metric.label}`}
                     className={`flex min-w-0 flex-col justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
-                      index > 0 ? "border-l border-white/10" : ""
+                      index > 0 ? "border-l border-white/35" : ""
                     }`}
                   >
-                    <p className="whitespace-nowrap text-xl font-bold leading-none text-slate-100 md:text-4xl">
+                    <p className="whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
                       {isMobileViewport ? (
                         metric.value
                       ) : metric.parts.number !== null ? (
