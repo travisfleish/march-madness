@@ -380,10 +380,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           </div>
         </div>}
 
-        {!revealCreativeFlow && (
-          <div className="mt-0 hidden md:block -mt-px h-[21rem]" aria-hidden="true" />
-        )}
-        {revealCreativeFlow && <div className="mt-0 hidden md:block -mt-px">
+        <div className="mt-0 hidden md:block -mt-px min-h-[21rem]">
           <div
             ref={desktopConnectorRef}
             className="relative mx-auto h-16 w-full max-w-5xl"
@@ -428,7 +425,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               ref={leftDesktopCardRef}
               className="flex h-full flex-col"
               initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={revealCreativeFlow ? { opacity: 1, y: 0 } : { opacity: 0, y: reducedMotion ? 0 : 8 }}
               transition={{
                 duration: reducedMotion ? 0.1 : 0.25,
                 ease: "easeOut",
@@ -439,7 +436,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               <motion.div
                 className="mt-3"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={revealCreativeFlow ? { opacity: 1, y: 0 } : { opacity: 0, y: reducedMotion ? 0 : 8 }}
                 transition={{
                   duration: reducedMotion ? 0.1 : 0.3,
                   ease: "easeOut",
@@ -461,7 +458,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               ref={rightDesktopCardRef}
               className="flex h-full flex-col"
               initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
-              animate={{ opacity: 1, y: 0 }}
+              animate={revealCreativeFlow ? { opacity: 1, y: 0 } : { opacity: 0, y: reducedMotion ? 0 : 8 }}
               transition={{
                 duration: reducedMotion ? 0.1 : 0.25,
                 ease: "easeOut",
@@ -472,7 +469,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               <motion.div
                 className="mt-3"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={revealCreativeFlow ? { opacity: 1, y: 0 } : { opacity: 0, y: reducedMotion ? 0 : 8 }}
                 transition={{
                   duration: reducedMotion ? 0.1 : 0.3,
                   ease: "easeOut",
@@ -490,7 +487,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               </motion.div>
             </motion.div>
           </div>
-        </div>}
+        </div>
       </div>
     </motion.div>
   );
