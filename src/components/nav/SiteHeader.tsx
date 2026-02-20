@@ -144,8 +144,8 @@ type SiteHeaderProps = {
   activeExternalLink?: ExternalLinkKey | null;
 };
 
-const HEADER_HEIGHT = 104;
-const SCROLLED_HEADER_HEIGHT = 90;
+const HEADER_HEIGHT = 138;
+const SCROLLED_HEADER_HEIGHT = 114;
 const DROPDOWN_OFFSET = 0;
 
 function cx(...classes: Array<string | false | null | undefined>) {
@@ -186,6 +186,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   const [mobileOpenSection, setMobileOpenSection] = useState<MenuKey | null>(null);
   const [detectedActiveExternal, setDetectedActiveExternal] = useState<ExternalLinkKey | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [hasScrolledDown, setHasScrolledDown] = useState(false);
 
   const headerRef = useRef<HTMLElement | null>(null);
   const hoverOpenTimerRef = useRef<number | null>(null);
@@ -275,6 +276,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   useEffect(() => {
     const onScroll = () => {
       setIsScrolled(window.scrollY > 12);
+      setHasScrolledDown(window.scrollY > 0);
     };
 
     onScroll();
@@ -345,7 +347,8 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
     <header
       ref={headerRef}
       className={cx(
-        "sticky left-0 top-0 z-50 w-full border-b border-transparent bg-white/95 font-sans backdrop-blur-[2px] transition-all duration-150",
+        "sticky left-0 top-0 z-50 w-full border-b border-transparent bg-white/95 font-sans backdrop-blur-[2px] transition-[transform,box-shadow] duration-1000 ease-in-out",
+        hasScrolledDown ? "-translate-y-full" : "translate-y-0",
         isScrolled ? "shadow-[0_2px_8px_rgba(15,23,42,0.05)]" : "shadow-none",
       )}
       style={{ fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" }}
@@ -358,7 +361,14 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
       >
         <div className="flex items-center gap-10 lg:gap-[46px]">
           <a href={NAV_CONFIG.logo.href} aria-label="Genius Sports home" className="inline-flex items-center">
-            <img src={NAV_CONFIG.logo.src} alt={NAV_CONFIG.logo.alt} className="h-[60px] w-auto" />
+            <img
+              src={NAV_CONFIG.logo.src}
+              alt={NAV_CONFIG.logo.alt}
+              className={cx(
+                "w-auto transition-[height] duration-150",
+                isScrolled ? "h-[74px] lg:h-[82px]" : "h-[86px] lg:h-[98px]",
+              )}
+            />
           </a>
 
           <nav
@@ -602,7 +612,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                   </div>
 
                   <a
-                    href="https://www.geniussports.com/perform/saot/"
+                    href="https://www.geniussports.com/content-hub/geniusiq-shot-probability/"
                     role="menuitem"
                     className="mt-6 flex items-center gap-4 rounded-[10px] bg-[#f0f2f6] px-3 py-2.5 transition-colors hover:bg-[#e9edf4] focus:bg-[#e9edf4] focus:outline-none"
                   >
