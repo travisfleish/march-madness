@@ -116,7 +116,6 @@ export function MarchMadnessBracket({
                   team={{ seed: 11, name: "VCU", logo: vcuLogo }}
                   isWinner={animationState >= 1}
                   isVCU={true}
-                  showPulse={animationState === 1}
                 />
               </div>
             </div>
@@ -195,31 +194,45 @@ export function MarchMadnessBracket({
 
           <div className="relative" style={{ height: `${round1Card2Top + CARD_HEIGHT}px` }}>
             <AnimatePresence>
-              {animationState >= 2 && (
+              {animationState >= 1 && (
                 <motion.div
                   className="absolute left-0"
                   style={{
                     top: `${round2CardTop}px`,
                     width: `${CARD_WIDTH}px`,
-                    height: `${CARD_HEIGHT}px`,
                   }}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.45, ease: "easeOut" }}
                 >
-                  <div className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm h-full flex flex-col">
+                  <motion.div
+                    className="bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm flex flex-col"
+                    initial={false}
+                    animate={{ height: animationState >= 2 ? CARD_HEIGHT : ROW_HEIGHT }}
+                    transition={{ duration: 0.32, ease: "easeOut" }}
+                  >
                     <TeamRow
                       team={{ seed: 11, name: "VCU", logo: vcuLogo }}
                       isWinner={animationState >= 3}
                       isVCU={true}
-                      showPulse={animationState >= 3}
                     />
-                    <div className="h-px bg-gray-300 flex-shrink-0" />
-                    <TeamRow
-                      team={{ seed: 3, name: "Purdue", logo: purdueLogo }}
-                      isLoser={animationState >= 3}
-                    />
-                  </div>
+                    <AnimatePresence>
+                      {animationState >= 2 && (
+                        <motion.div
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: ROW_HEIGHT + 1 }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.28, ease: "easeOut" }}
+                        >
+                          <div className="h-px bg-gray-300 flex-shrink-0" />
+                          <TeamRow
+                            team={{ seed: 3, name: "Purdue", logo: purdueLogo }}
+                            isLoser={animationState >= 3}
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>

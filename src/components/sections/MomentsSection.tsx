@@ -50,7 +50,7 @@ const momentDetailsByLabel: Record<string, { trigger: string; description: strin
       "Align with the thrill of the unexpected. Activates when underdogs take down favorites, generating national attention, conversation, and strong emotional reactions."
   },
   "CINDERELLA STORY": {
-    trigger: "10 seed or higher advances",
+    trigger: "10 seed or lower advances",
     description:
       "Follow the magic of underdog runs. Activates as unexpected teams continue advancing, capturing widespread fan support, optimism, and tournament storytelling."
   },
