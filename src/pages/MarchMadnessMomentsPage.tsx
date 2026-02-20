@@ -8,14 +8,8 @@ import SectionNav from "../components/nav/SectionNav";
 import ProofBand from "../components/sections/ProofBand";
 import { Reveal } from "../components/motion/MotionPrimitives";
 import { marchMadnessMomentsContent as content } from "../content/marchMadnessMoments";
-import { useCallback } from "react";
 
 function MarchMadnessMomentsPage() {
-  const handleBackToTop = useCallback(() => {
-    if (typeof window === "undefined") return;
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
   return (
     <main className="min-h-screen bg-white">
       <HeroSection {...content.hero} />
@@ -47,17 +41,6 @@ function MarchMadnessMomentsPage() {
           <AudiencesSection {...content.audiences} />
           <CreativeChannelSection {...content.creativeAndChannel} />
         </div>
-        <section className="mt-6 md:hidden">
-          <div className="flex justify-center">
-            <button
-              type="button"
-              onClick={handleBackToTop}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-[0_4px_12px_rgba(15,23,42,0.08)] transition hover:bg-slate-50"
-            >
-              Back to top
-            </button>
-          </div>
-        </section>
       </div>
     </main>
   );

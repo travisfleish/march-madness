@@ -104,11 +104,13 @@ function MessageCard({
 function AudienceLabel({
   label,
   align = "left",
-  mobilePlain = false
+  mobilePlain = false,
+  mobileTwoLines = false
 }: {
   label: string;
   align?: "left" | "center";
   mobilePlain?: boolean;
+  mobileTwoLines?: boolean;
 }) {
   const isUnifiedLabel = label.includes(" + ");
   const [prefix, ...rest] = label.split(":");
@@ -136,6 +138,19 @@ function AudienceLabel({
 
   if (isUnifiedLabel) {
     if (mobilePlain) {
+      if (mobileTwoLines) {
+        const [leftGroup, rightGroup] = label.split(" + ").map((segment) => segment.trim());
+
+        return (
+          <div className={`flex flex-col ${alignClass}`}>
+            <p className="text-xs font-semibold leading-tight text-slate-800 md:text-base">
+              <span className="block whitespace-nowrap">{leftGroup ? `${leftGroup} +` : label}</span>
+              {rightGroup ? <span className="block whitespace-nowrap">{rightGroup}</span> : null}
+            </p>
+          </div>
+        );
+      }
+
       const audienceLines = getAudienceLines(label);
 
       return (
@@ -351,10 +366,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           <div className="mt-0 md:hidden -mt-px h-[34rem]" aria-hidden="true" />
         )}
         {revealCreativeFlow && <div className="mt-0 md:hidden -mt-px">
-          <div className="grid grid-cols-2 gap-3 pt-2">
+          <div className="grid grid-cols-1 gap-5 pt-2">
             <div className="min-w-0">
               <motion.p
-                className="mx-auto max-w-[11rem]"
+                className="mx-auto"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -363,7 +378,12 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   delay: titleFadeDelayMobile
                 }}
               >
-                <AudienceLabel label={data.leftAudienceLabel} align="center" mobilePlain={true} />
+                <AudienceLabel
+                  label={data.leftAudienceLabel}
+                  align="center"
+                  mobilePlain={true}
+                  mobileTwoLines={true}
+                />
               </motion.p>
               <motion.div
                 className="mt-3"
@@ -388,7 +408,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
             </div>
             <div className="min-w-0">
               <motion.p
-                className="mx-auto max-w-[11rem]"
+                className="mx-auto"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 6 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -397,7 +417,12 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   delay: titleFadeDelayMobile + 0.12
                 }}
               >
-                <AudienceLabel label={data.rightAudienceLabel} align="center" mobilePlain={true} />
+                <AudienceLabel
+                  label={data.rightAudienceLabel}
+                  align="center"
+                  mobilePlain={true}
+                  mobileTwoLines={true}
+                />
               </motion.p>
               <motion.div
                 className="mt-3"
