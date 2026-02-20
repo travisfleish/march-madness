@@ -244,17 +244,24 @@ function FanCloudComparisonSection({
   const isGeniusViewDominant = sliderPercent < 50;
   const isOtherViewDominant = sliderPercent > 50;
   const geniusSportsPhrase = "Genius Sports";
-  const headlineWithHalo = headline.includes(geniusSportsPhrase)
-    ? headline.split(geniusSportsPhrase)
-    : null;
-  const mobileHeadline = (
-    <>
-      <span className="block">No one knows</span>
-      <span className="block">March Madness</span>
-      <span className="block">fans better than</span>
-      <span className="block text-[#1D26FF]">Genius Sports</span>
-    </>
-  );
+  const renderHeadlineWithHighlight = (text: string) => {
+    const lines = text.split("\n");
+
+    return lines.map((line, index) => {
+      if (!line.includes(geniusSportsPhrase)) {
+        return <span key={`headline-line-${index}`} className="block md:whitespace-nowrap">{line}</span>;
+      }
+
+      const [before, after] = line.split(geniusSportsPhrase);
+      return (
+        <span key={`headline-line-${index}`} className="block md:whitespace-nowrap">
+          {before}
+          <span className="text-[#1D26FF]">{geniusSportsPhrase}</span>
+          {after}
+        </span>
+      );
+    });
+  };
   const leftLabelClasses = [
     "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isOtherViewDominant
@@ -274,20 +281,12 @@ function FanCloudComparisonSection({
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-white"
     >
       <div className="mx-auto w-full max-w-[1320px] px-5 pt-2 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
-        <h2 className="mx-auto max-w-4xl text-center font-heading font-semibold tracking-tight text-slate-900">
-          <span className="text-[2rem] leading-[1.04] md:hidden">{mobileHeadline}</span>
-          <span className="hidden text-5xl md:inline lg:text-6xl">
-            {headlineWithHalo ? (
-              <>
-                {headlineWithHalo[0]}
-                <span className="text-[#1D26FF]">
-                  {geniusSportsPhrase}
-                </span>
-                {headlineWithHalo[1]}
-              </>
-            ) : (
-              headline
-            )}
+        <h2 className="mx-auto text-center font-heading font-semibold tracking-tight text-slate-900">
+          <span className="text-[2rem] leading-[1.04] md:hidden">
+            {renderHeadlineWithHighlight(headline)}
+          </span>
+          <span className="hidden text-5xl leading-[1.04] md:inline lg:text-6xl">
+            {renderHeadlineWithHighlight(headline)}
           </span>
         </h2>
 

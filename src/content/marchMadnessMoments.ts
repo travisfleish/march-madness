@@ -139,7 +139,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     }
   },
   fanCloudComparison: {
-    headline: "No One Knows March Madness Fans Better Than Genius Sports",
+    headline: "No One Knows March Madness\nFans Better Than Genius Sports",
     leftLabel: "How other data and media partners see March Madness fans.",
     rightLabel: "How Genius Sports sees March Madness fans.",
     leftImageSrc: "/genius_fan_cloud.png",
