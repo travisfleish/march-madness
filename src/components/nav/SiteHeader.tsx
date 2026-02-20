@@ -333,7 +333,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
   );
 
   const topButtonClass =
-    "inline-flex h-10 items-center rounded-full px-3.5 font-heading text-[16px] font-medium tracking-[0.01em] text-slate-800 transition-colors duration-150";
+    "inline-flex h-10 items-center rounded-full px-2.5 font-heading text-[16px] font-medium tracking-[0.01em] text-slate-800 transition-colors duration-150";
   const menuTop = (isScrolled ? SCROLLED_HEADER_HEIGHT : HEADER_HEIGHT) + DROPDOWN_OFFSET;
   const getTopLinkClass = (isActive: boolean) =>
     cx(
@@ -355,11 +355,11 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
     >
       <div
         className={cx(
-          "mx-auto flex w-full max-w-[1280px] items-center justify-between px-6 transition-[padding] duration-150 lg:px-10",
+          "mx-auto flex w-full max-w-[1320px] items-center justify-between px-6 transition-[padding] duration-150 lg:px-10",
           isScrolled ? "py-4" : "py-5",
         )}
       >
-        <div className="flex items-center gap-10 lg:gap-[46px]">
+        <div className="flex items-center gap-8 lg:gap-9">
           <a href={NAV_CONFIG.logo.href} aria-label="Genius Sports home" className="inline-flex items-center">
             <img
               src={NAV_CONFIG.logo.src}
@@ -372,7 +372,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
           </a>
 
           <nav
-            className="relative hidden items-center gap-8 lg:flex xl:gap-9"
+            className="relative hidden items-center gap-5 lg:flex xl:gap-6"
             aria-label="Primary"
             onMouseLeave={closeMenuWithIntent}
           >
@@ -413,7 +413,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
           </nav>
         </div>
 
-        <div className="hidden lg:flex">
+        <div className="hidden translate-x-1 lg:flex">
           <a
             href={NAV_CONFIG.cta.href}
             className="inline-flex h-10 items-center rounded-full border border-[#e6e9ef] bg-[#f7f8fb] px-5 font-heading text-[15px] font-medium tracking-[0.01em] text-slate-800 shadow-[0_1px_2px_rgba(15,23,42,0.06)] transition-all duration-150 hover:border-[#dbe1ea] hover:bg-[#f1f4f8]"
@@ -457,7 +457,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
           }}
           onMouseLeave={closeMenuWithIntent}
         >
-          <div className="mx-auto w-full max-w-[1280px] px-6 py-7 lg:px-10">
+          <div className="mx-auto w-full max-w-[1320px] px-6 py-7 lg:px-10">
             {openMenu === "solutions" && (
               <div className="grid grid-cols-12 gap-6">
                 <div className="col-span-7">
