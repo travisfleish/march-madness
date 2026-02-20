@@ -72,20 +72,14 @@ function MessageCard({
 }: MessageCardProps) {
   if (imageSrc) {
     return (
-      <div className="flex h-full flex-col">
-        <article
-          className={`flex flex-1 flex-col overflow-hidden rounded-2xl border bg-white shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,23,42,0.10)] ${
-            accentTop ? "border-emerald-200 border-t-[3px]" : "border-slate-300"
-          }`}
-        >
-          <img
-            src={imageSrc}
-            alt={cardTitle}
-            className="block h-auto w-full"
-            loading="lazy"
-            draggable={false}
-          />
-        </article>
+      <div className="flex h-full items-start justify-center pt-1">
+        <img
+          src={imageSrc}
+          alt={cardTitle}
+          className="block h-auto w-full max-w-[16.5rem]"
+          loading="lazy"
+          draggable={false}
+        />
       </div>
     );
   }
@@ -461,7 +455,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                 delay: titleFadeDelayDesktop
               }}
             >
-              <AudienceLabel label={data.leftAudienceLabel} align="left" />
+              <AudienceLabel label={data.leftAudienceLabel} align="center" />
               <motion.div
                 className="mt-3"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}
@@ -494,7 +488,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                 delay: titleFadeDelayDesktop + 0.12
               }}
             >
-              <AudienceLabel label={data.rightAudienceLabel} align="left" />
+              <AudienceLabel label={data.rightAudienceLabel} align="center" />
               <motion.div
                 className="mt-3"
                 initial={{ opacity: 0, y: reducedMotion ? 0 : 8 }}

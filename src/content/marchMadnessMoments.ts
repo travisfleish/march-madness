@@ -258,14 +258,14 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       leftAudienceLabel:
         "Audience Segment: March Madness Fans + Existing Brand Purchaser",
       leftCardTitle: "CREATIVE MESSAGE A",
-      leftCardImageSrc: "/acme-tv-creative-a.png",
+      leftCardImageSrc: "/acme-tv-creative-a-cutout-v2.png",
       leftLead: "Big moments reveal future stars.",
       leftBody:
         "VCU showed us: the biggest stages create the biggest opportunities. Thanks for being a loyal [Brand] customer -- celebrate the rise of the tournament's newest star with 15% off your next purchase.",
       rightAudienceLabel:
         "Audience Segment: March Madness Fans + Competitive Brand Purchaser",
       rightCardTitle: "CREATIVE MESSAGE B",
-      rightCardImageSrc: "/acme-tv-creative-b.png",
+      rightCardImageSrc: "/acme-tv-creative-b-cutout-v2.png",
       rightLead: "Every tournament creates new stars.",
       rightBody:
         "From under-the-radar to center stage, this March Madness breakout proved anything can happen. New to [Brand]? Start strong with 15% off your first purchase and be ready for whatever emerges next."
