@@ -313,7 +313,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
     [],
   );
 
-  const topButtonClass = "relative inline-flex h-full items-center text-[16px] font-medium text-slate-900";
+  const topButtonClass = "relative inline-flex h-full items-center font-heading text-[16px] font-medium text-slate-900";
   const menuTop = HEADER_HEIGHT + DROPDOWN_OFFSET;
 
   const renderUnderline = (isActive: boolean) => (
@@ -416,7 +416,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
         <div
           id={`site-header-menu-${openMenu}`}
           role="menu"
-          className="absolute left-0 z-50 hidden w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm motion-safe:animate-[dropdownFadeSlideIn_220ms_ease-out] lg:block"
+          className="absolute left-0 z-50 hidden w-full border-b border-gray-200 bg-white/95 font-heading backdrop-blur-sm motion-safe:animate-[dropdownFadeSlideIn_220ms_ease-out] lg:block"
           style={{ top: menuTop }}
           onMouseEnter={() => {
             if (hoverCloseTimerRef.current !== null) {
@@ -440,8 +440,10 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                             role="menuitem"
                             className="block rounded-lg py-1.5 focus:outline-none"
                           >
-                            <h3 className="text-[16px] font-semibold leading-tight text-slate-900">{link.title}</h3>
-                            <p className="mt-2 max-w-[34ch] text-[15px] leading-relaxed text-slate-600">{link.description}</p>
+                            <h3 className="font-heading text-[20px] font-semibold leading-tight text-slate-900">
+                              {link.title}
+                            </h3>
+                            <p className="mt-2 max-w-[34ch] text-[14px] leading-relaxed text-slate-600">{link.description}</p>
                           </a>
                         ))}
                       </div>
@@ -539,7 +541,9 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                       />
                     </div>
                     <div className="relative z-10 max-w-[250px]">
-                      <h3 className="text-[22px] font-semibold leading-tight">{NAV_CONFIG.products.promo.title}</h3>
+                      <h3 className="font-heading text-[22px] font-semibold leading-tight">
+                        {NAV_CONFIG.products.promo.title}
+                      </h3>
                       <p className="mt-2.5 text-[14px] leading-relaxed text-slate-200">{NAV_CONFIG.products.promo.body}</p>
                     </div>
                     <div className="relative z-10 mt-6 overflow-hidden rounded-[24px]">
@@ -567,7 +571,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                       role="menuitem"
                       className="block rounded-2xl border border-gray-200 p-5 transition-colors hover:bg-slate-50 focus:bg-slate-50 focus:outline-none"
                     >
-                      <h3 className="text-[18px] font-semibold text-slate-900">{link.title}</h3>
+                      <h3 className="font-heading text-[18px] font-semibold text-slate-900">{link.title}</h3>
                       <p className="mt-2 text-[15px] leading-relaxed text-slate-600">{link.description}</p>
                     </a>
                   ))}
@@ -577,7 +581,9 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                     href={NAV_CONFIG.learn.promo.href}
                     className="block h-full overflow-hidden rounded-3xl bg-gradient-to-br from-violet-700 via-violet-800 to-purple-950 p-7 text-white"
                   >
-                    <h3 className="text-[26px] font-semibold leading-tight">{NAV_CONFIG.learn.promo.title}</h3>
+                    <h3 className="font-heading text-[26px] font-semibold leading-tight">
+                      {NAV_CONFIG.learn.promo.title}
+                    </h3>
                     <p className="mt-3 max-w-[35ch] text-[15px] leading-relaxed text-violet-100">
                       {NAV_CONFIG.learn.promo.body}
                     </p>
