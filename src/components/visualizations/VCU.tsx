@@ -86,9 +86,11 @@ export function MarchMadnessBracket({
 
   // Round 2 divider is centered between the two Round 1 dividers
   const round2Divider = (round1Card1Divider + round1Card2Divider) / 2;
-  const round2CardTop = round2Divider - ROW_HEIGHT;
+  // Optical adjustment: border weight and shadow can make centered cards appear slightly low.
+  const ROUND2_OPTICAL_OFFSET_Y = -1;
+  const round2CardTop = round2Divider - ROW_HEIGHT + ROUND2_OPTICAL_OFFSET_Y;
   // Optical adjustment: heavier border + drop shadow can make true center look slightly low.
-  const SWEET16_OPTICAL_OFFSET_Y = -1;
+  const SWEET16_OPTICAL_OFFSET_Y = -2;
   const sweet16CardTop = round2Divider - ROW_HEIGHT / 2 + SWEET16_OPTICAL_OFFSET_Y;
 
   return (
