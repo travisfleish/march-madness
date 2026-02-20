@@ -1,6 +1,6 @@
 import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
 import { motion, useInView } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 import { MarchMadnessBracket } from "./VCU";
 
@@ -136,6 +136,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const typingStartDelayMs = reducedMotion ? 0 : 650;
   const [isBracketComplete, setIsBracketComplete] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
+  const [isVizActive, setIsVizActive] = useState(false);
   const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
   const handleBracketComplete = useCallback(() => {
     if (typeof window === "undefined" || reducedMotion) {
@@ -153,11 +154,11 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
       ? isVizInView
       : isBracketComplete;
   const enableTyping = isTypingInView && areCardsReady && !reducedMotion && !isMobileViewport;
-  const [connectorMetrics, setConnectorMetrics] = useState({
-    width: 1,
-    leftCenter: 0,
-    rightCenter: 1
-  });
+  const [connectorMetrics, setConnectorMetrics] = useState<{
+    width: number;
+    leftCenter: number;
+    rightCenter: number;
+  } | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -171,12 +172,26 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   }, []);
 
   useEffect(() => {
-    if (!isVizInView) {
-      setIsBracketComplete(false);
+    if (isVizInView) {
+      setIsVizActive(true);
+      return;
     }
+
+    // Debounce leave events to avoid brief in-view flaps during layout changes.
+    const leaveTimer = window.setTimeout(() => {
+      setIsVizActive(false);
+    }, 300);
+
+    return () => window.clearTimeout(leaveTimer);
   }, [isVizInView]);
 
   useEffect(() => {
+    if (!isVizActive) {
+      setIsBracketComplete(false);
+    }
+  }, [isVizActive]);
+
+  useLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -284,7 +299,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           <div className="relative z-10 hidden h-[400px] min-w-[860px] md:block md:min-w-0">
             <MarchMadnessBracket
               onAnimationComplete={handleBracketComplete}
-              startAnimation={!isMobileViewport && isVizInView}
+              startAnimation={!isMobileViewport && isVizActive}
             />
           </div>
         </div>
@@ -409,38 +424,40 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
             className="relative mx-auto h-16 w-full max-w-5xl"
             aria-hidden="true"
           >
-            <svg viewBox={`0 0 ${connectorMetrics.width} 64`} className="h-full w-full">
-              <motion.path
-                d={(() => {
-                  const trunkX = (connectorMetrics.leftCenter + connectorMetrics.rightCenter) / 2;
-                  const spread = connectorMetrics.rightCenter - connectorMetrics.leftCenter;
-                  const bendRadius = Math.max(4, Math.min(10, spread / 6));
-                  const branchY = 20;
-                  const endY = 63;
+            <svg viewBox={`0 0 ${connectorMetrics?.width ?? 1} 64`} className="h-full w-full">
+              {connectorMetrics && (
+                <motion.path
+                  d={(() => {
+                    const trunkX = (connectorMetrics.leftCenter + connectorMetrics.rightCenter) / 2;
+                    const spread = connectorMetrics.rightCenter - connectorMetrics.leftCenter;
+                    const bendRadius = Math.max(4, Math.min(10, spread / 6));
+                    const branchY = 20;
+                    const endY = 63;
 
-                  return [
-                    `M ${trunkX} 0 V ${branchY}`,
-                    `M ${trunkX} ${branchY} H ${connectorMetrics.leftCenter + bendRadius}`,
-                    `Q ${connectorMetrics.leftCenter} ${branchY} ${connectorMetrics.leftCenter} ${branchY + bendRadius}`,
-                    `V ${endY}`,
-                    `M ${trunkX} ${branchY} H ${connectorMetrics.rightCenter - bendRadius}`,
-                    `Q ${connectorMetrics.rightCenter} ${branchY} ${connectorMetrics.rightCenter} ${branchY + bendRadius}`,
-                    `V ${endY}`
-                  ].join(" ");
-                })()}
-                fill="none"
-                stroke="#eab308"
-                strokeWidth="1.9"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={{ pathLength: reducedMotion ? 1 : 0 }}
-                animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
-                transition={{
-                  duration: connectorDrawDurationDesktop,
-                  delay: connectorStartDelayDesktop,
-                  ease: "easeInOut"
-                }}
-              />
+                    return [
+                      `M ${trunkX} 0 V ${branchY}`,
+                      `M ${trunkX} ${branchY} H ${connectorMetrics.leftCenter + bendRadius}`,
+                      `Q ${connectorMetrics.leftCenter} ${branchY} ${connectorMetrics.leftCenter} ${branchY + bendRadius}`,
+                      `V ${endY}`,
+                      `M ${trunkX} ${branchY} H ${connectorMetrics.rightCenter - bendRadius}`,
+                      `Q ${connectorMetrics.rightCenter} ${branchY} ${connectorMetrics.rightCenter} ${branchY + bendRadius}`,
+                      `V ${endY}`
+                    ].join(" ");
+                  })()}
+                  fill="none"
+                  stroke="#eab308"
+                  strokeWidth="1.9"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  initial={{ pathLength: reducedMotion ? 1 : 0 }}
+                  animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
+                  transition={{
+                    duration: connectorDrawDurationDesktop,
+                    delay: connectorStartDelayDesktop,
+                    ease: "easeInOut"
+                  }}
+                />
+              )}
             </svg>
           </div>
           <div className="mt-2 grid gap-6 md:grid-cols-2">

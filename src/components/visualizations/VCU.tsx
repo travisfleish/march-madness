@@ -23,7 +23,8 @@ const ANIMATION_TIMINGS_MS = {
   state1: 1100,
   state2: 2200,
   state3: 3200,
-  complete: 4200
+  // Fire completion after the Sweet 16 micro-animations finish.
+  complete: 5100
 } as const;
 
 const HEADER_OFFSET = 48; // tweak 46–52 if font rendering differs
