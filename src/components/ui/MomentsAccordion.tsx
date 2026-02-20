@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 
@@ -39,6 +39,7 @@ function PlusMinusIcon({ isOpen }: { isOpen: boolean }) {
 function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
   const reducedMotion = useReducedMotionSafe();
   const [mobileOpenId, setMobileOpenId] = useState<string | null>(null);
+  const mobileItemRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const mobileButtonLabels = labels;
   const [openIdsByColumn, setOpenIdsByColumn] = useState<Record<number, string | null>>({
     0: null,
@@ -46,6 +47,34 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
   });
   const midpoint = Math.ceil(labels.length / 2);
   const labelColumns = [labels.slice(0, midpoint), labels.slice(midpoint)];
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !mobileOpenId) {
+      return;
+    }
+
+    const isMobileViewport = window.matchMedia("(max-width: 767px)").matches;
+    if (!isMobileViewport) {
+      return;
+    }
+
+    const openItemNode = mobileItemRefs.current[mobileOpenId];
+    if (!openItemNode) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) {
+          setMobileOpenId((current) => (current === mobileOpenId ? null : current));
+        }
+      },
+      { threshold: 0 }
+    );
+
+    observer.observe(openItemNode);
+    return () => observer.disconnect();
+  }, [mobileOpenId]);
 
   return (
     <>
@@ -61,7 +90,13 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
             };
 
             return (
-              <div key={label} className="overflow-hidden rounded-lg border border-slate-200 bg-white">
+              <div
+                key={label}
+                ref={(node) => {
+                  mobileItemRefs.current[label] = node;
+                }}
+                className="overflow-hidden rounded-lg border border-slate-200 bg-white"
+              >
                 <button
                   type="button"
                   aria-expanded={isOpen}
