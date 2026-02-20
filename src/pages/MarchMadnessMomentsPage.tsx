@@ -11,7 +11,7 @@ import { marchMadnessMomentsContent as content } from "../content/marchMadnessMo
 
 function MarchMadnessMomentsPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white pt-[68px] md:pt-[104px] lg:pt-24">
       <HeroSection {...content.hero} />
       <div className="bg-white px-4 pb-8 md:px-8 md:pb-12">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-8">

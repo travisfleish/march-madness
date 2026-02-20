@@ -60,9 +60,11 @@ export function MarchMadnessBracket({
   // Auto-advance animation states
   useEffect(() => {
     if (!startAnimation) {
+      setAnimationState(0);
       return;
     }
 
+    setAnimationState(0);
     const timers = [
       window.setTimeout(() => setAnimationState(1), ANIMATION_TIMINGS_MS.state1),
       window.setTimeout(() => setAnimationState(2), ANIMATION_TIMINGS_MS.state2),

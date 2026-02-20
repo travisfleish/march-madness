@@ -105,7 +105,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const desktopConnectorRef = useRef<HTMLDivElement | null>(null);
   const leftDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
-  const isVizInView = useInView(vizRef, { once: true, amount: 0.25 });
+  const isVizInView = useInView(vizRef, { once: false, amount: 0.25 });
   const isTypingInView = useInView(vizRef, { once: false, amount: 0.25 });
   const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.4;
   const connectorDrawDurationMobile = reducedMotion ? 0 : 1.2;
@@ -153,6 +153,12 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
 
     return () => mediaQuery.removeEventListener("change", syncViewport);
   }, []);
+
+  useEffect(() => {
+    if (!isVizInView) {
+      setIsBracketComplete(false);
+    }
+  }, [isVizInView]);
 
   useEffect(() => {
     if (typeof window === "undefined") {

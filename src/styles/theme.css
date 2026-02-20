@@ -1,22 +1,22 @@
 @font-face {
-  font-family: "ES Klarheit Kurrent";
-  src: url("/fonts/ESKlarheitKurrent-Regular.woff2") format("woff2");
+  font-family: "ESKlarheitKurrentTRIAL";
+  src: url("/fonts/KlarheitKurrent-Regular_2456150069.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "ES Klarheit Kurrent";
-  src: url("/fonts/ESKlarheitKurrent-Medium.woff2") format("woff2");
+  font-family: "ESKlarheitKurrentTRIAL";
+  src: url("/fonts/KlarheitKurrent-Book.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "ES Klarheit Kurrent";
-  src: url("/fonts/ESKlarheitKurrent-Bold.woff2") format("woff2");
+  font-family: "ESKlarheitKurrentTRIAL";
+  src: url("/fonts/KlarheitKurrent-Bold_4110053601.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -25,7 +25,7 @@
 :root {
   --font-sans: "Red Hat Text", system-ui, -apple-system, "Segoe UI", Roboto,
     Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-heading: "ES Klarheit Kurrent", "Red Hat Text", system-ui, -apple-system,
+  --font-heading: "ESKlarheitKurrentTRIAL", "Red Hat Text", system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   --gs-primary-900: #0c1220;

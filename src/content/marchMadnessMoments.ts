@@ -142,7 +142,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     leftImageSrc: "/fancloud-slider-new.png",
     rightImageSrc: "/fancloud-left-two-attributes.png",
     helperText: "Drag the slider to compare.",
-    metricsEyebrow: "The only consumer data cloud built for sports covering:",
+    metricsEyebrow: "",
     metrics: [
       { value: "250 Million", label: "Consumers" },
       { value: "50 Billion", label: "Interactions" },
@@ -214,7 +214,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       "FINAL FOUR",
       "CHAMPIONSHIP",
       "CHAMPION",
-      "HERO GAME: GREAT INDIVIDUAL PERFORMANCES"
+      "HERO GAME"
     ],
     modalTemplate: {
       bullets: ["What it is", "Why it matters to fans", "Best message types"]

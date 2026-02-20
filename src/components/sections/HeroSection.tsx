@@ -109,7 +109,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
 
   return (
     <section className="relative w-full overflow-hidden bg-white">
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[56%] md:block" aria-hidden>
+      <div className="pointer-events-none absolute bottom-0 right-0 hidden h-[80%] w-[56%] md:block" aria-hidden>
         <img
           src="/genius-assets/green-lines.png"
           alt=""

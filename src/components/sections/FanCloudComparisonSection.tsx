@@ -263,27 +263,27 @@ function FanCloudComparisonSection({
   const leftLabelClasses = [
     "absolute left-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:left-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isOtherViewDominant
-      ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
-      : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
+      ? "bg-[#3240f5]/90 text-white ring-1 ring-[#d6e86f]/60 shadow-[0_10px_26px_rgba(50,64,245,0.28)] scale-[1.02]"
+      : "bg-[#1D26FF]/12 text-white/55 ring-1 ring-white/15 saturate-75"
   ].join(" ");
   const rightLabelClasses = [
     "absolute right-3 top-3 z-20 max-w-[48%] rounded-full px-4 py-2 text-center text-[clamp(0.68rem,1.1vw,1rem)] font-semibold leading-tight md:right-5 md:top-5 md:max-w-[48%] transition-all duration-200",
     isGeniusViewDominant
-      ? "bg-[#2a34ff] text-white ring-2 ring-[#d6e86f] shadow-[0_0_22px_rgba(214,232,111,0.65)] scale-[1.03]"
-      : "bg-[#1D26FF]/15 text-white/35 ring-1 ring-white/10 saturate-50"
+      ? "bg-[#3240f5]/90 text-white ring-1 ring-[#d6e86f]/60 shadow-[0_10px_26px_rgba(50,64,245,0.28)] scale-[1.02]"
+      : "bg-[#1D26FF]/12 text-white/55 ring-1 ring-white/15 saturate-75"
   ].join(" ");
 
   return (
     <section
       id="fan-cloud"
-      className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-[#0A1330]"
+      className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-white"
     >
       <div className="mx-auto w-full max-w-[1320px] px-5 py-10 md:px-8 md:py-14 lg:px-10 lg:py-16">
-        <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-white md:text-5xl lg:text-6xl">
+        <h2 className="mx-auto max-w-4xl text-center font-heading text-4xl font-semibold tracking-tight text-slate-900 md:text-5xl lg:text-6xl">
           {headlineWithHalo ? (
             <>
               {headlineWithHalo[0]}
-              <span className="text-white [text-shadow:0_0_3px_rgba(214,232,111,0.5),0_0_8px_rgba(214,232,111,0.34),0_0_13px_rgba(42,52,255,0.24)]">
+              <span className="text-[#1D26FF]">
                 {geniusSportsPhrase}
               </span>
               {headlineWithHalo[1]}
@@ -295,7 +295,7 @@ function FanCloudComparisonSection({
 
         <div className="mt-8 md:mt-10">
           <div className="mx-auto grid w-full max-w-[1200px] gap-4 md:hidden">
-            <article className="overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)]">
+            <article className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
               <p className="px-4 py-3 text-center text-sm font-semibold text-white">{leftLabel}</p>
               <div className="relative aspect-[16/9] w-full">
                 <img
@@ -307,7 +307,7 @@ function FanCloudComparisonSection({
               </div>
             </article>
 
-            <article className="overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)]">
+            <article className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
               <p className="px-4 py-3 text-center text-sm font-semibold text-white">{rightLabel}</p>
               <div className="relative aspect-[16/9] w-full">
                 <img
@@ -322,7 +322,7 @@ function FanCloudComparisonSection({
 
           <div
             ref={frameRef}
-            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#2b57ff] bg-black/70 shadow-[0_0_0_1px_rgba(29,38,255,0.35)] md:block ${
+            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/90 to-[#1b2950]/88 shadow-[0_18px_36px_rgba(15,23,42,0.22)] backdrop-blur-[2px] md:block ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}
@@ -359,15 +359,15 @@ function FanCloudComparisonSection({
               </div>
 
               <div
-                className="pointer-events-none absolute inset-y-0 z-30 w-px bg-white/90"
+                className="pointer-events-none absolute inset-y-0 z-30 w-px bg-white/80"
                 style={{ left: `calc(${sliderPercent}% - 0.5px)` }}
               />
 
               <motion.div
                 className={`absolute left-0 top-1/2 z-40 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white bg-[#1D26FF] text-white outline-none ${
                   isDragging || isHandleFocused
-                    ? "shadow-[0_0_0_4px_rgba(255,255,255,0.2)]"
-                    : "shadow-[0_4px_16px_rgba(10,19,48,0.45)]"
+                    ? "shadow-[0_0_0_4px_rgba(255,255,255,0.16)]"
+                    : "shadow-[0_10px_20px_rgba(10,19,48,0.32)]"
                 }`}
                 style={{ left: `${sliderPercent}%` }}
                 tabIndex={0}
@@ -394,14 +394,14 @@ function FanCloudComparisonSection({
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
-                className="mt-4 hidden text-center text-sm font-medium text-blue-100 md:block md:text-base"
+                className="mt-4 hidden text-center text-sm font-medium text-slate-600 md:block md:text-base"
               >
                 Drag to compare
               </motion.p>
             ) : null}
           </AnimatePresence>
           {!showHelperHint && helperText ? (
-            <p className="mt-4 hidden text-center text-sm font-medium text-blue-100/80 md:block md:text-base">
+            <p className="mt-4 hidden text-center text-sm font-medium text-slate-500 md:block md:text-base">
               {helperText}
             </p>
           ) : null}
@@ -413,17 +413,17 @@ function FanCloudComparisonSection({
             <div className="mt-3 pb-1">
               <div
                 ref={metricsRowRef}
-                className="mx-auto grid w-full rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:rounded-full"
+                className="mx-auto grid w-full rounded-2xl bg-[#1D26FF] ring-1 ring-inset ring-white/10 shadow-[0_16px_32px_rgba(15,23,42,0.2)] md:rounded-full"
                 style={{ gridTemplateColumns: `repeat(${displayedMetrics.length}, minmax(0, 1fr))` }}
               >
                 {displayedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
                     className={`flex min-w-0 flex-col justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
-                      index > 0 ? "border-l border-white/15" : ""
+                      index > 0 ? "border-l border-white/10" : ""
                     }`}
                   >
-                    <p className="whitespace-nowrap text-xl font-bold leading-none text-white md:text-4xl">
+                    <p className="whitespace-nowrap text-xl font-bold leading-none text-slate-100 md:text-4xl">
                       {isMobileViewport ? (
                         metric.value
                       ) : metric.parts.number !== null ? (
@@ -441,7 +441,7 @@ function FanCloudComparisonSection({
                         metric.value
                       )}
                     </p>
-                    <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-300 md:text-lg">
+                    <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-200/80 md:text-lg">
                       {metric.label}
                     </p>
                   </article>
