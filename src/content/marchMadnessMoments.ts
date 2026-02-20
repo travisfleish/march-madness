@@ -139,7 +139,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     }
   },
   fanCloudComparison: {
-    headline: "No one knows March Madness fans better than Genius Sports",
+    headline: "No One Knows March Madness Fans Better Than Genius Sports",
     leftLabel: "How other data and media partners see March Madness fans.",
     rightLabel: "How Genius Sports sees March Madness fans.",
     leftImageSrc: "/genius_fan_cloud.png",
@@ -200,8 +200,8 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     ]
   },
   moments: {
-    header: "Step 1: Choose your moment",
-    introParagraph1: "Step 1: Choose your moment",
+    header: "Step 1: Choose Your Moment",
+    introParagraph1: "Step 1: Choose Your Moment",
     introParagraph2:
       "Select the key in-game or tournament moments you want to align your brand with.",
     labels: [
