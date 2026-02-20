@@ -12,7 +12,7 @@ type MomentsSectionProps = {
 };
 
 const highlightedPhrases = ["Genius Moments", "Fan Graph"] as const;
-const proprietaryMomentLabels = new Set(["CINDERELLA STORY"]);
+const proprietaryMomentLabels = new Set<string>();
 const momentDetailsByLabel: Record<string, { trigger: string; description: string }> = {
   "BUZZER BEATER WIN": {
     trigger: "Points scored to win in final 10 seconds",
@@ -97,6 +97,10 @@ function MomentsSection({
   const openMomentModal = (index: number) => {
     setSelectedMomentIndex(index);
     setIsModalOpen(true);
+  };
+  const closeMomentModal = () => {
+    setIsModalOpen(false);
+    setSelectedMomentIndex(null);
   };
 
   return (
@@ -255,7 +259,7 @@ function MomentsSection({
       <Modal
         isOpen={Boolean(activeMoment) && isModalOpen}
         title={activeMoment ?? ""}
-        onClose={() => setIsModalOpen(false)}
+        onClose={closeMomentModal}
         footer={
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
@@ -280,7 +284,7 @@ function MomentsSection({
             </div>
             <button
               type="button"
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeMomentModal}
               className="rounded-full border border-slate-300 bg-slate-100 px-6 py-2.5 text-base font-semibold text-slate-800 transition hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
             >
               Close
