@@ -252,9 +252,9 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     paragraph:
       "With Genius Sports AI-driven dynamic creative optimization engine, advertisers can tailor their message to each moment, whether it’s a comeback, a buzzer beater, or a Cinderella run. Select content can be pushed across channels, including CTV, OTT, and digital.",
     creativeViz: {
-      triggerTitle: "Moment Trigger: Breakout Performers",
+      triggerTitle: "Moment Trigger: Cinderella Run",
       exampleLabel: "Example Event:",
-      exampleEvent: "An 11-seeded VCU makes it to the sweet 16",
+      exampleEvent: "An 11th-seeded VCU makes it to the sweet 16",
       leftAudienceLabel:
         "Audience Segment: March Madness Fans + Existing Brand Purchaser",
       leftCardTitle: "CREATIVE MESSAGE A",
