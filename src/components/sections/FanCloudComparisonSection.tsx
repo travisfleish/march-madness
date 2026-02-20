@@ -1,5 +1,6 @@
 import {
   type KeyboardEventHandler,
+  type PointerEvent as ReactPointerEvent,
   type PointerEventHandler,
   useCallback,
   useEffect,
@@ -199,7 +200,7 @@ function FanCloudComparisonSection({
     updateFromClientX(event.clientX);
   };
 
-  const stopDragging = useCallback((event?: PointerEvent<HTMLDivElement>) => {
+  const stopDragging = useCallback((event?: ReactPointerEvent<HTMLDivElement>) => {
     const activePointerId = activePointerIdRef.current;
     activePointerIdRef.current = null;
     setIsDragging(false);
