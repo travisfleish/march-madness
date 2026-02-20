@@ -1,5 +1,5 @@
 import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 import { MarchMadnessBracket } from "./VCU";
@@ -118,6 +118,7 @@ function AudienceLabel({ label, align = "left" }: { label: string; align?: "left
 function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const reducedMotion = useReducedMotionSafe();
   const vizRef = useRef<HTMLDivElement | null>(null);
+  const hasEnteredViewport = useInView(vizRef, { once: true, amount: 0.2 });
   const leftDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const titleFadeDelayDesktop = reducedMotion ? 0 : 0.35;
@@ -160,10 +161,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   }, []);
 
   useEffect(() => {
-    if (!hasStartedAnimation) {
+    if (hasEnteredViewport && !hasStartedAnimation) {
       setHasStartedAnimation(true);
     }
-  }, [hasStartedAnimation]);
+  }, [hasEnteredViewport, hasStartedAnimation]);
 
   useEffect(() => {
     if (reducedMotion) {
