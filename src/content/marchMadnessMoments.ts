@@ -86,10 +86,12 @@ export type MarchMadnessMomentsContent = {
       exampleEvent: string;
       leftAudienceLabel: string;
       leftCardTitle: string;
+      leftCardImageSrc?: string;
       leftLead: string;
       leftBody: string;
       rightAudienceLabel: string;
       rightCardTitle: string;
+      rightCardImageSrc?: string;
       rightLead: string;
       rightBody: string;
     };
@@ -140,15 +142,15 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     headline: "No one knows March Madness fans better than Genius Sports",
     leftLabel: "How other data and media partners see March Madness fans.",
     rightLabel: "How Genius Sports sees March Madness fans.",
-    leftImageSrc: "/fancloud-slider-new.png",
-    rightImageSrc: "/fancloud-left-two-attributes.png",
+    leftImageSrc: "/genius_fan_cloud.png",
+    rightImageSrc: "/other_fan_cloud.png",
     helperText: "Drag the slider to compare.",
     metricsEyebrow: "",
     metrics: [
       { value: "250 Million", label: "Consumers" },
       { value: "50 Billion", label: "Interactions" },
       { value: "10K", label: "Brands" },
-      { value: "5K", label: "Genius Data Signals" },
+      { value: "5K", label: "Brands" },
       { value: "2,500", label: "Communities" }
     ]
   },
@@ -256,12 +258,14 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       leftAudienceLabel:
         "Audience Segment: March Madness Fans + Existing Brand Purchaser",
       leftCardTitle: "CREATIVE MESSAGE A",
+      leftCardImageSrc: "/acme-tv-creative-a.png",
       leftLead: "Big moments reveal future stars.",
       leftBody:
         "VCU showed us: the biggest stages create the biggest opportunities. Thanks for being a loyal [Brand] customer -- celebrate the rise of the tournament's newest star with 15% off your next purchase.",
       rightAudienceLabel:
         "Audience Segment: March Madness Fans + Competitive Brand Purchaser",
       rightCardTitle: "CREATIVE MESSAGE B",
+      rightCardImageSrc: "/acme-tv-creative-b.png",
       rightLead: "Every tournament creates new stars.",
       rightBody:
         "From under-the-radar to center stage, this March Madness breakout proved anything can happen. New to [Brand]? Start strong with 15% off your first purchase and be ready for whatever emerges next."

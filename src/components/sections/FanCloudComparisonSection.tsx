@@ -295,20 +295,23 @@ function FanCloudComparisonSection({
 
         <div className="mt-8 md:mt-10">
           <div className="mx-auto grid w-full max-w-[1200px] gap-4 md:hidden">
-            <article className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
-              <p className="px-4 py-3 text-center text-sm font-semibold text-white">{leftLabel}</p>
-              <div className="relative aspect-[16/9] w-full">
-                <img
-                  src={rightImageSrc}
-                  alt={leftLabel}
-                  className="absolute inset-0 h-full w-full object-contain"
-                  draggable={false}
-                />
+            <article>
+              <p className="mb-2 px-1 text-center text-sm font-semibold leading-snug text-slate-900">{leftLabel}</p>
+              <div className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
+                <div className="relative aspect-[16/9] w-full">
+                  <img
+                    src={rightImageSrc}
+                    alt={leftLabel}
+                    className="absolute inset-0 h-full w-full object-contain"
+                    draggable={false}
+                  />
+                </div>
               </div>
             </article>
 
-            <article className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
-              <p className="px-4 py-3 text-center text-sm font-semibold text-white">{rightLabel}</p>
+            <article>
+              <p className="mb-2 px-1 text-center text-sm font-semibold leading-snug text-slate-900">{rightLabel}</p>
+              <div className="overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/88 to-[#1b2950]/85 shadow-[0_14px_28px_rgba(15,23,42,0.2)] backdrop-blur-[2px]">
               <div className="relative aspect-[16/9] w-full">
                 <img
                   src={leftImageSrc}
@@ -316,6 +319,7 @@ function FanCloudComparisonSection({
                   className="absolute inset-0 h-full w-full object-contain"
                   draggable={false}
                 />
+              </div>
               </div>
             </article>
           </div>

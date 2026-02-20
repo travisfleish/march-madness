@@ -10,6 +10,7 @@ type Step3CreativeVizProps = {
 
 type MessageCardProps = {
   cardTitle: string;
+  imageSrc?: string;
   lead: string;
   body: string;
   enableTyping: boolean;
@@ -62,12 +63,33 @@ function useTypedCopy(lead: string, body: string, enableTyping: boolean, instant
 
 function MessageCard({
   cardTitle,
+  imageSrc,
   lead,
   body,
   enableTyping,
   instantText,
   accentTop = false
 }: MessageCardProps) {
+  if (imageSrc) {
+    return (
+      <div className="flex h-full flex-col">
+        <article
+          className={`flex flex-1 flex-col overflow-hidden rounded-2xl border bg-white shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,23,42,0.10)] ${
+            accentTop ? "border-emerald-200 border-t-[3px]" : "border-slate-300"
+          }`}
+        >
+          <img
+            src={imageSrc}
+            alt={cardTitle}
+            className="block h-auto w-full"
+            loading="lazy"
+            draggable={false}
+          />
+        </article>
+      </div>
+    );
+  }
+
   const { visibleLead, visibleBody } = useTypedCopy(lead, body, enableTyping, instantText);
 
   return (
@@ -321,6 +343,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               >
               <MessageCard
                 cardTitle={data.leftCardTitle}
+                imageSrc={data.leftCardImageSrc}
                 lead={data.leftLead}
                 body={data.leftBody}
                 enableTyping={enableTyping}
@@ -372,6 +395,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               >
               <MessageCard
                 cardTitle={data.rightCardTitle}
+                imageSrc={data.rightCardImageSrc}
                 lead={data.rightLead}
                 body={data.rightBody}
                 enableTyping={enableTyping}
@@ -450,6 +474,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               >
               <MessageCard
                 cardTitle={data.leftCardTitle}
+                imageSrc={data.leftCardImageSrc}
                 lead={data.leftLead}
                 body={data.leftBody}
                 enableTyping={enableTyping}
@@ -482,6 +507,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               >
               <MessageCard
                 cardTitle={data.rightCardTitle}
+                imageSrc={data.rightCardImageSrc}
                 lead={data.rightLead}
                 body={data.rightBody}
                 enableTyping={enableTyping}
