@@ -157,7 +157,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       "Connecting brands with fans during the moments that matter most, when emotions are high, history is being made, and brand recall is at its highest."
   },
   proof: {
-    body: "Emotional engagement is deeply tied to brand impact, with ads airing immediately after high-surprise gameplay moments delivering nearly 2x higher unaided brand recall",
+    body: "Emotional engagement is deeply tied to brand impact, with ads airing immediately after high-surprise gameplay moments delivering nearly 2x higher unaided brand recall.",
     chart: {
       title: "Unaided Brand Recall Following Gameplay Moments",
       subtitle: "(i.e., exposed early in ad break)",
