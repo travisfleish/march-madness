@@ -3,11 +3,11 @@ import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 
 const navItems = [
   { id: "fan-cloud", label: "Fan Cloud" },
-  { id: "proof", label: "Proof" },
+  { id: "proof", label: "The Data" },
   { id: "how-it-works", label: "How it Works" },
-  { id: "moments", label: "Moments" },
-  { id: "audiences", label: "Audiences" },
-  { id: "creative", label: "Creative" }
+  { id: "moments", label: "Genius Moments" },
+  { id: "audiences", label: "Custom Audiences" },
+  { id: "creative", label: "Dynamic Creative" }
 ] as const;
 
 function SectionNav() {

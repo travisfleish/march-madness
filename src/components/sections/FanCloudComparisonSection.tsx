@@ -39,13 +39,13 @@ function snapPercent(value: number) {
 }
 
 function splitMetricValue(raw: string) {
-  const match = raw.match(/^([^\d-]*)(-?\d+)(.*)$/);
+  const match = raw.match(/^([^\d-]*)(-?[\d,]+)(.*)$/);
   if (!match) {
     return { prefix: "", number: null as number | null, suffix: raw };
   }
 
   const [, prefix, numericPart, suffix] = match;
-  const parsedNumber = Number.parseInt(numericPart, 10);
+  const parsedNumber = Number.parseInt(numericPart.replace(/,/g, ""), 10);
 
   return {
     prefix,
@@ -91,6 +91,14 @@ function FanCloudComparisonSection({
       })),
     [metrics]
   );
+  const displayedMetrics = useMemo(() => {
+    if (!isMobileViewport) return parsedMetrics;
+
+    // On mobile, show a condensed set of the key stats.
+    return [parsedMetrics[0], parsedMetrics[3], parsedMetrics[4]].filter(
+      (metric): metric is (typeof parsedMetrics)[number] => Boolean(metric)
+    );
+  }, [isMobileViewport, parsedMetrics]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -405,17 +413,18 @@ function FanCloudComparisonSection({
             <div className="mt-3 pb-1">
               <div
                 ref={metricsRowRef}
-                className="mx-auto grid w-full grid-cols-3 rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:rounded-full"
+                className="mx-auto grid w-full rounded-2xl bg-[#161f3e] ring-1 ring-inset ring-white/12 md:rounded-full"
+                style={{ gridTemplateColumns: `repeat(${displayedMetrics.length}, minmax(0, 1fr))` }}
               >
-                {parsedMetrics.map((metric, index) => (
+                {displayedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
                     className={`flex min-w-0 flex-col justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
                       index > 0 ? "border-l border-white/15" : ""
                     }`}
                   >
-                    <p className="text-xl font-bold leading-none text-white md:text-4xl">
-                      {isMobileViewport || metric.value.includes(",") ? (
+                    <p className="whitespace-nowrap text-xl font-bold leading-none text-white md:text-4xl">
+                      {isMobileViewport ? (
                         metric.value
                       ) : metric.parts.number !== null ? (
                         <>

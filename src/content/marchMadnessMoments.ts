@@ -145,6 +145,8 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     metricsEyebrow: "The only consumer data cloud built for sports covering:",
     metrics: [
       { value: "250 Million", label: "Consumers" },
+      { value: "50 Billion", label: "Interactions" },
+      { value: "10K", label: "Brands" },
       { value: "5K", label: "Genius Data Signals" },
       { value: "2,500", label: "Communities" }
     ]
