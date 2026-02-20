@@ -293,7 +293,7 @@ export function MarchMadnessBracket({
                       delay: 0.26,
                       times: [0, 0.3, 0.5, 0.68, 0.84, 1]
                     }}
-                    className="pointer-events-none absolute -top-9 left-1/2 -translate-x-1/2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700"
+                    className="pointer-events-none absolute -top-9 inset-x-0 mx-auto inline-flex w-max items-center gap-1.5 whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700"
                   >
                     <span className="pointer-events-none absolute left-1/2 -top-1" aria-hidden="true">
                       {CONFETTI_PARTICLES.map((particle, index) => (
@@ -328,7 +328,13 @@ export function MarchMadnessBracket({
                         />
                       ))}
                     </span>
-                    Cinderella Run
+                    <img
+                      src="/genius-assets/genius_g_logo.svg"
+                      alt=""
+                      aria-hidden="true"
+                      className="h-5 w-5 opacity-90"
+                    />
+                    <span>Cinderella Run</span>
                   </motion.div>
                   <div className="bg-white border-2 border-green-500 rounded-lg overflow-hidden shadow-[0_10px_24px_rgba(16,185,129,0.22)] h-full">
                     <div className="flex items-center justify-center gap-3 px-4 h-full bg-green-50">

@@ -12,6 +12,7 @@ type MomentsSectionProps = {
 };
 
 const highlightedPhrases = ["Genius Moments", "Fan Graph"] as const;
+const proprietaryMomentLabels = new Set(["CINDERELLA STORY"]);
 const momentDetailsByLabel: Record<string, { trigger: string; description: string }> = {
   "BUZZER BEATER WIN": {
     trigger: "Points scored to win in final 10 seconds",
@@ -32,6 +33,10 @@ function renderHighlightedIntro(text: string) {
       <span key={`${segment}-${index}`}>{segment}</span>
     )
   );
+}
+
+function isProprietaryMoment(label: string) {
+  return proprietaryMomentLabels.has(label);
 }
 
 function MomentsSection({
@@ -132,17 +137,18 @@ function MomentsSection({
                 <Stagger className="grid grid-cols-1 gap-2.5" staggerChildren={0.04} once={false}>
                   {primaryMobileLabels.map((label, index) => {
                     const isActive = selectedMomentIndex === index;
+                    const showProprietaryMark = isProprietaryMoment(label);
 
                     return (
                       <motion.button
                         key={label}
                         type="button"
                         onClick={() => openMomentModal(index)}
-                        className={`rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
+                        className={`relative rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 ${
                           isActive
                             ? "border-[#11b864] bg-[#18c971] text-slate-900 shadow-md"
                             : "border-slate-200/80 bg-slate-100/95 text-slate-900 shadow-sm hover:-translate-y-px hover:border-[#11b864] hover:bg-[#18c971] hover:shadow-md"
-                        }`}
+                        } ${showProprietaryMark ? "pr-10" : ""}`}
                         variants={{
                           hidden: { opacity: 0, y: reducedMotion ? 0 : 6 },
                           show: { opacity: 1, y: 0 }
@@ -154,6 +160,17 @@ function MomentsSection({
                         whileHover={reducedMotion ? undefined : { y: -1 }}
                       >
                         {label}
+                        {showProprietaryMark ? (
+                          <>
+                            <img
+                              src="/genius-assets/genius_g_logo.svg"
+                              alt=""
+                              aria-hidden="true"
+                              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-90"
+                            />
+                            <span className="sr-only">Genius proprietary moment signal</span>
+                          </>
+                        ) : null}
                       </motion.button>
                     );
                   })}
@@ -192,17 +209,18 @@ function MomentsSection({
               >
                 {labels.map((label, index) => {
                   const isActive = selectedMomentIndex === index;
+                  const showProprietaryMark = isProprietaryMoment(label);
 
                   return (
                     <motion.button
                       key={label}
                       type="button"
                       onClick={() => openMomentModal(index)}
-                      className={`rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 md:text-[0.95rem] ${
+                      className={`relative rounded-full border px-4 py-2.5 text-left text-sm font-semibold transition duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-900 md:text-[0.95rem] ${
                         isActive
                           ? "border-[#11b864] bg-[#18c971] text-slate-900 shadow-md"
                           : "border-slate-200/80 bg-slate-100/95 text-slate-900 shadow-sm hover:-translate-y-px hover:border-[#11b864] hover:bg-[#18c971] hover:shadow-md"
-                      }`}
+                      } ${showProprietaryMark ? "pr-10" : ""}`}
                       variants={{
                         hidden: { opacity: 0, y: reducedMotion ? 0 : 6 },
                         show: { opacity: 1, y: 0 }
@@ -214,6 +232,17 @@ function MomentsSection({
                       whileHover={reducedMotion ? undefined : { y: -1 }}
                     >
                       {label}
+                      {showProprietaryMark ? (
+                        <>
+                          <img
+                            src="/genius-assets/genius_g_logo.svg"
+                            alt=""
+                            aria-hidden="true"
+                            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 opacity-90"
+                          />
+                          <span className="sr-only">Genius proprietary moment signal</span>
+                        </>
+                      ) : null}
                     </motion.button>
                   );
                 })}
