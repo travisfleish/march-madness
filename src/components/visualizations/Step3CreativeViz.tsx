@@ -76,7 +76,7 @@ function MessageCard({
         <img
           src={imageSrc}
           alt={cardTitle}
-          className="block h-auto w-full max-w-[7.5rem] sm:max-w-[9.5rem] md:max-w-[16.5rem]"
+          className="block h-auto w-full max-w-[11.5rem] sm:max-w-[13rem] md:max-w-[16.5rem]"
           loading="lazy"
           draggable={false}
         />
@@ -102,10 +102,21 @@ function MessageCard({
 }
 
 function AudienceLabel({ label, align = "left" }: { label: string; align?: "left" | "center" }) {
+  const isUnifiedLabel = label.includes(" + ");
   const [prefix, ...rest] = label.split(":");
   const value = rest.join(":").trim();
   const eyebrow = prefix.trim().toUpperCase();
   const alignClass = align === "center" ? "text-center items-center" : "text-left items-start";
+
+  if (isUnifiedLabel) {
+    return (
+      <div className={`flex flex-col ${alignClass}`}>
+        <p className="mt-1 rounded-full bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-slate-800 md:text-base">
+          {label}
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className={`flex flex-col ${alignClass}`}>
@@ -118,9 +129,12 @@ function AudienceLabel({ label, align = "left" }: { label: string; align?: "left
 function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const reducedMotion = useReducedMotionSafe();
   const vizRef = useRef<HTMLDivElement | null>(null);
+  const desktopConnectorRef = useRef<HTMLDivElement | null>(null);
   const hasEnteredViewport = useInView(vizRef, { once: true, amount: 0.2 });
   const leftDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
+  const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.2;
+  const connectorStartDelayDesktop = reducedMotion ? 0 : 0.25;
   const titleFadeDelayDesktop = reducedMotion ? 0 : 0.35;
   const titleFadeDelayMobile = reducedMotion ? 0 : 0.28;
   const leftCardFadeDelayDesktop = reducedMotion ? 0 : 0.55;
@@ -132,6 +146,11 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [hasStartedAnimation, setHasStartedAnimation] = useState(reducedMotion);
   const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
+  const [connectorMetrics, setConnectorMetrics] = useState({
+    width: 1,
+    leftCenter: 0,
+    rightCenter: 1
+  });
   const handleBracketComplete = useCallback(() => {
     if (typeof window === "undefined" || reducedMotion) {
       setIsBracketComplete(true);
@@ -167,6 +186,53 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   }, [hasEnteredViewport, hasStartedAnimation]);
 
   useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const connectorNode = desktopConnectorRef.current;
+    const leftNode = leftDesktopCardRef.current;
+    const rightNode = rightDesktopCardRef.current;
+
+    if (!connectorNode || !leftNode || !rightNode) {
+      return;
+    }
+
+    const updateConnectorMetrics = () => {
+      const connectorRect = connectorNode.getBoundingClientRect();
+      const leftRect = leftNode.getBoundingClientRect();
+      const rightRect = rightNode.getBoundingClientRect();
+
+      const width = Math.max(connectorRect.width, 1);
+      const leftCenter = leftRect.left + leftRect.width / 2 - connectorRect.left;
+      const rightCenter = rightRect.left + rightRect.width / 2 - connectorRect.left;
+
+      setConnectorMetrics({
+        width,
+        leftCenter: Math.max(0, Math.min(leftCenter, width)),
+        rightCenter: Math.max(0, Math.min(rightCenter, width))
+      });
+    };
+
+    updateConnectorMetrics();
+
+    if (revealCreativeFlow) {
+      return;
+    }
+
+    const resizeObserver = new ResizeObserver(updateConnectorMetrics);
+    resizeObserver.observe(connectorNode);
+    resizeObserver.observe(leftNode);
+    resizeObserver.observe(rightNode);
+    window.addEventListener("resize", updateConnectorMetrics);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateConnectorMetrics);
+    };
+  }, [revealCreativeFlow]);
+
+  useEffect(() => {
     if (reducedMotion) {
       setAreCardsReady(true);
       return;
@@ -193,12 +259,12 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reducedMotion ? 0.2 : 0.45, ease: "easeOut" }}
     >
-      <div className="w-full max-w-5xl rounded-2xl border border-slate-200 bg-white px-4 py-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] md:px-8 md:py-8">
-        <div className="mx-auto max-w-3xl text-center">
+      <div className="w-full px-0 py-0 md:max-w-5xl md:rounded-2xl md:border md:border-slate-200 md:bg-white md:px-8 md:py-8 md:shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+        <div className="mx-auto hidden max-w-3xl text-center md:block">
           <p className="text-lg font-bold text-slate-900 md:text-2xl">{data.triggerTitle}</p>
           <p className="mt-3 text-lg text-slate-700 md:text-xl">{data.exampleEvent}</p>
         </div>
-        <div className="relative mt-6 overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_24px_rgba(15,23,42,0.08)]">
+        <div className="relative mt-6 hidden overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_24px_rgba(15,23,42,0.08)] md:block">
           <div
             className="pointer-events-none absolute inset-0"
             aria-hidden="true"
@@ -208,7 +274,14 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               filter: "blur(18px)"
             }}
           />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-[52%]" aria-hidden="true">
+          <motion.div
+            className="pointer-events-none absolute inset-y-0 right-0 w-[52%]"
+            aria-hidden="true"
+            initial={false}
+            animate={revealCreativeFlow ? { opacity: 1, x: 0, scaleX: 1 } : { opacity: 0, x: 18, scaleX: 0.9 }}
+            transition={{ duration: reducedMotion ? 0.1 : 0.55, ease: "easeOut" }}
+            style={{ originX: 1 }}
+          >
             <img
               src="/genius-assets/green-lines.png"
               alt=""
@@ -222,9 +295,9 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-slate-50/12 to-slate-50/88" />
-          </div>
+          </motion.div>
           <div className="pointer-events-none absolute inset-2 rounded-xl border border-white/55" aria-hidden="true" />
-          <div className="relative z-10 hidden h-[400px] min-w-[860px] md:block md:min-w-0">
+          <div className="relative z-10 h-[400px] min-w-[860px] md:min-w-0">
             <MarchMadnessBracket
               onAnimationComplete={handleBracketComplete}
               startAnimation={!isMobileViewport && hasStartedAnimation}
@@ -311,7 +384,46 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           <div className="mt-0 hidden md:block -mt-px h-[21rem]" aria-hidden="true" />
         )}
         {revealCreativeFlow && <div className="mt-0 hidden md:block -mt-px">
-          <div className="mt-2 grid gap-6 md:grid-cols-2">
+          <div
+            ref={desktopConnectorRef}
+            className="relative mx-auto h-16 w-full max-w-5xl"
+            aria-hidden="true"
+          >
+            <svg viewBox={`0 0 ${connectorMetrics.width} 64`} className="h-full w-full">
+              <motion.path
+                d={(() => {
+                  const trunkX = (connectorMetrics.leftCenter + connectorMetrics.rightCenter) / 2;
+                  const spread = connectorMetrics.rightCenter - connectorMetrics.leftCenter;
+                  const bendRadius = Math.max(4, Math.min(10, spread / 6));
+                  const branchY = 20;
+                  const endY = 63;
+
+                  return [
+                    `M ${trunkX} 0 V ${branchY}`,
+                    `M ${trunkX} ${branchY} H ${connectorMetrics.leftCenter + bendRadius}`,
+                    `Q ${connectorMetrics.leftCenter} ${branchY} ${connectorMetrics.leftCenter} ${branchY + bendRadius}`,
+                    `V ${endY}`,
+                    `M ${trunkX} ${branchY} H ${connectorMetrics.rightCenter - bendRadius}`,
+                    `Q ${connectorMetrics.rightCenter} ${branchY} ${connectorMetrics.rightCenter} ${branchY + bendRadius}`,
+                    `V ${endY}`
+                  ].join(" ");
+                })()}
+                fill="none"
+                stroke="#eab308"
+                strokeWidth="1.9"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: reducedMotion ? 1 : 0 }}
+                animate={{ pathLength: revealCreativeFlow ? 1 : 0 }}
+                transition={{
+                  duration: connectorDrawDurationDesktop,
+                  delay: connectorStartDelayDesktop,
+                  ease: "easeInOut"
+                }}
+              />
+            </svg>
+          </div>
+          <div className="mt-1 grid gap-6 md:grid-cols-2">
             <motion.div
               ref={leftDesktopCardRef}
               className="flex h-full flex-col"
