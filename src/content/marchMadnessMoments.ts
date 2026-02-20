@@ -105,7 +105,7 @@ export type MarchMadnessMomentsContent = {
 export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
   hero: {
     kicker: "Genius Sports Partnership Opportunities",
-    subhead: "Genius Sports is Exclusive Supplier of Official NCAA Data",
+    subhead: "Genius Sports is the Exclusive Supplier of Official NCAA Data",
     titleLines: ["March", "Madness", "2026"],
     stats: [
       {
