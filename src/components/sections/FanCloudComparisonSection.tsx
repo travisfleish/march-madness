@@ -224,25 +224,53 @@ function FanCloudComparisonSection({
 
   const handlePointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
+    event.preventDefault();
     setHasInteracted(true);
     setShowHelperHint(false);
     activePointerIdRef.current = event.pointerId;
-    event.currentTarget.setPointerCapture(event.pointerId);
+    try {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    } catch {}
     setIsDragging(true);
     updateFromClientX(event.clientX);
   };
 
   const handlePointerMove: PointerEventHandler<HTMLDivElement> = (event) => {
     if (!isDragging || activePointerIdRef.current !== event.pointerId) return;
+    event.preventDefault();
     updateFromClientX(event.clientX);
   };
 
-  const endPointerDrag: PointerEventHandler<HTMLDivElement> = (event) => {
-    if (activePointerIdRef.current !== event.pointerId) return;
+  const stopDragging = useCallback((event?: PointerEvent<HTMLDivElement>) => {
+    const activePointerId = activePointerIdRef.current;
     activePointerIdRef.current = null;
     setIsDragging(false);
+
+    if (event && activePointerId !== null) {
+      try {
+        event.currentTarget.releasePointerCapture(activePointerId);
+      } catch {}
+    }
+  }, []);
+
+  const endPointerDrag: PointerEventHandler<HTMLDivElement> = (event) => {
+    if (activePointerIdRef.current !== event.pointerId) return;
+    stopDragging(event);
     queueSliderUpdate(snapPercent(pendingPercentRef.current));
   };
+
+  useEffect(() => {
+    const stop = () => {
+      activePointerIdRef.current = null;
+      setIsDragging(false);
+    };
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("blur", stop);
+    return () => {
+      window.removeEventListener("pointerup", stop);
+      window.removeEventListener("blur", stop);
+    };
+  }, []);
 
   const handleSliderKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
     if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
@@ -302,7 +330,7 @@ function FanCloudComparisonSection({
                   <img
                     src={rightImageSrc}
                     alt={leftLabel}
-                    className="absolute inset-0 h-full w-full object-contain"
+                    className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
                     draggable={false}
                   />
                 </div>
@@ -316,7 +344,7 @@ function FanCloudComparisonSection({
                 <img
                   src={leftImageSrc}
                   alt={rightLabel}
-                  className="absolute inset-0 h-full w-full object-contain"
+                  className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
                   draggable={false}
                 />
               </div>
@@ -326,7 +354,7 @@ function FanCloudComparisonSection({
 
           <div
             ref={frameRef}
-            className={`relative mx-auto hidden w-full max-w-[1320px] overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/90 to-[#1b2950]/88 shadow-[0_18px_36px_rgba(15,23,42,0.22)] backdrop-blur-[2px] md:block ${
+            className={`relative mx-auto hidden w-full max-w-[1320px] select-none touch-none overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/90 to-[#1b2950]/88 shadow-[0_18px_36px_rgba(15,23,42,0.22)] backdrop-blur-[2px] md:block ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
             style={{ minHeight: "260px", touchAction: "none" }}
@@ -334,6 +362,7 @@ function FanCloudComparisonSection({
             onPointerMove={handlePointerMove}
             onPointerUp={endPointerDrag}
             onPointerCancel={endPointerDrag}
+            onLostPointerCapture={stopDragging}
           >
             <div className={leftLabelClasses}>
               {leftLabel}
@@ -345,7 +374,7 @@ function FanCloudComparisonSection({
               <img
                 src={leftImageSrc}
                 alt={leftLabel}
-                className="absolute inset-0 h-full w-full object-contain"
+                className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
                 draggable={false}
               />
 
@@ -356,7 +385,7 @@ function FanCloudComparisonSection({
                 <img
                   src={rightImageSrc}
                   alt={rightLabel}
-                  className="absolute left-0 top-0 h-full max-w-none object-contain"
+                  className="pointer-events-none absolute left-0 top-0 h-full max-w-none select-none object-contain"
                   style={{ width: `${imageBoxWidthPx}px` }}
                   draggable={false}
                 />
