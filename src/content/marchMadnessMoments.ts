@@ -150,7 +150,7 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
       { value: "250 Million", label: "Consumers" },
       { value: "50 Billion", label: "Interactions" },
       { value: "10K", label: "Brands" },
-      { value: "5K", label: "Brands" },
+      { value: "5K", label: "Exclusive Brands" },
       { value: "2,500", label: "Communities" }
     ]
   },

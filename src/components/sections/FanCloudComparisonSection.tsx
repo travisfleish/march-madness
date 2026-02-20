@@ -3,13 +3,11 @@ import {
   type PointerEventHandler,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState
 } from "react";
 import { AnimatePresence, motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
-import RollingNumber from "../motion/RollingNumber";
 
 type FanCloudComparisonSectionProps = {
   headline: string;
@@ -38,22 +36,6 @@ function snapPercent(value: number) {
   return Math.abs(nearest - value) <= 8 ? nearest : value;
 }
 
-function splitMetricValue(raw: string) {
-  const match = raw.match(/^([^\d-]*)(-?[\d,]+)(.*)$/);
-  if (!match) {
-    return { prefix: "", number: null as number | null, suffix: raw };
-  }
-
-  const [, prefix, numericPart, suffix] = match;
-  const parsedNumber = Number.parseInt(numericPart.replace(/,/g, ""), 10);
-
-  return {
-    prefix,
-    number: Number.isNaN(parsedNumber) ? null : parsedNumber,
-    suffix
-  };
-}
-
 function FanCloudComparisonSection({
   headline,
   leftLabel,
@@ -77,28 +59,16 @@ function FanCloudComparisonSection({
   const nudgeRafRef = useRef<number | null>(null);
   const pendingPercentRef = useRef<number>(50);
   const activePointerIdRef = useRef<number | null>(null);
-  const metricsRowRef = useRef<HTMLDivElement | null>(null);
-  const hasMetricsEnteredRef = useRef(false);
   const [imageBoxWidthPx, setImageBoxWidthPx] = useState<number>(1200);
-  const [metricsRollKey, setMetricsRollKey] = useState(0);
   const isFrameInView = useInView(frameRef, { once: true, amount: 0.35 });
-  const isMetricsInView = useInView(metricsRowRef, { once: false, amount: 0.35 });
-  const parsedMetrics = useMemo(
-    () =>
-      metrics.map((metric) => ({
-        ...metric,
-        parts: splitMetricValue(metric.value)
-      })),
-    [metrics]
-  );
-  const displayedMetrics = useMemo(() => {
-    if (!isMobileViewport) return parsedMetrics;
+  const displayedMetrics = (() => {
+    if (!isMobileViewport) return metrics;
 
     // On mobile, show a condensed set of the key stats.
-    return [parsedMetrics[0], parsedMetrics[3], parsedMetrics[4]].filter(
-      (metric): metric is (typeof parsedMetrics)[number] => Boolean(metric)
+    return [metrics[0], metrics[3], metrics[4]].filter(
+      (metric): metric is (typeof metrics)[number] => Boolean(metric)
     );
-  }, [isMobileViewport, parsedMetrics]);
+  })();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -209,18 +179,6 @@ function FanCloudComparisonSection({
       }
     };
   }, [isFrameInView, reducedMotion, hasInteracted, queueSliderUpdate]);
-
-  useEffect(() => {
-    if (isMetricsInView && !hasMetricsEnteredRef.current) {
-      setMetricsRollKey((current) => current + 1);
-      hasMetricsEnteredRef.current = true;
-      return;
-    }
-
-    if (!isMetricsInView) {
-      hasMetricsEnteredRef.current = false;
-    }
-  }, [isMetricsInView]);
 
   const handlePointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -445,7 +403,6 @@ function FanCloudComparisonSection({
             </p>
             <div className="mt-3 pb-1">
               <div
-                ref={metricsRowRef}
                 className="mx-auto grid w-full rounded-2xl bg-[#1D26FF] ring-1 ring-inset ring-white/10 shadow-[0_16px_32px_rgba(15,23,42,0.2)] md:rounded-full"
                 style={{ gridTemplateColumns: `repeat(${displayedMetrics.length}, minmax(0, 1fr))` }}
               >
@@ -457,27 +414,7 @@ function FanCloudComparisonSection({
                     }`}
                   >
                     <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
-                      {isMobileViewport ? (
-                        metric.value
-                      ) : metric.parts.number !== null ? (
-                        <>
-                          {metric.parts.prefix ? (
-                            <span className="inline-flex h-[1em] items-center leading-none">{metric.parts.prefix.trim()}</span>
-                          ) : null}
-                          <RollingNumber
-                            value={metric.parts.number}
-                            duration={0.5}
-                            rerollDuration={0.5}
-                            rerollKey={metricsRollKey}
-                            className="inline-flex h-[1em] items-center leading-none"
-                          />
-                          {metric.parts.suffix ? (
-                            <span className="inline-flex h-[1em] items-center leading-none">{metric.parts.suffix.trim()}</span>
-                          ) : null}
-                        </>
-                      ) : (
-                        <span className="inline-flex h-[1em] items-center leading-none">{metric.value}</span>
-                      )}
+                      <span className="inline-flex h-[1em] items-center leading-none">{metric.value}</span>
                     </p>
                     <p className="mt-1 text-[0.66rem] font-medium leading-tight text-slate-200/80 md:text-lg">
                       {metric.label}
