@@ -101,14 +101,56 @@ function MessageCard({
   );
 }
 
-function AudienceLabel({ label, align = "left" }: { label: string; align?: "left" | "center" }) {
+function AudienceLabel({
+  label,
+  align = "left",
+  mobilePlain = false
+}: {
+  label: string;
+  align?: "left" | "center";
+  mobilePlain?: boolean;
+}) {
   const isUnifiedLabel = label.includes(" + ");
   const [prefix, ...rest] = label.split(":");
   const value = rest.join(":").trim();
   const eyebrow = prefix.trim().toUpperCase();
   const alignClass = align === "center" ? "text-center items-center" : "text-left items-start";
 
+  const getAudienceLines = (text: string) => {
+    const [leftGroup, rightGroup] = text.split(" + ").map((segment) => segment.trim());
+
+    const splitGroup = (group: string) => {
+      if (group.endsWith(" Fans")) {
+        return [group.slice(0, -5).trim(), "Fans"];
+      }
+
+      return [group];
+    };
+
+    if (!rightGroup) {
+      return [text];
+    }
+
+    return [...splitGroup(leftGroup), "+", ...splitGroup(rightGroup)];
+  };
+
   if (isUnifiedLabel) {
+    if (mobilePlain) {
+      const audienceLines = getAudienceLines(label);
+
+      return (
+        <div className={`flex flex-col ${alignClass}`}>
+          <p className="text-xs font-semibold leading-tight text-slate-800 md:text-base">
+            {audienceLines.map((line, index) => (
+              <span key={`${line}-${index}`} className="block">
+                {line}
+              </span>
+            ))}
+          </p>
+        </div>
+      );
+    }
+
     return (
       <div className={`flex flex-col ${alignClass}`}>
         <p className="mt-1 rounded-full bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-slate-800 md:text-base">
@@ -321,7 +363,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   delay: titleFadeDelayMobile
                 }}
               >
-                <AudienceLabel label={data.leftAudienceLabel} align="center" />
+                <AudienceLabel label={data.leftAudienceLabel} align="center" mobilePlain={true} />
               </motion.p>
               <motion.div
                 className="mt-3"
@@ -355,7 +397,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
                   delay: titleFadeDelayMobile + 0.12
                 }}
               >
-                <AudienceLabel label={data.rightAudienceLabel} align="center" />
+                <AudienceLabel label={data.rightAudienceLabel} align="center" mobilePlain={true} />
               </motion.p>
               <motion.div
                 className="mt-3"

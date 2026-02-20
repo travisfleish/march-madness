@@ -9,6 +9,8 @@ type CreativeChannelSectionProps = {
 };
 
 function CreativeChannelSection({ header, paragraph, creativeViz }: CreativeChannelSectionProps) {
+  const [triggerPrefix, triggerSuffix] = creativeViz.triggerTitle.split(": ");
+
   return (
     <Reveal
       id="creative"
@@ -18,7 +20,16 @@ function CreativeChannelSection({ header, paragraph, creativeViz }: CreativeChan
       <h2 className="section-title">{header}</h2>
       <p className="section-copy">{paragraph}</p>
       <div className="mt-4 -mx-6 border-y border-slate-200 bg-slate-50/70 px-6 py-3 text-center md:hidden">
-        <p className="text-base font-bold text-slate-900">{creativeViz.triggerTitle}</p>
+        <p className="text-base font-bold text-slate-900">
+          {triggerSuffix ? (
+            <>
+              <span className="block">{`${triggerPrefix}:`}</span>
+              <span className="block">{triggerSuffix}</span>
+            </>
+          ) : (
+            creativeViz.triggerTitle
+          )}
+        </p>
         <p className="mt-1 text-base text-slate-700">{creativeViz.exampleEvent}</p>
       </div>
       <Step3CreativeViz data={creativeViz} />
