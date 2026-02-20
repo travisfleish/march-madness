@@ -64,3 +64,14 @@ a {
   @apply mt-4 text-base md:text-lg;
   color: var(--gs-text-muted);
 }
+
+@keyframes dropdownFadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

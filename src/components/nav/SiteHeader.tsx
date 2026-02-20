@@ -100,7 +100,7 @@ const NAV_CONFIG = {
     promo: {
       title: "Welcome to FANHub",
       body: "The only omni-channel advertising platform custom-built to reach and engage sports fans.",
-      imageSrc: "/fanhub-dropdown.png",
+      imageSrc: "/fanhub-correct.png",
     },
   },
   learn: {
@@ -178,6 +178,15 @@ function InlineArrowIcon() {
     <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
       <path d="M3 8H13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       <path d="M9 4L13 8L9 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CornerLaunchIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <path d="M4.5 11.5L11.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <path d="M7 4.5H11.5V9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -423,7 +432,7 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
         <div
           id={`site-header-menu-${openMenu}`}
           role="menu"
-          className="absolute left-0 z-50 hidden w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm lg:block"
+          className="absolute left-0 z-50 hidden w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm motion-safe:animate-[dropdownFadeSlideIn_220ms_ease-out] lg:block"
           style={{ top: menuTop }}
           onMouseEnter={() => {
             if (hoverCloseTimerRef.current !== null) {
@@ -487,11 +496,12 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
 
             {openMenu === "products" && (
               <div className="grid grid-cols-12 gap-6">
-                <div className="col-span-7 space-y-5 pr-2">
+                <div className="col-span-6 pr-2">
+                  <div className="grid grid-cols-2 gap-x-10 gap-y-7">
                   {NAV_CONFIG.products.groups.map((group) => (
                     <section key={group.title}>
                       <div className="mb-2 flex items-center gap-2">
-                        <a href={group.href} className="text-[15px] font-semibold text-slate-900">
+                        <a href={group.href} className="text-[15px] font-bold text-slate-900">
                           {group.title}
                         </a>
                         <a
@@ -502,16 +512,16 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                           <ExternalArrowIcon />
                         </a>
                       </div>
-                      <div className="grid grid-cols-2 gap-1">
+                      <div className="space-y-1">
                         {group.items.map((item) => (
                           <a
                             key={item.label}
                             href={item.href}
                             role="menuitem"
-                            className="group flex items-center rounded-lg px-2 py-2 text-[15px] font-medium text-slate-900 transition-colors focus:outline-none"
+                            className="group flex items-center rounded-lg py-2 text-[15px] font-normal text-slate-700 transition-colors hover:text-slate-900 focus:outline-none"
                           >
                             <span className="inline-flex items-center gap-2">
-                              <span>{item.label}</span>
+                              <span className="whitespace-nowrap">{item.label}</span>
                               {item.isNew ? (
                                 <span className="rounded-full bg-blue-700 px-2 py-0.5 text-[10px] uppercase tracking-wide text-white">
                                   New
@@ -526,26 +536,43 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
                       </div>
                     </section>
                   ))}
+                  </div>
                 </div>
 
-                <aside className="col-span-5">
-                  <div className="h-full rounded-3xl bg-[#0b1220] p-7 text-white">
-                    <h3 className="text-[30px] font-semibold leading-tight">{NAV_CONFIG.products.promo.title}</h3>
-                    <p className="mt-3 max-w-[34ch] text-[15px] leading-relaxed text-slate-200">
-                      {NAV_CONFIG.products.promo.body}
-                    </p>
-                    <div className="mt-8 overflow-hidden rounded-[26px] bg-[#111a2f] p-1.5 shadow-[0_18px_45px_rgba(0,0,0,0.28)]">
-                      <img
-                        src={NAV_CONFIG.products.promo.imageSrc}
-                        alt="FANHub promo"
-                        className="h-[190px] w-full rounded-[22px] object-cover"
+                <aside className="col-span-6">
+                  <div className="group relative overflow-hidden rounded-3xl bg-[#0b1220] p-7 text-white">
+                    <span className="pointer-events-none absolute right-5 top-5 inline-flex h-8 w-8 rotate-45 scale-90 items-center justify-center rounded-full bg-white text-slate-900 opacity-0 transition-all duration-200 ease-out group-hover:rotate-0 group-hover:scale-100 group-hover:opacity-100 group-focus-within:rotate-0 group-focus-within:scale-100 group-focus-within:opacity-100">
+                      <CornerLaunchIcon />
+                    </span>
+                    <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+                      <span
+                        className="absolute right-0 top-[114px] h-[132px] w-[128px] origin-right scale-x-0 opacity-0 transition-all duration-300 ease-out group-hover:scale-x-100 group-hover:opacity-100 group-focus-within:scale-x-100 group-focus-within:opacity-100"
                         style={{
-                          WebkitMaskImage:
-                            "radial-gradient(128% 128% at 50% 50%, #000 70%, rgba(0,0,0,0.45) 88%, transparent 100%)",
-                          maskImage:
-                            "radial-gradient(128% 128% at 50% 50%, #000 70%, rgba(0,0,0,0.45) 88%, transparent 100%)",
+                          backgroundImage:
+                            "repeating-linear-gradient(90deg, rgba(16,58,255,0) 0 5px, rgba(16,58,255,0.95) 5px 9px, rgba(16,58,255,0) 9px 15px)",
                         }}
                       />
+                      <span
+                        className="absolute bottom-0 right-0 h-[56px] w-[52%] origin-right scale-x-0 opacity-0 transition-all duration-300 ease-out group-hover:scale-x-100 group-hover:opacity-100 group-focus-within:scale-x-100 group-focus-within:opacity-100"
+                        style={{
+                          backgroundImage:
+                            "repeating-linear-gradient(90deg, rgba(16,58,255,0) 0 5px, rgba(16,58,255,0.95) 5px 9px, rgba(16,58,255,0) 9px 15px)",
+                        }}
+                      />
+                    </div>
+                    <div className="relative z-10 max-w-[250px]">
+                      <h3 className="text-[22px] font-semibold leading-tight">{NAV_CONFIG.products.promo.title}</h3>
+                      <p className="mt-2.5 text-[14px] leading-relaxed text-slate-200">{NAV_CONFIG.products.promo.body}</p>
+                    </div>
+                    <div className="relative z-10 mt-6 overflow-hidden rounded-[24px]">
+                      <div className="relative mr-5 overflow-hidden rounded-[20px]">
+                        <img
+                          src={NAV_CONFIG.products.promo.imageSrc}
+                          alt="FANHub promo"
+                          className="h-[200px] w-full object-cover"
+                          style={{ objectPosition: "50% 50%" }}
+                        />
+                      </div>
                     </div>
                   </div>
                 </aside>

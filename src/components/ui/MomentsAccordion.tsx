@@ -12,6 +12,14 @@ type MomentsAccordionProps = {
   detailsByLabel: Record<string, MomentDetails>;
 };
 
+function toTitleCase(value: string) {
+  return value
+    .toLowerCase()
+    .split(/\s+/)
+    .map((word) => (word ? `${word[0].toUpperCase()}${word.slice(1)}` : ""))
+    .join(" ");
+}
+
 function PlusMinusIcon({ isOpen }: { isOpen: boolean }) {
   return (
     <span
@@ -38,12 +46,11 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
   const labelColumns = [labels.slice(0, midpoint), labels.slice(midpoint)];
 
   return (
-    <div className="rounded-2xl border border-slate-200/70 bg-slate-50 p-3 md:p-4">
-      <div className="flex flex-col gap-3 md:flex-row md:items-start md:gap-6">
+    <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-8">
         {labelColumns.map((columnLabels, columnIndex) => (
           <div
             key={`column-${columnIndex}`}
-            className="w-full overflow-hidden rounded-xl border border-slate-200/70 bg-slate-50 divide-y divide-slate-200/70"
+            className="w-full"
           >
             {columnLabels.map((label, index) => {
               const isOpen = openIdsByColumn[columnIndex] === label;
@@ -55,7 +62,12 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
               };
 
               return (
-                <div key={label}>
+                <div
+                  key={label}
+                  className={`bg-white border border-slate-200/60 overflow-hidden first:rounded-t-lg last:rounded-b-lg ${
+                    index === 0 ? "" : "-mt-px"
+                  }`}
+                >
                   <button
                     type="button"
                     aria-expanded={isOpen}
@@ -66,12 +78,12 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                         [columnIndex]: current[columnIndex] === label ? null : label
                       }))
                     }
-                    className={`flex w-full items-center gap-3 px-4 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/80 focus-visible:ring-inset ${
-                      isOpen ? "bg-white/80" : "hover:bg-white/60"
+                    className={`flex w-full items-center gap-3 bg-white px-2 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/80 ${
+                      isOpen ? "bg-white" : "hover:bg-slate-50/70"
                     }`}
                   >
                     <PlusMinusIcon isOpen={isOpen} />
-                    <span className="text-lg font-medium text-slate-900">{label}</span>
+                    <span className="text-lg font-medium text-slate-900">{toTitleCase(label)}</span>
                   </button>
 
                   <AnimatePresence initial={false}>
@@ -86,14 +98,14 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                           duration: reducedMotion ? 0.12 : 0.22,
                           ease: "easeOut"
                         }}
-                        className="overflow-hidden"
+                        className="overflow-hidden bg-white"
                       >
-                        <div className="space-y-2 px-4 pb-4 pl-[3.75rem] pt-2">
-                          <p className="text-sm text-slate-900">
+                        <div className="mx-auto max-w-3xl space-y-2 px-6 pb-4 pt-3 text-left">
+                          <p className="text-base text-slate-900">
                             <span className="font-semibold text-slate-700">Trigger: </span>
                             {details.trigger}
                           </p>
-                          <p className="text-sm text-slate-900">
+                          <p className="text-base text-slate-900">
                             <span className="font-semibold text-slate-700">Description: </span>
                             {details.description}
                           </p>
@@ -106,7 +118,6 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
             })}
           </div>
         ))}
-      </div>
     </div>
   );
 }
