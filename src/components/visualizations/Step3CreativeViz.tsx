@@ -1,5 +1,5 @@
 import type { MarchMadnessMomentsContent } from "../../content/marchMadnessMoments";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 import { MarchMadnessBracket } from "./VCU";
@@ -121,8 +121,6 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const desktopConnectorRef = useRef<HTMLDivElement | null>(null);
   const leftDesktopCardRef = useRef<HTMLDivElement | null>(null);
   const rightDesktopCardRef = useRef<HTMLDivElement | null>(null);
-  const isVizInView = useInView(vizRef, { once: false, amount: 0.25 });
-  const isTypingInView = useInView(vizRef, { once: false, amount: 0.25 });
   const connectorDrawDurationDesktop = reducedMotion ? 0 : 1.4;
   const connectorDrawDurationMobile = reducedMotion ? 0 : 1.2;
   const connectorStartDelayDesktop = reducedMotion ? 0 : 0.32;
@@ -136,7 +134,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const typingStartDelayMs = reducedMotion ? 0 : 650;
   const [isBracketComplete, setIsBracketComplete] = useState(false);
   const [isMobileViewport, setIsMobileViewport] = useState(false);
-  const [isVizActive, setIsVizActive] = useState(false);
+  const [hasStartedAnimation, setHasStartedAnimation] = useState(reducedMotion);
   const [areCardsReady, setAreCardsReady] = useState(reducedMotion);
   const handleBracketComplete = useCallback(() => {
     if (typeof window === "undefined" || reducedMotion) {
@@ -151,9 +149,9 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   const revealCreativeFlow = isMobileViewport
     ? true
     : reducedMotion
-      ? isVizInView
+      ? true
       : isBracketComplete;
-  const enableTyping = isTypingInView && areCardsReady && !reducedMotion && !isMobileViewport;
+  const enableTyping = areCardsReady && !reducedMotion && !isMobileViewport;
   const [connectorMetrics, setConnectorMetrics] = useState<{
     width: number;
     leftCenter: number;
@@ -172,24 +170,10 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   }, []);
 
   useEffect(() => {
-    if (isVizInView) {
-      setIsVizActive(true);
-      return;
+    if (!hasStartedAnimation) {
+      setHasStartedAnimation(true);
     }
-
-    // Debounce leave events to avoid brief in-view flaps during layout changes.
-    const leaveTimer = window.setTimeout(() => {
-      setIsVizActive(false);
-    }, 300);
-
-    return () => window.clearTimeout(leaveTimer);
-  }, [isVizInView]);
-
-  useEffect(() => {
-    if (!isVizActive) {
-      setIsBracketComplete(false);
-    }
-  }, [isVizActive]);
+  }, [hasStartedAnimation]);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") {
@@ -299,7 +283,7 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
           <div className="relative z-10 hidden h-[400px] min-w-[860px] md:block md:min-w-0">
             <MarchMadnessBracket
               onAnimationComplete={handleBracketComplete}
-              startAnimation={!isMobileViewport && isVizActive}
+              startAnimation={!isMobileViewport && hasStartedAnimation}
             />
           </div>
         </div>
