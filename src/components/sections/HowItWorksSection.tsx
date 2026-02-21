@@ -19,7 +19,12 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
       once={false}
       className="scroll-mt-24 p-6 md:p-10"
     >
-      <h2 className="section-title">{header}</h2>
+      <h2 className="section-title text-[1.65rem] leading-tight md:hidden">
+        <span className="block">Your March Madness</span>
+        <span className="block">Moments Campaign:</span>
+        <span className="block">How it Works</span>
+      </h2>
+      <h2 className="section-title hidden md:block">{header}</h2>
       <p className="section-copy">{paragraph}</p>
 
       <Stagger className="mt-8 hidden gap-4 md:grid md:grid-cols-3" staggerChildren={0.24} once={false}>
