@@ -61,9 +61,11 @@ function SectionNav() {
   }, [sectionIds]);
 
   return (
-    <nav className="sticky top-0 z-40 -mx-2 hidden px-2 pt-5 pb-2 md:block md:top-2 md:pt-6 md:pb-3 lg:top-3">
-      <div className="overflow-x-auto rounded-full bg-gs-surface p-1 shadow-sm ring-1 ring-slate-200/70 backdrop-blur">
-        <ul className="flex w-max min-w-full items-center gap-1">
+    <nav className="sticky top-0 z-40 hidden bg-white/95 backdrop-blur md:block md:top-2">
+      <div className="border-y border-slate-200/90 px-1 py-4">
+        <div className="flex items-center justify-between gap-5">
+          <p className="shrink-0 text-base font-normal tracking-[0.01em] text-slate-700">March Madness</p>
+          <ul className="flex w-max min-w-0 items-center gap-2 overflow-x-auto">
           {navItems.map((item) => {
             const isActive = item.id === activeId;
 
@@ -79,19 +81,26 @@ function SectionNav() {
                       block: "start"
                     });
                   }}
-                  className={`rounded-full px-3 py-2 text-sm font-medium transition md:px-4 ${
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-base font-normal transition md:px-3 ${
                     isActive
-                      ? "bg-slate-900 text-white shadow-sm"
-                      : "text-slate-700 hover:bg-slate-200/80 hover:text-slate-900"
+                      ? "text-slate-900"
+                      : "text-slate-500 hover:text-slate-700"
                   }`}
                   aria-current={isActive ? "true" : undefined}
                 >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full transition-colors ${
+                      isActive ? "bg-emerald-500" : "bg-transparent"
+                    }`}
+                    aria-hidden="true"
+                  />
                   {item.label}
                 </button>
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       </div>
     </nav>
   );
