@@ -131,7 +131,14 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
           >
             <div className="mx-auto w-fit text-left">
               <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-slate-700 md:text-sm">
-                {kicker}
+                {isMobileViewport ? (
+                  <>
+                    <span className="block">Genius Sports</span>
+                    <span className="block">Partnership Opportunities</span>
+                  </>
+                ) : (
+                  kicker
+                )}
               </p>
               <div className="mt-3 h-px w-20 bg-slate-900/25 md:mt-4" />
               <h1 className="-ml-[0.02em] mt-4 font-heading font-semibold tracking-[-0.01em] text-black leading-[0.9] text-[clamp(3rem,9vw,6.1rem)] md:mt-5">
