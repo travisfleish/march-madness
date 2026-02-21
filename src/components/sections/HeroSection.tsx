@@ -130,11 +130,6 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
           >
             <div className="mx-auto w-fit text-left">
-              <img
-                src="/genius-assets/genius_g_logo.svg"
-                alt="Genius Sports logo"
-                className="mb-4 h-auto w-[3.875rem] md:mb-5 md:w-[4.5rem] lg:w-[5.125rem]"
-              />
               <p className="text-[0.72rem] font-medium uppercase tracking-[0.24em] text-slate-700 md:text-sm">
                 {kicker}
               </p>
