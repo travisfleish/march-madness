@@ -289,7 +289,6 @@ function FanCloudComparisonSection({
             {renderHeadlineWithHighlight(headline)}
           </span>
         </h2>
-
         <div className="mt-8 md:mt-10">
           <div className="mx-auto grid w-full max-w-[1200px] gap-4 md:hidden">
             <article>
@@ -369,10 +368,20 @@ function FanCloudComparisonSection({
                 />
               </div>
 
-              <div
-                className="pointer-events-none absolute inset-y-0 z-30 w-px bg-white/80"
-                style={{ left: `calc(${sliderPercent}% - 0.5px)` }}
-              />
+              {showHelperHint ? (
+                <div
+                  className="pointer-events-none absolute inset-y-0 z-40"
+                  style={{ left: `${sliderPercent}%` }}
+                >
+                  <span className="absolute left-1/2 top-0 bottom-[2.7rem] w-px -translate-x-1/2 bg-white/80" />
+                  <span className="absolute bottom-0 left-1/2 h-3 w-px -translate-x-1/2 bg-white/80" />
+                </div>
+              ) : (
+                <div
+                  className="pointer-events-none absolute inset-y-0 z-40 w-px bg-white/80"
+                  style={{ left: `calc(${sliderPercent}% - 0.5px)` }}
+                />
+              )}
 
               <motion.div
                 className={`absolute left-0 top-1/2 z-40 h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white bg-[#1D26FF] text-white outline-none ${
@@ -396,28 +405,25 @@ function FanCloudComparisonSection({
                 </span>
               </motion.div>
             </div>
+            <AnimatePresence>
+              {showHelperHint ? (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
+                  className="pointer-events-none absolute inset-x-0 bottom-4 z-50 text-center text-base font-normal text-white drop-shadow-[0_2px_6px_rgba(2,6,23,0.8)] md:text-lg"
+                >
+                  Drag the slider to compare
+                </motion.p>
+              ) : null}
+            </AnimatePresence>
           </div>
+          <p className="my-6 text-center text-base font-medium text-slate-700 md:my-8 md:text-xl">
+            The only consumer data cloud built for sports covering:
+          </p>
 
-          <AnimatePresence>
-            {showHelperHint ? (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
-                className="mt-4 hidden text-center text-sm font-medium text-slate-600 md:block md:text-base"
-              >
-                Drag to compare
-              </motion.p>
-            ) : null}
-          </AnimatePresence>
-          {!showHelperHint && helperText ? (
-            <p className="mt-4 hidden text-center text-sm font-medium text-slate-500 md:block md:text-base">
-              {helperText}
-            </p>
-          ) : null}
-
-          <div className="mx-auto mt-6 w-full max-w-[1120px] md:mt-8">
+          <div className="mx-auto w-full max-w-[1120px]">
             <p className="text-center text-sm font-medium text-[#d6e86f] md:text-lg">
               {metricsEyebrow}
             </p>
