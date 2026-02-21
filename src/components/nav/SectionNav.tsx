@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 
 const navItems = [
-  { id: "fan-cloud", label: "Fan Cloud" },
+  { id: "fan-cloud", label: "Fan Graph" },
   { id: "proof", label: "The Data" },
   { id: "how-it-works", label: "How it Works" },
   { id: "moments", label: "Genius Moments" },
