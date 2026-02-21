@@ -420,7 +420,14 @@ function FanCloudComparisonSection({
             </AnimatePresence>
           </div>
           <p className="my-6 text-center text-base font-medium text-slate-700 md:my-8 md:text-xl">
-            The only consumer data cloud built for sports covering:
+            {isMobileViewport ? (
+              <>
+                <span className="block">The only consumer data cloud</span>
+                <span className="block">built for sports covering:</span>
+              </>
+            ) : (
+              "The only consumer data cloud built for sports covering:"
+            )}
           </p>
 
           <div className="mx-auto w-full max-w-[1120px]">
