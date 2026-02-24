@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import initIframeResizer from "../utils/iframe-resizer.js";
 
-const PARENT_ORIGIN = "https://geniussports.com"; // TODO: replace with your exact WordPress origin.
+const PARENT_ORIGIN = "https://www.geniussports.com"; // Must match the parent window origin exactly for secure postMessage checks.
 
 function IframeTestPage() {
   const [debug, setDebug] = useState<boolean>(

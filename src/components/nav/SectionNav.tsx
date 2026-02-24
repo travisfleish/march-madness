@@ -61,9 +61,10 @@ function SectionNav() {
   }, [sectionIds]);
 
   return (
-    <nav className="sticky top-0 z-40 hidden bg-white/95 backdrop-blur md:block md:top-2">
-      <div className="border-y border-slate-200/90 px-1 py-4">
-        <div className="flex items-center justify-between gap-5">
+    <nav className="sticky top-0 z-40 hidden md:block">
+      <div className="relative left-1/2 w-screen -translate-x-1/2 bg-white/95 backdrop-blur">
+        <div className="mx-auto w-full max-w-6xl border-y border-slate-200/90 px-4 py-4 md:px-1">
+          <div className="flex items-center justify-between gap-5">
           <p className="shrink-0 text-base font-normal tracking-[0.01em] text-slate-700">March Madness</p>
           <ul className="flex w-max min-w-0 items-center gap-2 overflow-x-auto">
           {navItems.map((item) => {
@@ -100,6 +101,7 @@ function SectionNav() {
             );
           })}
           </ul>
+          </div>
         </div>
       </div>
     </nav>

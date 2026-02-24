@@ -1,9 +1,9 @@
 // src/utils/iframe-resizer.js
 // Lightweight iframe -> parent resizer.
-// Usage: const stop = initIframeResizer({ parentOrigin: "https://geniussports.com", debug: true });
+// Usage: const stop = initIframeResizer({ parentOrigin: "https://www.geniussports.com", debug: true });
 // stop() // cleanup observers/event listeners
 
-const PARENT_ORIGIN = "https://geniussports.com"; // TODO: replace with your exact WordPress origin.
+const PARENT_ORIGIN = "https://www.geniussports.com"; // Must match the parent window origin exactly for secure postMessage checks.
 
 export default function initIframeResizer({ parentOrigin = PARENT_ORIGIN, debug = false } = {}) {
   if (!parentOrigin) {

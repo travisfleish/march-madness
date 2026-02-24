@@ -7,7 +7,7 @@ import {
   useRef,
   useState
 } from "react";
-import { AnimatePresence, motion, useInView } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
 
 type FanCloudComparisonSectionProps = {
@@ -34,7 +34,7 @@ function snapPercent(value: number) {
     Math.abs(current - value) < Math.abs(closest - value) ? current : closest
   );
 
-  return Math.abs(nearest - value) <= 8 ? nearest : value;
+  return Math.abs(nearest - value) <= 11 ? nearest : value;
 }
 
 function FanCloudComparisonSection({
@@ -61,7 +61,7 @@ function FanCloudComparisonSection({
   const pendingPercentRef = useRef<number>(50);
   const activePointerIdRef = useRef<number | null>(null);
   const [imageBoxWidthPx, setImageBoxWidthPx] = useState<number>(1200);
-  const isFrameInView = useInView(frameRef, { once: true, amount: 0.35 });
+  const isFrameInView = useInView(frameRef, { once: false, amount: 0.35 });
   const displayedMetrics = (() => {
     if (!isMobileViewport) return metrics;
 
@@ -146,22 +146,35 @@ function FanCloudComparisonSection({
   }, [showHelperHint]);
 
   useEffect(() => {
-    if (!isFrameInView || reducedMotion || hasInteracted) return;
-
-    const sessionKey = "fan-cloud-slider-nudged";
-    if (window.sessionStorage.getItem(sessionKey) === "true") return;
-    window.sessionStorage.setItem(sessionKey, "true");
+    if (!isFrameInView || reducedMotion || isDragging || hasInteracted) return;
 
     let startTime = 0;
-    const totalDuration = 1200;
+    const totalDuration = 2600;
+    const nudgeKeyframes = [50, 25, 25, 75, 75, 50];
+    const nudgeSegmentThresholds = [0.18, 0.32, 0.76, 0.9, 1];
 
     const animateNudge = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const progress = Math.min(1, (timestamp - startTime) / totalDuration);
-      const nudgeValue =
-        progress <= 0.5
-          ? 50 + 12 * (progress / 0.5)
-          : 62 - 12 * ((progress - 0.5) / 0.5);
+
+      let segmentIndex = 0;
+      while (
+        segmentIndex < nudgeSegmentThresholds.length - 1 &&
+        progress > nudgeSegmentThresholds[segmentIndex]
+      ) {
+        segmentIndex += 1;
+      }
+
+      const segmentStartBoundary = segmentIndex === 0 ? 0 : nudgeSegmentThresholds[segmentIndex - 1];
+      const segmentEndBoundary = nudgeSegmentThresholds[segmentIndex];
+      const localProgress = (progress - segmentStartBoundary) / (segmentEndBoundary - segmentStartBoundary);
+      const easedLocalProgress =
+        localProgress < 0.5
+          ? 2 * localProgress * localProgress
+          : 1 - Math.pow(-2 * localProgress + 2, 2) / 2;
+      const start = nudgeKeyframes[segmentIndex];
+      const end = nudgeKeyframes[segmentIndex + 1];
+      const nudgeValue = start + (end - start) * easedLocalProgress;
 
       queueSliderUpdate(nudgeValue);
 
@@ -179,7 +192,15 @@ function FanCloudComparisonSection({
         window.cancelAnimationFrame(nudgeRafRef.current);
       }
     };
-  }, [isFrameInView, reducedMotion, hasInteracted, queueSliderUpdate]);
+  }, [isFrameInView, reducedMotion, isDragging, hasInteracted, queueSliderUpdate]);
+
+  useEffect(() => {
+    // Reset interaction lock when the slider leaves viewport so
+    // auto-nudge can run again on the next entry.
+    if (!isFrameInView) {
+      setHasInteracted(false);
+    }
+  }, [isFrameInView]);
 
   const handlePointerDown: PointerEventHandler<HTMLDivElement> = (event) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
@@ -274,6 +295,10 @@ function FanCloudComparisonSection({
       ? "bg-[#3240f5]/90 text-white ring-1 ring-[#d6e86f]/60 shadow-[0_10px_26px_rgba(50,64,245,0.28)] scale-[1.02]"
       : "bg-[#1D26FF]/12 text-white/55 ring-1 ring-white/15 saturate-75"
   ].join(" ");
+  const activeImageFilter = "saturate(1.18) brightness(1.12) contrast(1.04)";
+  const inactiveImageFilter = "saturate(0.55) brightness(0.72) contrast(0.94)";
+  const leftImageFilter = isOtherViewDominant ? inactiveImageFilter : activeImageFilter;
+  const rightImageFilter = isGeniusViewDominant ? inactiveImageFilter : activeImageFilter;
 
   return (
     <section
@@ -352,6 +377,10 @@ function FanCloudComparisonSection({
                 src={leftImageSrc}
                 alt={leftLabel}
                 className="pointer-events-none absolute inset-0 h-full w-full select-none object-contain"
+                style={{
+                  filter: leftImageFilter,
+                  transition: "filter 220ms ease"
+                }}
                 draggable={false}
               />
 
@@ -363,7 +392,11 @@ function FanCloudComparisonSection({
                   src={rightImageSrc}
                   alt={rightLabel}
                   className="pointer-events-none absolute left-0 top-0 h-full max-w-none select-none object-contain"
-                  style={{ width: `${imageBoxWidthPx}px` }}
+                  style={{
+                    width: `${imageBoxWidthPx}px`,
+                    filter: rightImageFilter,
+                    transition: "filter 220ms ease"
+                  }}
                   draggable={false}
                 />
               </div>
@@ -405,19 +438,6 @@ function FanCloudComparisonSection({
                 </span>
               </motion.div>
             </div>
-            <AnimatePresence>
-              {showHelperHint ? (
-                <motion.p
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: reducedMotion ? 0.1 : 0.22, ease: "easeOut" }}
-                  className="pointer-events-none absolute inset-x-0 bottom-4 z-50 text-center text-base font-normal text-white drop-shadow-[0_2px_6px_rgba(2,6,23,0.8)] md:text-lg"
-                >
-                  Drag the slider to compare
-                </motion.p>
-              ) : null}
-            </AnimatePresence>
           </div>
           <p className="my-6 text-center text-base font-medium text-slate-700 md:my-8 md:text-xl">
             {isMobileViewport ? (
