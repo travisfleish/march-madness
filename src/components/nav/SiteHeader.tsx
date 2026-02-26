@@ -351,7 +351,6 @@ export default function SiteHeader({ activeExternalLink = null }: SiteHeaderProp
         hasScrolledDown ? "-translate-y-full" : "translate-y-0",
         isScrolled ? "shadow-[0_2px_8px_rgba(15,23,42,0.05)]" : "shadow-none",
       )}
-      style={{ fontFamily: "Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif" }}
     >
       <div
         className={cx(

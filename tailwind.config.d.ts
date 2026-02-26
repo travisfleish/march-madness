@@ -6,6 +6,35 @@ declare const _default: {
             heading: [string];
         };
         extend: {
+            fontWeight: {
+                book: string;
+                medium: string;
+            };
+            fontSize: {
+                "brand-h1": [string, {
+                    lineHeight: string;
+                    letterSpacing: string;
+                    fontWeight: string;
+                }];
+                "brand-h2": [string, {
+                    lineHeight: string;
+                    letterSpacing: string;
+                    fontWeight: string;
+                }];
+                "brand-h3": [string, {
+                    lineHeight: string;
+                    letterSpacing: string;
+                    fontWeight: string;
+                }];
+                "brand-h4": [string, {
+                    lineHeight: string;
+                    letterSpacing: string;
+                    fontWeight: string;
+                }];
+            };
+            borderRadius: {
+                brand: string;
+            };
             colors: {
                 accent: {
                     500: string;
@@ -32,6 +61,7 @@ declare const _default: {
             };
             boxShadow: {
                 soft: string;
+                card: string;
             };
         };
     };

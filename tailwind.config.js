@@ -6,6 +6,19 @@ export default {
             heading: ["var(--font-heading)"]
         },
         extend: {
+            fontWeight: {
+                book: "300",
+                medium: "500"
+            },
+            fontSize: {
+                "brand-h1": ["2.25rem", { lineHeight: "1.08", letterSpacing: "-0.03em", fontWeight: "300" }],
+                "brand-h2": ["1.9375rem", { lineHeight: "1.1", letterSpacing: "-0.035em", fontWeight: "400" }],
+                "brand-h3": ["1.8125rem", { lineHeight: "1.1", letterSpacing: "-0.02875em", fontWeight: "300" }],
+                "brand-h4": ["1.75rem", { lineHeight: "1.1", letterSpacing: "-0.05em", fontWeight: "300" }]
+            },
+            borderRadius: {
+                brand: "var(--radius-md)"
+            },
             colors: {
                 accent: {
                     500: "var(--gs-accent-500)",
@@ -31,7 +44,8 @@ export default {
                 }
             },
             boxShadow: {
-                soft: "0 12px 40px rgba(15, 23, 42, 0.08)"
+                soft: "0 12px 40px rgba(15, 23, 42, 0.08)",
+                card: "0 15px 30px -8px rgba(0, 0, 0, 0.08)"
             }
         }
     },

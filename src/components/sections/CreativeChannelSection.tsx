@@ -15,12 +15,12 @@ function CreativeChannelSection({ header, paragraph, creativeViz }: CreativeChan
     <Reveal
       id="creative"
       as="section"
-      className="section-shell scroll-mt-24 border border-slate-200/80"
+      className="scroll-mt-24"
     >
       <h2 className="section-title">{header}</h2>
       <p className="section-copy">{paragraph}</p>
       <div className="mt-4 -mx-6 border-y border-slate-200 bg-slate-50/70 px-6 py-3 text-center md:hidden">
-        <p className="text-base font-bold text-slate-900">
+        <p className="text-base font-medium text-slate-900">
           {triggerSuffix ? (
             <>
               <span className="block">{`${triggerPrefix}:`}</span>

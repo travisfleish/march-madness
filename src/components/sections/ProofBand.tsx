@@ -21,7 +21,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
   const chartFrameRef = useRef<HTMLDivElement | null>(null);
   const isChartInView = useInView(chartFrameRef, { once: false, amount: 0.35 });
   const maxBarValue = Math.max(...chart.bars.map((bar) => bar.value), 1);
-  const chartMaxHeight = 120;
+  const chartMaxHeight = 140;
   const highlightPhrases = new Set(["Emotional engagement", "2x higher"]);
   const bodyParts = body.split(/(Emotional engagement|2x higher)/g);
   const renderBarLabel = (label: string) => {
@@ -52,7 +52,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
     <Reveal
       as="section"
       id="proof"
-      className="relative scroll-mt-24 overflow-hidden rounded-2xl border border-slate-200 bg-gs-surface px-6 py-8 shadow-soft md:px-8 md:py-10"
+      className="relative scroll-mt-24 overflow-hidden rounded-2xl bg-gs-surface px-6 py-8 md:px-8 md:py-10"
     >
       <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30%] md:block" aria-hidden>
         <img
@@ -68,7 +68,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
           <p className="max-w-[800px] text-xl font-medium leading-tight text-slate-900 md:text-3xl md:leading-tight">
             {bodyParts.map((part, index) =>
               highlightPhrases.has(part) ? (
-                <strong key={`highlight-${index}`} className="font-bold">
+                <strong key={`highlight-${index}`} className="font-heading font-medium">
                   {part}
                 </strong>
               ) : (
@@ -86,9 +86,9 @@ function ProofBand({ body, chart }: ProofBandProps) {
           }}
         >
           <div>
-            <h3 className="w-full text-xl font-semibold leading-tight text-white">{chart.title}</h3>
+            <h3 className="m-0 w-full text-xl font-medium leading-tight text-white">{chart.title}</h3>
           </div>
-          <p className="mt-1 hidden text-sm leading-tight text-slate-300 md:block">{chart.subtitle}</p>
+          <p className="m-0 mt-1 hidden text-sm leading-tight text-slate-300 md:block">{chart.subtitle}</p>
 
           <div className="mt-5" ref={chartFrameRef}>
             <div className="relative" style={{ height: `${chartMaxHeight}px` }}>
@@ -120,7 +120,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
                     }}
                   >
                     <motion.span
-                      className="text-3xl font-semibold leading-none text-white md:text-4xl"
+                      className="text-3xl font-medium leading-none text-white md:text-4xl"
                       initial={{ opacity: reducedMotion ? 1 : 0, y: reducedMotion ? 0 : 5 }}
                       animate={{
                         opacity: isChartInView || reducedMotion ? 1 : 0,

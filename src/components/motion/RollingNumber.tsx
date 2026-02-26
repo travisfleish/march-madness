@@ -41,7 +41,7 @@ function RollingNumber({
 
   if (reducedMotion) {
     return (
-      <span className={`inline-flex h-[1em] items-center tabular-nums leading-none ${className ?? ""}`}>
+      <span className={`inline-flex h-[1em] items-center leading-none ${className ?? ""}`}>
         {displayValue}
       </span>
     );
@@ -49,8 +49,7 @@ function RollingNumber({
 
   return (
     <span
-      className={`inline-flex h-[1em] items-center tabular-nums leading-none align-middle ${className ?? ""}`}
-      style={{ fontVariantNumeric: "tabular-nums" }}
+      className={`inline-flex h-[1em] items-center leading-none align-middle ${className ?? ""}`}
       aria-label={displayValue}
     >
       {Array.from(displayValue).map((char, index) => {

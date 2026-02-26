@@ -99,7 +99,7 @@ export function MarchMadnessBracket({
         {/* Round 1 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-700">
               Round of 64
             </span>
           </div>
@@ -195,7 +195,7 @@ export function MarchMadnessBracket({
         {/* Round 2 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-700">
+            <span className="rounded-full border border-slate-200 bg-emerald-50 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-slate-700">
               Round of 32
             </span>
           </div>
@@ -274,7 +274,7 @@ export function MarchMadnessBracket({
         {/* Sweet 16 Column */}
         <div className="relative" style={{ width: `${CARD_WIDTH}px` }}>
           <div className="mb-6 flex justify-center">
-            <span className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-700">
+            <span className="rounded-full border border-emerald-200 bg-emerald-100 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-emerald-700">
               Sweet 16
             </span>
           </div>
@@ -314,7 +314,7 @@ export function MarchMadnessBracket({
                       delay: 0.26,
                       times: [0, 0.3, 0.5, 0.68, 0.84, 1]
                     }}
-                    className="pointer-events-none absolute -top-9 inset-x-0 mx-auto inline-flex w-max items-center gap-1.5 whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-emerald-700"
+                    className="pointer-events-none absolute -top-9 inset-x-0 mx-auto inline-flex w-max items-center gap-1.5 whitespace-nowrap rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-medium uppercase tracking-[0.12em] text-emerald-700"
                   >
                     <span className="pointer-events-none absolute left-1/2 -top-1" aria-hidden="true">
                       {CONFETTI_PARTICLES.map((particle, index) => (

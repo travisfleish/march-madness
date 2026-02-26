@@ -21,7 +21,10 @@ body {
   min-height: 100vh;
   background: var(--gs-bg);
   color: var(--gs-text);
-  line-height: 1.5;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: -0.01125em;
 }
 
 #root {
@@ -31,6 +34,45 @@ body {
 
 a {
   color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+h1 {
+  font-size: 2.25rem;
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: 1.9375rem;
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+
+h3 {
+  font-size: 1.8125rem;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.02875em;
+}
+
+h4 {
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
 }
 
 .gs-stripe-surface-site {
@@ -51,18 +93,52 @@ a {
 }
 
 .section-shell {
-  @apply rounded-2xl p-6 shadow-soft md:p-10;
-  background-color: var(--gs-surface);
+  @apply p-6 md:p-8;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-lightGrey);
+  border-radius: var(--radius-md);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.section-shell:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.08);
+}
+
+.brand-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-lightGrey);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.brand-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 15px 30px -8px rgba(0, 0, 0, 0.08);
 }
 
 .section-title {
-  @apply font-heading text-2xl font-semibold tracking-tight md:text-3xl;
+  @apply font-heading;
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
   color: var(--gs-text);
 }
 
 .section-copy {
-  @apply mt-4 text-base md:text-lg;
+  @apply mt-4;
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: -0.01125em;
   color: var(--gs-text-muted);
+}
+
+@media (min-width: 768px) {
+  .section-title {
+    font-size: 1.9375rem;
+  }
 }
 
 @keyframes dropdownFadeSlideIn {

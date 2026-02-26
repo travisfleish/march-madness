@@ -23,7 +23,7 @@ function AudiencesSection({
 
   return (
     <Reveal id="audiences" as="section" className="scroll-mt-24">
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gs-surface p-6 shadow-[0_8px_28px_rgba(15,23,42,0.08)] md:p-8">
+      <div className="relative overflow-hidden rounded-2xl bg-gs-surface px-6 pb-6 pt-2 md:px-8 md:pb-8 md:pt-4">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-gs-surface via-gs-surface to-transparent" />
           <GeniusStripeRail
@@ -34,11 +34,15 @@ function AudiencesSection({
         </div>
         <div className="relative z-10">
           <h2 className="section-title">{header}</h2>
-          {subtitle ? <p className="mt-4 max-w-2xl text-lg text-slate-600">{subtitle}</p> : null}
-          <div className="mt-8 grid gap-8 md:grid-cols-2">
-            <div>
+          {subtitle ? (
+            <p className="mt-4 max-w-2xl font-sans text-base leading-[1.45] tracking-[-0.01125em] text-[var(--gs-text-muted)]">
+              {subtitle}
+            </p>
+          ) : null}
+          <div className="mt-2 grid gap-8 md:grid-cols-2">
+            <div className="md:-mt-2">
               {leftHeader ? (
-                <h3 className="mb-3 text-lg font-semibold text-slate-900">{leftHeader}</h3>
+                <h3 className="mb-3 text-lg font-medium text-slate-900">{leftHeader}</h3>
               ) : null}
               <Stagger as="ul" className="space-y-2" staggerChildren={0.06}>
                 {leftList.map((item) => (
@@ -57,8 +61,8 @@ function AudiencesSection({
                 ))}
               </Stagger>
             </div>
-            <div className="p-0 md:rounded-xl md:border md:border-slate-200 md:bg-gs-surface md:p-6">
-              <h3 className="text-lg font-semibold text-slate-900">{rightHeader}</h3>
+            <div className="p-0 md:rounded-brand md:bg-[var(--color-snow)] md:p-6">
+              <h3 className="text-lg font-medium text-slate-900">{rightHeader}</h3>
               <Stagger as="ul" className="mt-4 space-y-3" staggerChildren={0.06}>
                 {rightList.map((item) => (
                   <motion.li

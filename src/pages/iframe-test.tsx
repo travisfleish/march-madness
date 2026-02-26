@@ -30,7 +30,6 @@ function IframeTestPage() {
   return (
     <main
       style={{
-        fontFamily: "Inter, system-ui, -apple-system, Segoe UI, sans-serif",
         background: "#f8fafc",
         minHeight: "100vh",
         padding: "24px"

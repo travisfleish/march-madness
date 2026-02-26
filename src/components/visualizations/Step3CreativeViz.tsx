@@ -89,12 +89,12 @@ function MessageCard({
   return (
     <div className="flex h-full flex-col">
       <article
-        className={`flex flex-1 flex-col rounded-2xl border bg-gradient-to-b from-white to-slate-50 p-5 shadow-[0_6px_20px_rgba(15,23,42,0.07)] transition duration-200 hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(15,23,42,0.10)] ${
+        className={`brand-card flex flex-1 flex-col bg-white ${
           accentTop ? "border-emerald-200 border-t-[3px]" : "border-slate-300"
         }`}
       >
-        <h3 className="text-center text-lg font-semibold tracking-wide text-slate-900">{cardTitle}</h3>
-        <p className="mt-4 min-h-[1.25rem] text-base font-semibold text-slate-900">{visibleLead}</p>
+        <h3 className="text-center text-lg font-medium tracking-wide text-slate-900">{cardTitle}</h3>
+        <p className="mt-4 min-h-[1.25rem] text-base font-medium text-slate-900">{visibleLead}</p>
         <p className="mt-2 min-h-[5.25rem] text-base leading-relaxed text-slate-700">{visibleBody}</p>
       </article>
     </div>
@@ -168,7 +168,7 @@ function AudienceLabel({
 
     return (
       <div className={`flex flex-col ${alignClass}`}>
-        <p className="mt-1 rounded-full bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-slate-800 md:text-base">
+        <p className="mt-1 text-sm font-medium text-slate-800 md:text-base">
           {label}
         </p>
       </div>
@@ -178,7 +178,7 @@ function AudienceLabel({
   return (
     <div className={`flex flex-col ${alignClass}`}>
       <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-500">{eyebrow}</p>
-      <p className="mt-1 rounded-full bg-emerald-50 px-2.5 py-1 text-sm font-semibold text-slate-800 md:text-base">{value}</p>
+      <p className="mt-1 text-sm font-medium text-slate-800 md:text-base">{value}</p>
     </div>
   );
 }
@@ -310,18 +310,18 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
   return (
     <motion.div
       ref={vizRef}
-      className="mt-8 flex justify-center"
+      className="mt-8"
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: reducedMotion ? 0.2 : 0.45, ease: "easeOut" }}
     >
-      <div className="w-full px-0 py-0 md:max-w-5xl md:rounded-2xl md:border md:border-slate-200 md:bg-white md:px-8 md:py-8 md:shadow-[0_10px_30px_rgba(15,23,42,0.06)]">
+      <div className="w-full px-0 py-0">
         <div className="mx-auto hidden max-w-3xl text-center md:block">
-          <p className="text-lg font-bold text-slate-900 md:text-2xl">{data.triggerTitle}</p>
+          <p className="font-heading text-lg font-medium text-slate-900 md:text-2xl">{data.triggerTitle}</p>
           <p className="mt-3 text-lg text-slate-700 md:text-xl">{data.exampleEvent}</p>
         </div>
-        <div className="relative mt-6 hidden overflow-hidden rounded-2xl border border-slate-200 bg-slate-50/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.7),0_12px_24px_rgba(15,23,42,0.08)] md:block">
+        <div className="relative mt-6 hidden overflow-hidden md:block">
           <div
             className="pointer-events-none absolute inset-0"
             aria-hidden="true"
@@ -353,7 +353,6 @@ function Step3CreativeViz({ data }: Step3CreativeVizProps) {
             />
             <div className="absolute inset-0 bg-gradient-to-l from-transparent via-slate-50/12 to-slate-50/88" />
           </motion.div>
-          <div className="pointer-events-none absolute inset-2 rounded-xl border border-white/55" aria-hidden="true" />
           <div className="relative z-10 h-[400px] min-w-[860px] md:min-w-0">
             <MarchMadnessBracket
               onAnimationComplete={handleBracketComplete}

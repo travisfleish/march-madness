@@ -21,16 +21,15 @@ function toTitleCase(value: string) {
 }
 
 function PlusMinusIcon({ isOpen }: { isOpen: boolean }) {
+  const iconFillClass = isOpen ? "text-[var(--color-lightGrey)]" : "text-[#18C971]";
+  const iconStroke = isOpen ? "#0d1226" : "#ffffff";
+
   return (
-    <span
-      className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500"
-      aria-hidden="true"
-    >
-      <svg viewBox="0 0 16 16" className="h-4 w-4 text-white">
-        <path d="M3.5 8h9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        {!isOpen ? (
-          <path d="M8 3.5v9" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-        ) : null}
+    <span className="block h-6 w-6" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="h-6 w-6">
+        <rect width="24" height="24" rx="12" fill="currentColor" className={iconFillClass} />
+        <path d="M7.5 12h9" stroke={iconStroke} strokeWidth="1.8" strokeLinecap="round" />
+        {!isOpen ? <path d="M12 7.5v9" stroke={iconStroke} strokeWidth="1.8" strokeLinecap="round" /> : null}
       </svg>
     </span>
   );
@@ -131,17 +130,21 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                 ref={(node) => {
                   mobileItemRefs.current[label] = node;
                 }}
-                className="overflow-hidden rounded-lg border border-slate-200 bg-white"
+                className="overflow-hidden rounded-lg bg-white"
               >
                 <button
                   type="button"
                   aria-expanded={isOpen}
                   aria-controls={panelId}
                   onClick={() => setMobileOpenId((current) => (current === label ? null : label))}
-                  className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-900"
+                  className="flex w-full flex-col px-5 py-4 text-left text-sm font-medium text-slate-900"
                 >
-                  <PlusMinusIcon isOpen={isOpen} />
-                  <span className="whitespace-nowrap">{toTitleCase(label)}</span>
+                  <span className="flex items-center gap-3">
+                    <PlusMinusIcon isOpen={isOpen} />
+                    <h3 className="m-0 font-heading text-left text-base font-book leading-6 text-slate-900">
+                      {toTitleCase(label)}
+                    </h3>
+                  </span>
                 </button>
 
                 <AnimatePresence initial={false}>
@@ -156,15 +159,15 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                         duration: reducedMotion ? 0.12 : 0.22,
                         ease: "easeOut"
                       }}
-                      className="overflow-hidden border-t border-slate-200 bg-white"
+                      className="overflow-hidden border-t border-[var(--color-lightGrey)] bg-white"
                     >
-                      <div className="space-y-2 px-4 pb-4 pt-3 text-left">
+                      <div className="space-y-2 px-5 pb-4 pt-3 text-left">
                         <p className="text-sm text-slate-900">
-                          <span className="font-semibold text-slate-700">Trigger: </span>
+                          <span className="font-medium text-slate-700">Trigger: </span>
                           {details.trigger}
                         </p>
                         <p className="text-sm text-slate-900">
-                          <span className="font-semibold text-slate-700">Description: </span>
+                          <span className="font-medium text-slate-700">Description: </span>
                           {details.description}
                         </p>
                       </div>
@@ -179,7 +182,7 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
               type="button"
               aria-expanded={isMobileExpanded}
               onClick={() => setIsMobileExpanded((current) => !current)}
-              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-left text-base font-semibold text-slate-700 shadow-[0_6px_16px_rgba(15,23,42,0.08)]"
+              className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-left text-base font-medium text-slate-700 shadow-[0_6px_16px_rgba(15,23,42,0.08)]"
             >
               <span className="flex items-center justify-between">
                 <span>{isMobileExpanded ? "Show less" : "And more"}</span>
@@ -219,17 +222,21 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                         ref={(node) => {
                           mobileItemRefs.current[label] = node;
                         }}
-                        className="overflow-hidden rounded-lg border border-slate-200 bg-white"
+                        className="overflow-hidden rounded-lg bg-white"
                       >
                         <button
                           type="button"
                           aria-expanded={isOpen}
                           aria-controls={panelId}
                           onClick={() => setMobileOpenId((current) => (current === label ? null : label))}
-                          className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-medium text-slate-900"
+                          className="flex w-full flex-col px-5 py-4 text-left text-sm font-medium text-slate-900"
                         >
-                          <PlusMinusIcon isOpen={isOpen} />
-                          <span className="whitespace-nowrap">{toTitleCase(label)}</span>
+                          <span className="flex items-center gap-3">
+                            <PlusMinusIcon isOpen={isOpen} />
+                            <h3 className="m-0 font-heading text-left text-base font-book leading-6 text-slate-900">
+                              {toTitleCase(label)}
+                            </h3>
+                          </span>
                         </button>
 
                         <AnimatePresence initial={false}>
@@ -244,15 +251,15 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                                 duration: reducedMotion ? 0.12 : 0.22,
                                 ease: "easeOut"
                               }}
-                              className="overflow-hidden border-t border-slate-200 bg-white"
+                              className="overflow-hidden border-t border-[var(--color-lightGrey)] bg-white"
                             >
-                              <div className="space-y-2 px-4 pb-4 pt-3 text-left">
+                              <div className="space-y-2 px-5 pb-4 pt-3 text-left">
                                 <p className="text-sm text-slate-900">
-                                  <span className="font-semibold text-slate-700">Trigger: </span>
+                                  <span className="font-medium text-slate-700">Trigger: </span>
                                   {details.trigger}
                                 </p>
                                 <p className="text-sm text-slate-900">
-                                  <span className="font-semibold text-slate-700">Description: </span>
+                                  <span className="font-medium text-slate-700">Description: </span>
                                   {details.description}
                                 </p>
                               </div>
@@ -271,10 +278,7 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
 
       <div className="hidden flex-col gap-4 md:flex md:flex-row md:items-start md:gap-8">
         {labelColumns.map((columnLabels, columnIndex) => (
-          <div
-            key={`column-${columnIndex}`}
-            className="w-full"
-          >
+          <div key={`column-${columnIndex}`} className="mt-0 flex w-full flex-col divide-y divide-[var(--color-lightGrey)] overflow-hidden rounded-lg bg-white">
             {columnLabels.map((label, index) => {
               const isOpen = openIdsByColumn[columnIndex] === label;
               const panelId = `moment-panel-${columnIndex}-${index}`;
@@ -287,9 +291,7 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
               return (
                 <div
                   key={label}
-                  className={`bg-white border border-slate-200/60 overflow-hidden first:rounded-t-lg last:rounded-b-lg ${
-                    index === 0 ? "" : "-mt-px"
-                  }`}
+                  className="overflow-hidden bg-white"
                 >
                   <button
                     type="button"
@@ -301,12 +303,14 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                         [columnIndex]: current[columnIndex] === label ? null : label
                       }))
                     }
-                    className={`flex w-full items-center gap-3 bg-white px-2 py-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/80 ${
-                      isOpen ? "bg-white" : "hover:bg-slate-50/70"
-                    }`}
+                    className="flex w-full flex-col bg-white px-5 py-4 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/80"
                   >
-                    <PlusMinusIcon isOpen={isOpen} />
-                    <span className="text-lg font-medium text-slate-900">{toTitleCase(label)}</span>
+                    <span className="flex items-center gap-3">
+                      <PlusMinusIcon isOpen={isOpen} />
+                      <h3 className="m-0 font-heading text-left text-base font-book leading-6 text-slate-900">
+                        {toTitleCase(label)}
+                      </h3>
+                    </span>
                   </button>
 
                   <AnimatePresence initial={false}>
@@ -325,11 +329,11 @@ function MomentsAccordion({ labels, detailsByLabel }: MomentsAccordionProps) {
                       >
                         <div className="mx-auto max-w-3xl space-y-2 px-6 pb-4 pt-3 text-left">
                           <p className="text-base text-slate-900">
-                            <span className="font-semibold text-slate-700">Trigger: </span>
+                            <span className="font-medium text-slate-700">Trigger: </span>
                             {details.trigger}
                           </p>
                           <p className="text-base text-slate-900">
-                            <span className="font-semibold text-slate-700">Description: </span>
+                            <span className="font-medium text-slate-700">Description: </span>
                             {details.description}
                           </p>
                         </div>

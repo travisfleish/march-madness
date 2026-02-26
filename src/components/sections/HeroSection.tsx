@@ -141,7 +141,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 )}
               </p>
               <div className="mt-3 h-px w-20 bg-slate-900/25 md:mt-4" />
-              <h1 className="-ml-[0.02em] mt-4 font-heading font-semibold tracking-[-0.01em] text-black leading-[0.9] text-[clamp(3rem,9vw,6.1rem)] md:mt-5">
+              <h1 className="-ml-[0.02em] mt-4 font-heading font-medium tracking-[-0.01em] text-black leading-[0.9] text-[clamp(3rem,9vw,6.1rem)] md:mt-5">
                 {titleLines.map((line, index) => (
                   <span
                     key={line}
@@ -151,7 +151,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                   </span>
                 ))}
               </h1>
-              <p className="mt-4 max-w-[26ch] text-balance text-[1.1rem] font-semibold leading-tight text-[#0A1330] md:mt-5 md:text-[1.35rem] lg:text-[1.6rem]">
+              <p className="mt-4 max-w-[26ch] text-balance text-[1.1rem] font-medium leading-tight text-[#0A1330] md:mt-5 md:text-[1.35rem] lg:text-[1.6rem]">
                 {subhead}
               </p>
             </div>
@@ -204,7 +204,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                     onMouseEnter={() => triggerRoll(statRollId)}
                   >
                     <p
-                      className={`font-bold leading-[0.88] ${
+                      className={`font-medium leading-[0.88] ${
                         isHundredMillionTile
                           ? "text-[1.95rem] md:text-[3rem] lg:text-[4.15rem]"
                           : isSixtyEightTeamsTile
@@ -236,7 +236,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 onMouseEnter={() => triggerRoll(sideBarRollId)}
               >
                 <div className="shrink-0 border-b border-white/30 p-3 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
-                  <p className="text-[1.9rem] font-bold leading-[0.88] md:text-[2.9rem] lg:text-[3.5rem]">
+                  <p className="text-[1.9rem] font-medium leading-[0.88] md:text-[2.9rem] lg:text-[3.5rem]">
                     {numericSideValue !== null && !isMobileViewport ? (
                       <RollingNumber
                         value={numericSideValue}

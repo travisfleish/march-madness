@@ -89,7 +89,7 @@ function renderHighlightedIntro(text: string) {
 
   return segments.map((segment, index) =>
     highlightedPhrases.includes(segment as (typeof highlightedPhrases)[number]) ? (
-      <strong key={`${segment}-${index}`} className="font-semibold text-slate-900">
+      <strong key={`${segment}-${index}`} className="font-medium text-slate-900">
         {segment}
       </strong>
     ) : (
@@ -112,7 +112,7 @@ function MomentsSection({
 
   return (
     <Reveal id="moments" as="section" once={false} className="scroll-mt-24">
-      <div className="relative overflow-hidden rounded-2xl border border-slate-200/80 bg-gs-surface shadow-[0_8px_28px_rgba(15,23,42,0.08)]">
+      <div className="relative overflow-hidden rounded-2xl bg-gs-surface">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute inset-0 bg-gradient-to-r from-[#f3f4f6] via-[#f3f4f6] to-transparent" />
           <GeniusStripeRail
@@ -122,11 +122,17 @@ function MomentsSection({
           />
         </div>
 
-        <div className="relative z-10 p-8 md:p-10">
+        <div className="relative z-10 px-8 pb-8 pt-4 md:px-10 md:pb-10 md:pt-6">
           <h2 className="section-title">{header}</h2>
-          <div className="mt-4 max-w-3xl space-y-3 text-sm text-slate-700 md:text-base">
-            {introParagraph1 !== header ? <p>{introParagraph1}</p> : null}
-            <p>{renderHighlightedIntro(introParagraph2)}</p>
+          <div className="mt-4 max-w-3xl space-y-3">
+            {introParagraph1 !== header ? (
+              <p className="m-0 font-sans text-base leading-[1.45] tracking-[-0.01125em] text-[var(--gs-text-muted)]">
+                {introParagraph1}
+              </p>
+            ) : null}
+            <p className="m-0 font-sans text-base leading-[1.45] tracking-[-0.01125em] text-[var(--gs-text-muted)]">
+              {renderHighlightedIntro(introParagraph2)}
+            </p>
           </div>
         </div>
 

@@ -42,7 +42,7 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
                 block: "start"
               });
             }}
-            className="relative block rounded-xl border border-slate-200 bg-gs-surface p-5 transition duration-200 hover:-translate-y-0.5 hover:border-[#0014ff]/30 hover:shadow-[0_0_0_1px_rgba(0,20,255,0.18),0_10px_22px_rgba(15,23,42,0.08),0_0_28px_rgba(0,20,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
+            className="relative grid min-h-[12.5rem] content-center rounded-2xl bg-[var(--color-lightGrey)] p-6 transition duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-500 focus-visible:ring-offset-2"
             variants={{
               hidden: { opacity: 0 },
               show: { opacity: 1 }
@@ -57,8 +57,14 @@ function HowItWorksSection({ header, paragraph, steps }: HowItWorksSectionProps)
                 {step.badge}
               </span>
             ) : null}
-            <h3 className="text-base font-semibold text-slate-900">{step.title}</h3>
-            <p className="mt-3 text-sm text-slate-600">{step.body}</p>
+            <div>
+              <h3 className="m-0 font-heading text-base font-book leading-[1.45] tracking-[-0.01125em] text-[#0D1226]">
+                {step.title}
+              </h3>
+              <p className="mb-0 mt-2 font-sans text-base font-normal leading-[1.45] tracking-[-0.01125em] text-[rgba(13,18,38,0.8)]">
+                {step.body}
+              </p>
+            </div>
           </motion.a>
         ))}
       </Stagger>

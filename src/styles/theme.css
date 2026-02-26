@@ -1,14 +1,14 @@
 @font-face {
-  font-family: "ESKlarheitKurrentTRIAL";
-  src: url("/fonts/KlarheitKurrent-Regular_2456150069.ttf") format("truetype");
+  font-family: "RedHatText";
+  src: url("/fonts/RedHatText-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "ESKlarheitKurrentTRIAL";
-  src: url("/fonts/KlarheitKurrent-Book.ttf") format("truetype");
+  font-family: "RedHatText";
+  src: url("/fonts/RedHatText-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -16,30 +16,54 @@
 
 @font-face {
   font-family: "ESKlarheitKurrentTRIAL";
-  src: url("/fonts/KlarheitKurrent-Bold_4110053601.ttf") format("truetype");
-  font-weight: 700;
+  src: url("/fonts/ESKlarheitKurrent-Bk_TRIAL.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "ESKlarheitKurrentTRIAL";
+  src: url("/fonts/ESKlarheitKurrent-Md_TRIAL.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-sans: "Red Hat Text", system-ui, -apple-system, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  --font-heading: "ESKlarheitKurrentTRIAL", "Red Hat Text", system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --color-navy: #0d1226;
+  --color-blue: #0000dc;
+  --color-purple: #4337a8;
+  --color-orange: #fa5d00;
+  --color-lightGrey: #f6f7f9;
+  --color-snow: #fafafa;
+  --color-white: #ffffff;
 
-  --gs-primary-900: #0c1220;
+  --font-heading: "ESKlarheitKurrentTRIAL", system-ui, sans-serif;
+  --font-body: "RedHatText", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-body);
+
+  --radius-md: 0.5rem;
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+
+  /* Compatibility aliases for existing app tokens. */
+  --gs-primary-900: var(--color-navy);
   --gs-primary-700: #1a2332;
-  --gs-accent-500: #1e6aff;
-  --gs-accent-600: #1559dd;
+  --gs-accent-500: var(--color-blue);
+  --gs-accent-600: var(--color-purple);
   --gs-neon: #00ffcc;
-  --gs-bg: #ffffff;
-  --gs-surface: #f6f7f9;
-  --pmg-bg: #ffffff;
-  --pmg-surface: #f6f7f9;
-  --gs-muted: #f2f4f7;
+  --gs-bg: var(--color-white);
+  --gs-surface: var(--color-lightGrey);
+  --pmg-bg: var(--color-white);
+  --pmg-surface: var(--color-lightGrey);
+  --gs-muted: var(--color-snow);
   --gs-border: #e5e7eb;
-  --gs-text: #0c1220;
+  --gs-text: var(--color-navy);
   --gs-text-muted: #5b6472;
   --gs-success: #17b26a;
   --gs-warning: #f79009;
@@ -47,7 +71,7 @@
 }
 
 body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
 }
 
 h1,
