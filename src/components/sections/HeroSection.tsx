@@ -117,14 +117,14 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
         />
         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 py-12 md:px-10 md:py-16 lg:px-14 lg:py-20">
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 pt-12 pb-6 md:px-10 md:py-16 lg:px-14 lg:py-20">
         <div className="relative grid items-center gap-10 lg:grid-cols-[45%_55%] lg:items-stretch lg:gap-0">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-8 left-[45%] hidden w-px -translate-x-1/2 bg-[#0A1330]/12 lg:block"
           />
           <motion.div
-            className="flex min-h-[24rem] flex-col items-center justify-center pr-2 md:pr-6 lg:min-h-[33rem] lg:pr-14"
+            className="flex flex-col items-center justify-center pr-2 md:min-h-[24rem] md:pr-6 lg:min-h-[33rem] lg:pr-14"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}

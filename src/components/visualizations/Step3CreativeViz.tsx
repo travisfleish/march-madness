@@ -76,7 +76,7 @@ function MessageCard({
         <img
           src={imageSrc}
           alt={cardTitle}
-          className="block h-auto w-full max-w-[11.5rem] sm:max-w-[13rem] md:max-w-[16.5rem]"
+          className="block h-auto w-full max-w-[8.625rem] sm:max-w-[9.75rem] md:max-w-[16.5rem]"
           loading="lazy"
           draggable={false}
         />
