@@ -466,12 +466,12 @@ function FanCloudComparisonSection({
                       index > 0 ? "border-l border-white/35" : ""
                     }`}
                   >
-                    <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-lg font-bold leading-none text-slate-100 md:text-[1.85rem]">
+                    <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-[clamp(1.75rem,3.3vw,2.15rem)] font-bold leading-none text-slate-100">
                       <span className="inline-flex h-[1em] items-center leading-none">
                         {isMobileViewport && metric.value === "250 Million" ? "250 M" : metric.value}
                       </span>
                     </p>
-                    <p className="mt-1 whitespace-nowrap text-[0.62rem] font-medium leading-tight text-slate-200/80 md:text-lg">
+                    <p className="mt-1 text-center text-[clamp(0.72rem,1.25vw,1.06rem)] font-medium leading-tight text-slate-200/80">
                       {metric.label}
                     </p>
                   </article>

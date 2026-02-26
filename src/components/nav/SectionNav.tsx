@@ -63,10 +63,10 @@ function SectionNav() {
   return (
     <nav className="sticky top-0 z-40 hidden md:block">
       <div className="relative left-1/2 w-screen -translate-x-1/2 bg-white/95 backdrop-blur">
-        <div className="mx-auto w-full max-w-6xl border-y border-slate-200/90 px-4 py-4 md:px-1">
-          <div className="flex items-center justify-between gap-5">
-          <p className="shrink-0 text-base font-normal tracking-[0.01em] text-slate-700">March Madness</p>
-          <ul className="flex w-max min-w-0 items-center gap-2 overflow-x-auto">
+        <div className="mx-auto w-full max-w-6xl border-y border-slate-200/90 px-3 py-3 lg:px-1 lg:py-4">
+          <div className="flex items-center gap-3 lg:gap-5">
+          <p className="shrink-0 text-sm font-normal tracking-[0.01em] text-slate-700 lg:text-base">March Madness</p>
+          <ul className="flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:gap-2">
           {navItems.map((item) => {
             const isActive = item.id === activeId;
 
@@ -82,7 +82,7 @@ function SectionNav() {
                       block: "start"
                     });
                   }}
-                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1.5 text-base font-normal transition md:px-3 ${
+                  className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2 py-1 text-sm font-normal transition lg:px-3 lg:py-1.5 lg:text-base ${
                     isActive
                       ? "text-slate-900"
                       : "text-slate-500 hover:text-slate-700"

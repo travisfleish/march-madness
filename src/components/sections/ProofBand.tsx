@@ -54,7 +54,7 @@ function ProofBand({ body, chart }: ProofBandProps) {
       id="proof"
       className="relative scroll-mt-24 overflow-hidden rounded-2xl bg-gs-surface px-6 py-8 md:px-8 md:py-10"
     >
-      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-[30%] md:block" aria-hidden>
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden lg:block lg:w-[24%] xl:w-[30%]" aria-hidden>
         <img
           src="/genius-assets/blue-lines.png"
           alt=""
