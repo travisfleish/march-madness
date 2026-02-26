@@ -307,10 +307,10 @@ function FanCloudComparisonSection({
     >
       <div className="mx-auto w-full max-w-[1320px] px-5 pt-2 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
         <h2 className="mx-auto text-center font-heading font-normal tracking-tight text-slate-900">
-          <span className="text-[2rem] leading-[1.04] md:hidden">
+          <span className="text-2xl leading-[1.04] md:hidden">
             {renderHeadlineWithHighlight(headline)}
           </span>
-          <span className="hidden text-5xl leading-[1.04] md:inline lg:text-6xl">
+          <span className="hidden text-4xl leading-[1.04] md:inline lg:text-5xl">
             {renderHeadlineWithHighlight(headline)}
           </span>
         </h2>
@@ -450,8 +450,8 @@ function FanCloudComparisonSection({
             )}
           </p>
 
-          <div className="mx-auto w-full max-w-[1120px]">
-            <p className="text-center text-sm font-medium text-[#d6e86f] md:text-lg">
+          <div className="mx-auto w-full max-w-[840px]">
+            <p className="text-center text-sm font-medium text-[#d6e86f] md:text-base">
               {metricsEyebrow}
             </p>
             <div className="mt-3 pb-1">
@@ -462,16 +462,16 @@ function FanCloudComparisonSection({
                 {displayedMetrics.map((metric, index) => (
                   <article
                     key={`${metric.value}-${metric.label}`}
-                    className={`flex min-w-0 flex-col items-center justify-center px-3 py-3 text-center md:px-6 md:py-4 ${
+                    className={`flex min-w-0 flex-col items-center justify-center px-2 py-2 text-center md:px-4 md:py-3 ${
                       index > 0 ? "border-l border-white/35" : ""
                     }`}
                   >
-                    <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-[clamp(1.75rem,3.3vw,2.15rem)] font-bold leading-none text-slate-100">
+                    <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-[clamp(1.35rem,2.5vw,1.65rem)] font-bold leading-none text-slate-100">
                       <span className="inline-flex h-[1em] items-center leading-none">
                         {isMobileViewport && metric.value === "250 Million" ? "250 M" : metric.value}
                       </span>
                     </p>
-                    <p className="mt-1 text-center text-[clamp(0.72rem,1.25vw,1.06rem)] font-medium leading-tight text-slate-200/80">
+                    <p className="mt-1 text-center text-[clamp(0.58rem,0.95vw,0.8rem)] font-medium leading-tight text-slate-200/80">
                       {metric.label}
                     </p>
                   </article>
