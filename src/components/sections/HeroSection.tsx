@@ -37,7 +37,6 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
   const [isMobileViewport, setIsMobileViewport] = useState(false);
   const [rollVersions, setRollVersions] = useState<Record<string, number>>({});
   const [hideDesktopStatPanel, setHideDesktopStatPanel] = useState(false);
-  const twentyMillionDescriptionRef = useRef<HTMLParagraphElement | null>(null);
   const numericSideValue = parseNumericStat(sideBarStat.value);
   const sideBarRollId = `${sideBarStat.value}-${sideBarStat.label}-sidebar`;
 
@@ -57,28 +56,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
   }, []);
 
   const updateDesktopPanelVisibility = useCallback(() => {
-    // Keep the desktop panel visible; responsive scaling can produce
-    // inconsistent line-rect counts in this heuristic.
+    // Keep the desktop panel visible after scaling adjustments.
     setHideDesktopStatPanel(false);
-    return;
-
-    if (typeof window === "undefined") return;
-    if (!window.matchMedia("(min-width: 1024px)").matches) {
-      setHideDesktopStatPanel(false);
-      return;
-    }
-
-    const description = twentyMillionDescriptionRef.current;
-    if (!description) return;
-
-    const range = document.createRange();
-    range.selectNodeContents(description);
-    const lineRects = Array.from(range.getClientRects()).filter((rect) => rect.height > 0);
-    range.detach();
-
-    const uniqueLineTops = new Set(lineRects.map((rect) => Math.round(rect.top)));
-    const lineCount = uniqueLineTops.size;
-    setHideDesktopStatPanel(lineCount > 5);
   }, []);
 
   useEffect(() => {
@@ -162,7 +141,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
             </div>
           </motion.div>
           <motion.div
-            className={`relative hidden w-full lg:block lg:h-full lg:pl-10 ${
+            className={`relative hidden w-full lg:block lg:h-full lg:translate-x-4 lg:pl-10 ${
               hideDesktopStatPanel ? "lg:pointer-events-none lg:invisible" : ""
             }`}
             initial={{ opacity: reducedMotion ? 1 : 0 }}
@@ -174,7 +153,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
             }}
           >
             <div className="lg:flex lg:h-full lg:w-full lg:items-center lg:justify-center">
-            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1] lg:w-full lg:origin-center lg:scale-[0.8]">
+            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1] lg:w-full lg:origin-center lg:scale-[0.9]">
               <div className="relative z-10 grid h-full gap-2 p-2 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
               <div className="grid auto-rows-auto grid-cols-8 gap-2 md:gap-3 lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
@@ -227,10 +206,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                     <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[1.32rem]">
                       {stat.label}
                     </p>
-                    <p
-                      ref={isTwentyMillionTile ? twentyMillionDescriptionRef : undefined}
-                      className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm"
-                    >
+                    <p className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
                       {stat.description}
                     </p>
                   </article>

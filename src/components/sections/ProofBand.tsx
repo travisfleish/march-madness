@@ -64,8 +64,8 @@ function ProofBand({ body, chart }: ProofBandProps) {
       </div>
 
       <div className="relative z-10 grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(22rem,29rem)] lg:gap-10">
-        <div className="flex items-center">
-          <p className="max-w-[800px] text-xl font-medium leading-tight text-slate-900 md:text-3xl md:leading-tight">
+        <div className="flex items-center lg:justify-center">
+          <p className="mx-auto max-w-[400px] text-[1.35rem] font-medium leading-tight text-slate-900 md:text-[1.8rem] md:leading-tight">
             {bodyParts.map((part, index) =>
               highlightPhrases.has(part) ? (
                 <strong key={`highlight-${index}`} className="font-heading font-medium">
