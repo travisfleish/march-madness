@@ -356,10 +356,10 @@ function FanCloudComparisonSection({
 
           <div
             ref={frameRef}
-            className={`relative mx-auto hidden w-full max-w-[1320px] select-none touch-none overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/90 to-[#1b2950]/88 shadow-[0_18px_36px_rgba(15,23,42,0.22)] backdrop-blur-[2px] md:block ${
+            className={`relative mx-auto hidden w-full max-w-[990px] select-none touch-none overflow-hidden rounded-2xl border border-[#3b5bd1]/50 bg-gradient-to-br from-[#151b36]/90 to-[#1b2950]/88 shadow-[0_18px_36px_rgba(15,23,42,0.22)] backdrop-blur-[2px] md:block ${
               isDragging ? "cursor-grabbing" : "cursor-col-resize"
             }`}
-            style={{ minHeight: "260px", touchAction: "none" }}
+            style={{ minHeight: "195px", touchAction: "none" }}
             onPointerDown={handlePointerDown}
             onPointerMove={handlePointerMove}
             onPointerUp={endPointerDrag}
@@ -372,7 +372,7 @@ function FanCloudComparisonSection({
             <div className={rightLabelClasses}>
               {rightLabel}
             </div>
-            <div ref={imageBoxRef} className="relative aspect-[16/9] min-h-[260px] w-full">
+            <div ref={imageBoxRef} className="relative aspect-[16/9] min-h-[195px] w-full">
               <img
                 src={leftImageSrc}
                 alt={leftLabel}
