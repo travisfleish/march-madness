@@ -306,7 +306,7 @@ function FanCloudComparisonSection({
       className="relative left-1/2 right-1/2 -mx-[50vw] w-screen scroll-mt-24 overflow-hidden bg-white"
     >
       <div className="mx-auto w-full max-w-[1320px] px-5 pt-2 pb-10 md:px-8 md:pt-8 md:pb-14 lg:px-10 lg:pt-10 lg:pb-16">
-        <h2 className="mx-auto text-center font-heading font-semibold tracking-tight text-slate-900">
+        <h2 className="mx-auto text-center font-heading font-normal tracking-tight text-slate-900">
           <span className="text-[2rem] leading-[1.04] md:hidden">
             {renderHeadlineWithHighlight(headline)}
           </span>
