@@ -57,6 +57,11 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
   }, []);
 
   const updateDesktopPanelVisibility = useCallback(() => {
+    // Keep the desktop panel visible; responsive scaling can produce
+    // inconsistent line-rect counts in this heuristic.
+    setHideDesktopStatPanel(false);
+    return;
+
     if (typeof window === "undefined") return;
     if (!window.matchMedia("(min-width: 1024px)").matches) {
       setHideDesktopStatPanel(false);
@@ -109,7 +114,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
 
   return (
     <section className="relative w-full overflow-hidden bg-white">
-      <div className="pointer-events-none absolute bottom-0 right-0 hidden h-[80%] w-[56%] md:block" aria-hidden>
+      <div className="pointer-events-none absolute bottom-0 right-0 hidden h-[60%] w-[42%] md:block" aria-hidden>
         <img
           src="/genius-assets/green-lines.png"
           alt=""
@@ -117,14 +122,14 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
         />
         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-6 pt-12 pb-6 md:px-10 md:py-16 lg:px-14 lg:py-20">
-        <div className="relative grid items-center gap-10 lg:grid-cols-[45%_55%] lg:items-stretch lg:gap-0">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pt-10 pb-3 md:px-9 md:pt-12 md:pb-8 lg:px-12 lg:pt-14 lg:pb-9">
+        <div className="relative grid items-center gap-10 lg:grid-cols-[45%_55%] lg:items-center lg:gap-0">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-8 left-[45%] hidden w-px -translate-x-1/2 bg-[#0A1330]/12 lg:block"
           />
           <motion.div
-            className="flex flex-col items-center justify-center pr-2 md:min-h-[24rem] md:pr-6 lg:min-h-[33rem] lg:pr-14"
+            className="flex flex-col items-center justify-center pr-2 md:min-h-[21rem] md:pr-6 lg:min-h-[29rem] lg:pr-14"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
@@ -141,7 +146,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 )}
               </p>
               <div className="mt-3 h-px w-20 bg-slate-900/25 md:mt-4" />
-              <h1 className="-ml-[0.02em] mt-4 font-heading font-medium tracking-[-0.01em] text-black leading-[0.9] text-[clamp(3rem,9vw,6.1rem)] md:mt-5">
+              <h1 className="-ml-[0.02em] mt-4 font-heading font-medium tracking-[-0.01em] text-black leading-[0.9] text-[clamp(2.25rem,6.75vw,4.6rem)] md:mt-5">
                 {titleLines.map((line, index) => (
                   <span
                     key={line}
@@ -168,7 +173,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
               delay: reducedMotion ? 0 : 0.32
             }}
           >
-            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1]">
+            <div className="lg:flex lg:h-full lg:w-full lg:items-center lg:justify-center">
+            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1] lg:w-full lg:origin-center lg:scale-[0.8]">
               <div className="relative z-10 grid h-full gap-2 p-2 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
               <div className="grid auto-rows-auto grid-cols-8 gap-2 md:gap-3 lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
@@ -261,6 +267,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                   />
                 </div>
               </aside>
+            </div>
             </div>
             </div>
           </motion.div>
