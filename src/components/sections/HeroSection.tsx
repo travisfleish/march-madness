@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useReducedMotionSafe } from "../motion/MotionPrimitives";
-import RollingNumber from "../motion/RollingNumber";
-
 type HeroSectionProps = {
   kicker: string;
   subhead: string;
@@ -197,11 +195,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                             : "text-[1.75rem] md:text-[2.6rem] lg:text-[clamp(1.75rem,2.5vw,3.1rem)]"
                       }`}
                     >
-                      {numericStatValue !== null && !isMobileViewport ? (
-                        <RollingNumber value={numericStatValue} rerollKey={rollVersions[statRollId] ?? 0} />
-                      ) : (
-                        stat.value
-                      )}
+                      {/* Slot animation temporarily disabled for alignment check */}
+                      {stat.value}
                     </p>
                     <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[clamp(0.92rem,1vw,1.32rem)]">
                       {stat.label}
@@ -219,14 +214,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
               >
                 <div className="shrink-0 min-h-0 border-b border-white/30 p-3 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-5">
                   <p className="text-[1.9rem] font-medium leading-[0.88] lg:text-[clamp(1.9rem,2.6vw,3.5rem)]">
-                    {numericSideValue !== null && !isMobileViewport ? (
-                      <RollingNumber
-                        value={numericSideValue}
-                        rerollKey={rollVersions[sideBarRollId] ?? 0}
-                      />
-                    ) : (
-                      sideBarStat.value
-                    )}
+                    {/* Slot animation temporarily disabled for alignment check */}
+                    {sideBarStat.value}
                   </p>
                   <p className="mt-1 text-[0.95rem] font-medium leading-none text-white/95 md:text-[1.15rem] lg:text-[clamp(0.95rem,1vw,1.35rem)]">
                     {sideBarStat.label}
