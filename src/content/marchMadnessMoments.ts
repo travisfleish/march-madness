@@ -147,8 +147,8 @@ export const marchMadnessMomentsContent: MarchMadnessMomentsContent = {
     helperText: "Drag the slider to compare.",
     metricsEyebrow: "",
     metrics: [
-      { value: "250 Million", label: "Consumers" },
-      { value: "50 Billion", label: "Interactions" },
+      { value: "250M", label: "Consumers" },
+      { value: "50B", label: "Interactions" },
       { value: "10K", label: "Brands" },
       { value: "5K", label: "Exclusive Brands" },
       { value: "2,500", label: "Communities" }

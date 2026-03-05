@@ -468,7 +468,7 @@ function FanCloudComparisonSection({
                   >
                     <p className="flex h-[1.3em] w-full items-center justify-center gap-2 whitespace-nowrap text-[clamp(1.35rem,2.5vw,1.65rem)] font-bold leading-none text-slate-100">
                       <span className="inline-flex h-[1em] items-center leading-none">
-                        {isMobileViewport && metric.value === "250 Million" ? "250 M" : metric.value}
+                        {metric.value}
                       </span>
                     </p>
                     <p className="mt-1 text-center text-[clamp(0.58rem,0.95vw,0.8rem)] font-medium leading-tight text-slate-200/80">
