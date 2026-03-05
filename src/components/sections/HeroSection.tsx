@@ -101,14 +101,14 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
         />
         <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-white" />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pt-10 pb-3 md:px-9 md:pt-12 md:pb-8 lg:px-12 lg:pt-14 lg:pb-9">
-        <div className="relative grid items-center gap-10 lg:grid-cols-[45%_55%] lg:items-center lg:gap-0">
+      <div className="relative z-10 mx-auto w-full max-w-[1200px] px-6 pt-10 pb-3 md:px-9 md:pt-10 md:pb-6 lg:max-h-[min(90vh,820px)] lg:px-12 lg:pt-12 lg:pb-6">
+        <div className="relative grid min-h-0 items-center gap-10 lg:grid-cols-[45%_55%] lg:items-center lg:gap-0">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-8 left-[45%] hidden w-px -translate-x-1/2 bg-[#0A1330]/12 lg:block"
           />
           <motion.div
-            className="flex flex-col items-center justify-center pr-2 md:min-h-[21rem] md:pr-6 lg:min-h-[29rem] lg:pr-14"
+            className="flex min-h-0 flex-col items-center justify-center pr-2 md:min-h-[18rem] md:pr-6 lg:min-h-[22rem] lg:pr-14"
             initial={{ opacity: reducedMotion ? 1 : 0 }}
             animate={{ opacity: isLoaded || reducedMotion ? 1 : 0 }}
             transition={{ duration: reducedMotion ? 0 : 0.3, ease: "easeOut" }}
@@ -135,13 +135,13 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                   </span>
                 ))}
               </h1>
-              <p className="mt-4 max-w-[26ch] text-balance text-[1.1rem] font-medium leading-tight text-[#0A1330] md:mt-5 md:text-[1.35rem] lg:text-[1.6rem]">
+              <p className="mt-4 max-w-[26ch] text-balance text-[1.1rem] font-medium leading-tight text-[#0A1330] md:mt-5 md:text-[1.35rem] lg:mt-3 lg:text-[1.6rem]">
                 {subhead}
               </p>
             </div>
           </motion.div>
           <motion.div
-            className={`relative hidden w-full lg:block lg:h-full lg:translate-x-4 lg:pl-10 ${
+            className={`relative hidden min-h-0 w-full lg:block lg:h-full lg:translate-x-4 lg:pl-10 ${
               hideDesktopStatPanel ? "lg:pointer-events-none lg:invisible" : ""
             }`}
             initial={{ opacity: reducedMotion ? 1 : 0 }}
@@ -152,10 +152,10 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
               delay: reducedMotion ? 0 : 0.32
             }}
           >
-            <div className="lg:flex lg:h-full lg:w-full lg:items-center lg:justify-center">
-            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1] lg:w-full lg:origin-center lg:scale-[0.9]">
-              <div className="relative z-10 grid h-full gap-2 p-2 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
-              <div className="grid auto-rows-auto grid-cols-8 gap-2 md:gap-3 lg:h-full lg:grid-rows-3">
+            <div className="lg:flex lg:h-full lg:min-h-0 lg:w-full lg:items-center lg:justify-center">
+            <div className="relative h-full overflow-hidden rounded-[1.6rem] bg-[#0011e1] lg:aspect-[1] lg:max-h-[min(52vh,420px)] lg:min-h-0 lg:w-full lg:origin-center lg:scale-[0.9] xl:max-h-[min(55vh,480px)]">
+              <div className="relative z-10 grid h-full min-h-0 gap-2 p-2 md:gap-3 md:p-3 md:grid-cols-2 md:items-stretch lg:grid-cols-[minmax(0,1fr)_11.5rem] lg:p-4">
+              <div className="grid auto-rows-auto grid-cols-8 gap-2 md:gap-3 lg:min-h-0 lg:h-full lg:grid-rows-3">
               {stats.map((stat, index) => {
                 const tileSize = stat.size ?? "md";
                 const numericStatValue = parseNumericStat(stat.value);
@@ -177,7 +177,7 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 return (
                   <article
                     key={`${stat.value}-${stat.label}`}
-                    className={`text-white lg:h-full ${spanClass} ${
+                    className={`text-white lg:h-full lg:min-h-0 ${spanClass} ${
                       isHundredMillionTile
                         ? "flex flex-col justify-center bg-[#0014ff] ring-1 ring-white/34"
                         : isSixtyEightTeamsTile
@@ -191,10 +191,10 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                     <p
                       className={`font-medium leading-[0.88] ${
                         isHundredMillionTile
-                          ? "text-[1.95rem] md:text-[3rem] lg:text-[4.15rem]"
+                          ? "text-[1.95rem] md:text-[3rem] lg:text-[clamp(1.95rem,3.2vw,4.15rem)]"
                           : isSixtyEightTeamsTile
-                            ? "text-[1.8rem] md:text-[2.7rem] lg:text-[3.4rem]"
-                            : "text-[1.75rem] md:text-[2.6rem] lg:text-[3.1rem]"
+                            ? "text-[1.8rem] md:text-[2.7rem] lg:text-[clamp(1.8rem,2.85vw,3.4rem)]"
+                            : "text-[1.75rem] md:text-[2.6rem] lg:text-[clamp(1.75rem,2.5vw,3.1rem)]"
                       }`}
                     >
                       {numericStatValue !== null && !isMobileViewport ? (
@@ -203,10 +203,10 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                         stat.value
                       )}
                     </p>
-                    <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[1.32rem]">
+                    <p className="mt-1 text-[0.92rem] font-medium leading-none text-white/95 md:text-[1.08rem] lg:text-[clamp(0.92rem,1vw,1.32rem)]">
                       {stat.label}
                     </p>
-                    <p className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
+                    <p className="mt-1.5 max-w-[28ch] text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-[clamp(0.7rem,0.85vw,1rem)]">
                       {stat.description}
                     </p>
                   </article>
@@ -217,8 +217,8 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                 className="flex flex-col overflow-hidden rounded-2xl bg-[#0014ff] text-left text-white ring-1 ring-white/30 md:min-h-[20rem] lg:h-full lg:min-h-0"
                 onMouseEnter={() => triggerRoll(sideBarRollId)}
               >
-                <div className="shrink-0 border-b border-white/30 p-3 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-6">
-                  <p className="text-[1.9rem] font-medium leading-[0.88] md:text-[2.9rem] lg:text-[3.5rem]">
+                <div className="shrink-0 min-h-0 border-b border-white/30 p-3 md:p-6 lg:flex lg:basis-[40%] lg:flex-col lg:justify-center lg:p-5">
+                  <p className="text-[1.9rem] font-medium leading-[0.88] lg:text-[clamp(1.9rem,2.6vw,3.5rem)]">
                     {numericSideValue !== null && !isMobileViewport ? (
                       <RollingNumber
                         value={numericSideValue}
@@ -228,14 +228,14 @@ function HeroSection({ kicker, subhead, titleLines, stats, sideBarStat }: HeroSe
                       sideBarStat.value
                     )}
                   </p>
-                  <p className="mt-1 text-[0.95rem] font-medium leading-none text-white/95 md:text-[1.15rem] lg:text-[1.35rem]">
+                  <p className="mt-1 text-[0.95rem] font-medium leading-none text-white/95 md:text-[1.15rem] lg:text-[clamp(0.95rem,1vw,1.35rem)]">
                     {sideBarStat.label}
                   </p>
-                  <p className="mt-1.5 text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-sm">
+                  <p className="mt-1.5 text-[0.64rem] leading-snug text-blue-50/92 md:mt-3 md:text-xs lg:text-[clamp(0.7rem,0.85vw,1rem)]">
                     {sideBarStat.description}
                   </p>
                 </div>
-                <div className="relative hidden w-full overflow-hidden aspect-[3/4] md:block md:aspect-[2/3] lg:aspect-auto lg:flex-1">
+                <div className="relative hidden w-full overflow-hidden aspect-[3/4] md:block md:aspect-[2/3] lg:aspect-[3/4] lg:min-h-0">
                   <img
                     src="/fans-vertical.png"
                     alt="Cheering basketball fans"
